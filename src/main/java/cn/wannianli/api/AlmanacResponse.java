@@ -26,7 +26,7 @@ public record AlmanacResponse(
         references = List.copyOf(references);
     }
 
-    public record ResponseMeta(String apiVersion, String requestSemantics, String culturalUseNotice) {
+    public record ResponseMeta(String apiVersion, String requestSemantics) {
     }
 
     public record GregorianDate(

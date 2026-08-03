@@ -58,8 +58,7 @@ public class AlmanacService {
         var traditional = traditionalCalculator.calculate(date, monthPillar, dayPillar, longitude);
         var activities = ruleEngine.evaluate(date, monthPillar, dayPillar, traditional);
         return new AlmanacResponse(
-                new ResponseMeta("v1", "每次请求只计算当前UTC+08:00时间；接口不接受目标日期或时区。",
-                        "神煞与宜忌属于历史民俗文化模型，不构成科学、医疗、法律或投资建议。"),
+                new ResponseMeta("v1", "每次请求只计算当前UTC+08:00时间；接口不接受目标日期或时区。"),
                 now,
                 new GregorianDate(date, date.getYear(), date.getMonthValue(), date.getDayOfMonth(),
                         chineseWeekday(date.getDayOfWeek().getValue()),

@@ -35,7 +35,19 @@ class AlmanacHttpTest {
                 .contains("\"currentTime\"")
                 .contains("\"fourPillars\"")
                 .contains("\"activities\"")
-                .contains("\"javaCalendarLibraryUsed\":false")
-                .contains("XIEJI_BIANFANGSHU_VOLUME_10");
+                .contains("\"dayOfficer\"")
+                .contains("\"dutyGod\"")
+                .contains("\"auspiciousGods\"")
+                .contains("\"inauspiciousGods\"")
+                .doesNotContain("references")
+                .doesNotContain("sourceId")
+                .doesNotContain("evidenceLevel")
+                .doesNotContain("calculationDisclosure")
+                .doesNotContain("ruleHits")
+                .doesNotContain("decisions")
+                .doesNotContain("conflictPolicy")
+                .doesNotContain("culturalUseNotice")
+                .doesNotContain("不构成科学")
+                .doesNotContain("法律或医学建议");
     }
 }

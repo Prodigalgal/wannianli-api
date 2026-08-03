@@ -61,7 +61,7 @@ public final class ReferenceCatalog {
                 reference("XIEJI_BIANFANGSHU_VOLUME_10", "《钦定协纪辨方书》卷十", "清代敕修古籍", "四库全书本转录",
                         "用事·宜忌及六等消解", "https://zh.wikisource.org/zh-hans/欽定協紀辨方書_(四庫全書本)/卷10",
                         "B_PRIMARY_TEXT_TRANSCRIPTION", "逐神逐活动宜忌、制化专例和六等级冲突消解",
-                        "古代活动名按简体规范化，原始含义不等同现代法律或医学建议。"),
+                        "古代活动名按简体规范化。"),
                 reference("YUDING_XINGLI_KAOYUAN_VOLUME_5", "《御定星历考原》卷五", "清代敕修古籍", "康熙五十二年（1713）四库全书本转录",
                         "三伏", "https://zh.wikisource.org/zh-hant/御定星厯考原_(四庫全書本)/卷5",
                         "B_PRIMARY_TEXT_TRANSCRIPTION", "夏至后第三庚初伏、第四庚中伏、立秋后首庚末伏，交节日逢庚计入",

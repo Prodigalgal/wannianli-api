@@ -17,7 +17,7 @@ public class AlmanacController {
     }
 
     @GetMapping("/current")
-    public AlmanacResponse current() {
-        return almanacService.current();
+    public CurrentAlmanacResponse current() {
+        return CurrentAlmanacResponse.from(almanacService.current());
     }
 }

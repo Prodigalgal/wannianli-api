@@ -6,6 +6,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +18,7 @@ class AlmanacServiceTest {
     private static final ZoneId UTC_PLUS_8 = ZoneOffset.ofHours(8);
 
     @Test
-    void returnsAuditableCurrentShanghaiAlmanacForFixedClock() {
+    void returnsAuditableCurrentUtcPlus8AlmanacForFixedClock() {
         Clock clock = Clock.fixed(Instant.parse("2026-08-03T04:00:00Z"), UTC_PLUS_8);
         var result = new AlmanacService(clock).current();
 
@@ -67,5 +69,25 @@ class AlmanacServiceTest {
 
         assertThat(beforeMidnight.fourPillars().day().value()).isEqualTo("己酉");
         assertThat(afterMidnight.fourPillars().day().value()).isEqualTo("庚戌");
+    }
+
+    @Test
+    void internalRuleHitsRemainTraceableAfterThePublicProjectionIsSimplified() {
+        var result = new AlmanacService(
+                Clock.fixed(Instant.parse("2026-08-03T04:00:00Z"), UTC_PLUS_8)).current();
+        Set<String> referenceIds = result.references().stream()
+                .map(reference -> reference.id())
+                .collect(Collectors.toSet());
+
+        assertThat(result.activities().ruleHits()).isNotEmpty().allSatisfy(hit -> {
+            assertThat(hit.ruleId()).isNotBlank();
+            assertThat(hit.matchedBecause()).isNotBlank();
+            assertThat(hit.evidenceLevel()).isNotBlank();
+            assertThat(hit.sourceId()).isIn(referenceIds);
+        });
+        assertThat(result.activities().decisions()).isNotEmpty().allSatisfy(decision -> {
+            assertThat(decision.activity()).isNotBlank();
+            assertThat(decision.rationale()).isNotBlank();
+        });
     }
 }

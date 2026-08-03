@@ -1,4 +1,4 @@
-FROM gcr.io/distroless/base-debian12:nonroot
+FROM gcr.io/distroless/base-debian13:nonroot
 
 WORKDIR /app
 COPY --chown=65532:65532 build/native/nativeCompile/wannianli-api /app/wannianli-api

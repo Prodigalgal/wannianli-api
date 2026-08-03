@@ -56,7 +56,7 @@ public class AlmanacService {
         Cycle hourPillar = SexagenaryCycle.hour(dayPillar, now.getHour());
 
         var traditional = traditionalCalculator.calculate(date, monthPillar, dayPillar, longitude);
-        var activities = ruleEngine.evaluate(date, monthPillar, dayPillar, traditional);
+        var activities = ruleEngine.evaluate(date, monthPillar, dayPillar, traditional, longitude);
         return new AlmanacResponse(
                 new ResponseMeta("v1", "每次请求只计算当前UTC+08:00时间；接口不接受目标日期或时区。"),
                 now,
@@ -86,19 +86,20 @@ public class AlmanacService {
         return new CalculationDisclosure(
                 false,
                 "依据GB/T 33661-2017规则，自行计算朔日、节气、冬至月、无中气置闰与月序。",
-                "项目内实现Meeus太阳视黄经与真朔公式，并用Espenak-Meeus ΔT换算TT/UT。",
+                "太阳采用IMCCE VSOP87D地球主项、章动/光行差/FK5修正并求根；真朔采用Meeus周期项；以Espenak-Meeus ΔT换算TT/UT。",
                 "1801-2199（当前接口仅计算今天）",
                 "固定UTC+08:00偏移（不依赖上海或北京时区数据库）",
                 new Validation(
                         "关键历法样例必须匹配政府天文机构年历；内部关系通过公式不变量测试。",
-                        List.of("香港天文台2023-2026春节日期", "香港天文台2026-08-03=农历六月廿一",
-                                "香港天文台2026大暑、立秋、处暑日期"),
+                        List.of("香港天文台2026全年365日农历对照", "香港天文台2020-2030春节日期",
+                                "香港天文台2026大暑、立秋、处暑及七月朔分钟值",
+                                "香港天文台2014冬至同日朔、2015春节边界"),
                         List.of("朔望月长度只能为29或30日", "冬至所在月为十一月", "闰月为十三个月中首个无中气月",
                                 "干支索引、建除与十二值神均按模周期闭合")),
                 List.of(
-                        "节气精确时刻为本地数值算法估算值；官方年历仅用于校验日期，临界分钟不应当作官方发布时刻。",
+                        "节气时刻为项目内数值结果；2026年8月四个分钟值已对齐香港天文台，其他年份仍不冒充官方发布值。",
                         "二十八宿绝对起元在《协纪辨方书》中明载不可考，响应使用公开的现代通行锚点并降低证据等级。",
-                        "胎神和彭祖百忌来自《玉匣记》通书系统，证据等级低于《协纪辨方书》。",
+                        "彭祖百忌据《玉匣记》转录；胎神六十日方位表另列为近现代通书传承，两者证据等级均低于《协纪辨方书》。",
                         "神煞规则集以已逐条校勘的核心规则为范围；未校勘条目不会猜测或借用第三方历法库。"));
     }
 

@@ -2,8 +2,10 @@ import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
-import { SOLAR_TERM, solarTermInstant, utcPlus8CivilDate } from "../src/astronomy.js";
-import { calculateChineseCalendar } from "../src/calendar.js";
+import { formatUtcPlus8, SOLAR_TERM, SOLAR_TERMS, solarTermInstant, utcPlus8CivilDate } from "../src/astronomy.js";
+import { calculateChineseCalendar, cycleFromIndex } from "../src/calendar.js";
+import { calculateTraditionalAlmanac } from "../src/almanac.js";
+import { evaluateActivities } from "../src/rules.js";
 import { calculateAuditableAlmanac, calculateCurrentAlmanac } from "../src/engine.js";
 import { handleRequest } from "../src/index.js";
 
@@ -50,18 +52,24 @@ test("calculates the fixed 2026-08-03 result independently", () => {
   });
   assert.deepEqual(value["建除十二神"], { "名称": "满", "通常吉凶": "通常为凶" });
   assert.deepEqual(value["黄黑道十二值神"], { "值神": "勾陈", "黄黑道": "黑道", "吉凶": "凶" });
-  assert.deepEqual(value["吉神"], ["月德合", "天德合", "天巫", "福德"]);
-  assert.deepEqual(value["凶煞"], ["天狗", "灾煞", "天火"]);
+  assert.deepEqual(value["吉神"], ["月德合", "天德合", "天恩", "四相", "民日", "天巫", "福德"]);
+  assert.deepEqual(value["凶煞"], ["灾煞", "天火"]);
+  assert.deepEqual(value["彭祖百忌"], {
+    "天干禁忌": "己不破券，二主并亡",
+    "地支禁忌": "酉不会客，宾主有伤",
+  });
   assert.equal(value["胎神"], "占大门外东北");
   assert.equal(value["二十八宿"]["全名"], "危月燕");
   assert.equal(value["冲煞"]["冲煞"], "冲兔（癸卯），煞东");
-  assert.equal(value["宜忌"]["宜"].length, 48);
-  assert.equal(value["宜忌"]["忌"].length, 10);
+  assert.equal(value["宜忌"]["日等"], "中");
   assert.ok(value["宜忌"]["宜"].includes("开市"));
   assert.ok(value["宜忌"]["宜"].includes("交易"));
   assert.ok(value["宜忌"]["宜"].includes("纳财"));
   assert.ok(value["宜忌"]["忌"].includes("求医"));
   assert.ok(value["宜忌"]["忌"].includes("疗病"));
+  assert.ok(value["宜忌"]["忌"].includes("宴会"));
+  assert.ok(!value["宜忌"]["宜"].includes("宴会"));
+  assert.ok(!value["宜忌"]["宜"].includes("庆赐赏贺"));
   assert.deepEqual(value["宜忌"]["宜"].filter((item) => value["宜忌"]["忌"].includes(item)), []);
 });
 
@@ -78,6 +86,15 @@ test("uses Chinese-only public keys and Chinese boolean strings", () => {
   assert.equal(value["宜忌"]["诸事皆忌"], "否");
   assert.equal(JSON.stringify(value).includes("日本"), false);
   assert.equal(JSON.stringify(value).includes("佛历"), false);
+});
+
+test("keeps the next-day shu-jiu start on winter-solstice day", () => {
+  const value = calculateCurrentAlmanac(new Date("2026-12-22T04:00:00Z"));
+  assert.equal(value["数九"]["主结果"]["是否在期内"], "否");
+  assert.equal(value["数九"]["主结果"]["开始日期"], "2026-12-23");
+  assert.equal(value["数九"]["并列口径"][1]["是否在期内"], "是");
+  assert.equal(value["数九"]["并列口径"][1]["名称"], "一九");
+  assert.equal(value["数九"]["并列口径"][1]["第几天"], 1);
 });
 
 test("calculates the 2020 leap fourth month civil-day boundary", () => {
@@ -102,6 +119,89 @@ test("places the validated 2026 solar terms on the expected UTC+8 dates", () => 
   assert.equal(utcPlus8CivilDate(solarTermInstant(2026, SOLAR_TERM.MAJOR_HEAT)), "2026-07-23");
   assert.equal(utcPlus8CivilDate(solarTermInstant(2026, SOLAR_TERM.START_OF_AUTUMN)), "2026-08-07");
   assert.equal(utcPlus8CivilDate(solarTermInstant(2026, SOLAR_TERM.END_OF_HEAT)), "2026-08-23");
+});
+
+test("matches all 24 Hong Kong Observatory solar-term dates for 2026", () => {
+  const expected = [
+    "01-05", "01-20", "02-04", "02-18", "03-05", "03-20",
+    "04-05", "04-20", "05-05", "05-21", "06-05", "06-21",
+    "07-07", "07-23", "08-07", "08-23", "09-07", "09-23",
+    "10-08", "10-23", "11-07", "11-22", "12-07", "12-22",
+  ];
+  SOLAR_TERMS.forEach((term, index) => {
+    assert.equal(utcPlus8CivilDate(solarTermInstant(2026, term)), `2026-${expected[index]}`, term.name);
+  });
+});
+
+test("matches the Hong Kong Observatory published August 2026 minutes", () => {
+  const roundedMinute = (instant) => formatUtcPlus8(new Date(instant.getTime() + 30_000)).slice(0, 16);
+  assert.equal(roundedMinute(solarTermInstant(2026, SOLAR_TERM.MAJOR_HEAT)), "2026-07-23T03:13");
+  assert.equal(roundedMinute(solarTermInstant(2026, SOLAR_TERM.START_OF_AUTUMN)), "2026-08-07T19:43");
+  assert.equal(roundedMinute(solarTermInstant(2026, SOLAR_TERM.END_OF_HEAT)), "2026-08-23T10:19");
+  assert.equal(roundedMinute(calculateChineseCalendar("2026-08-13").astronomicalNewMoon), "2026-08-13T01:37");
+});
+
+test("handles the winter-solstice civil-day new moon and terminal month eleven", () => {
+  const cases = [
+    ["2014-12-21", 10, 30, false], ["2014-12-22", 11, 1, false],
+    ["2015-02-19", 1, 1, false], ["2026-12-09", 11, 1, false],
+  ];
+  for (const [date, month, day, leap] of cases) {
+    const lunar = calculateChineseCalendar(date);
+    assert.deepEqual([lunar.month, lunar.day, lunar.leapMonth], [month, day, leap], date);
+  }
+  assert.equal(calculateChineseCalendar("2199-12-31").year, 2199);
+});
+
+test("matches all 365 lunar entries in the Hong Kong Observatory 2026 table", () => {
+  const months = [
+    ["2025-12-20", 2025, 11], ["2026-01-19", 2025, 12], ["2026-02-17", 2026, 1],
+    ["2026-03-19", 2026, 2], ["2026-04-17", 2026, 3], ["2026-05-17", 2026, 4],
+    ["2026-06-15", 2026, 5], ["2026-07-14", 2026, 6], ["2026-08-13", 2026, 7],
+    ["2026-09-11", 2026, 8], ["2026-10-10", 2026, 9], ["2026-11-09", 2026, 10],
+    ["2026-12-09", 2026, 11],
+  ];
+  for (let timestamp = Date.UTC(2026, 0, 1); timestamp < Date.UTC(2027, 0, 1); timestamp += 86_400_000) {
+    const date = new Date(timestamp).toISOString().slice(0, 10);
+    const expected = months.filter(([start]) => start <= date).at(-1);
+    const actual = calculateChineseCalendar(date);
+    const day = Math.round((timestamp - Date.parse(`${expected[0]}T00:00:00Z`)) / 86_400_000) + 1;
+    assert.deepEqual([actual.year, actual.month, actual.day, actual.leapMonth],
+      [expected[1], expected[2], day, false], date);
+  }
+});
+
+test("applies the corrected heavenly-virtue and heavenly-dog occurrences", () => {
+  const secondMonth = calculateTraditionalAlmanac("2026-03-01", cycleFromIndex(3), cycleFromIndex(8), 350);
+  assert.ok(secondMonth.gods.auspicious.includes("天德"));
+
+  const shenMonthXuDay = calculateTraditionalAlmanac("2026-08-01", cycleFromIndex(8), cycleFromIndex(10), 140);
+  const weiMonthYouDay = calculateTraditionalAlmanac("2026-08-03", cycleFromIndex(43), cycleFromIndex(45), 130);
+  assert.equal(shenMonthXuDay.dayOfficer.name, "满");
+  assert.ok(shenMonthXuDay.gods.inauspicious.includes("天狗"));
+  assert.equal(weiMonthYouDay.dayOfficer.name, "满");
+  assert.ok(!weiMonthYouDay.gods.inauspicious.includes("天狗"));
+
+  const springRoyal = calculateTraditionalAlmanac("2026-02-01", cycleFromIndex(2), cycleFromIndex(2), 320);
+  const springOfficial = calculateTraditionalAlmanac("2026-02-02", cycleFromIndex(2), cycleFromIndex(3), 320);
+  assert.ok(springRoyal.gods.auspicious.includes("王日"));
+  assert.ok(!springRoyal.gods.auspicious.includes("官日"));
+  assert.ok(springOfficial.gods.auspicious.includes("官日"));
+  assert.ok(!springOfficial.gods.auspicious.includes("王日"));
+});
+
+test("requires a seasonal virtue for the receive-day storehouse combination", () => {
+  const month = cycleFromIndex(3);
+  const day = cycleFromIndex(12);
+  const almanac = calculateTraditionalAlmanac("2026-03-10", month, day, 350);
+  const result = evaluateActivities("2026-03-10", month, day, almanac, 350);
+  assert.equal(almanac.dayOfficer.name, "收");
+  assert.ok(almanac.gods.auspicious.includes("四相"));
+  assert.ok(result.ruleHits.some((hit) => hit.ruleId === "OFFICER_RECEIVE_STOREHOUSE_COMBINATION"));
+  assert.ok(result.ruleHits.some((hit) => hit.ruleId === "OFFICER_SEASONAL_收"));
+  assert.ok(result.ruleHits.some((hit) => hit.ruleId === "MATERNAL_STOREHOUSE_REPAIR_COMBINATION"));
+  assert.ok(result.recommended.includes("修仓库"));
+  assert.ok(result.recommended.includes("取鱼"));
 });
 
 test("retains auditable source IDs and the canonical disaster-sha exception", () => {

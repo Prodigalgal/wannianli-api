@@ -10,8 +10,8 @@ public final class DeltaT {
     }
 
     public static double seconds(double year) {
-        if (year < 1800 || year > 2200) {
-            throw new IllegalArgumentException("Delta-T implementation supports years 1800 through 2200");
+        if (year < 1800 || year > 2201) {
+            throw new IllegalArgumentException("Delta-T implementation supports years 1800 through 2201");
         }
         if (year < 1860) {
             double t = year - 1800;

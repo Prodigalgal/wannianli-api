@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test",
+    "test:deep": "node ../tools/deep-validate.mjs",
     "check": "npm test && wrangler deploy --dry-run",
     "deploy": "wrangler deploy"
   },

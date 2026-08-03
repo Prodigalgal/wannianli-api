@@ -99,15 +99,15 @@ export function calculateChineseCalendar(date) {
   const firstSolsticeYear = date < winterThisYear ? civil.year - 1 : civil.year;
   const firstSolstice = solarTermInstant(firstSolsticeYear, SOLAR_TERM.WINTER_SOLSTICE);
   const secondSolstice = solarTermInstant(firstSolsticeYear + 1, SOLAR_TERM.WINTER_SOLSTICE);
-  const firstMonth11 = lunationAtOrBefore(firstSolstice);
-  const secondMonth11 = lunationAtOrBefore(secondSolstice);
+  const firstMonth11 = month11Lunation(firstSolstice);
+  const secondMonth11 = month11Lunation(secondSolstice);
   const monthCount = secondMonth11 - firstMonth11;
   if (monthCount !== 12 && monthCount !== 13) {
     throw new Error(`Invalid astronomical month sequence: ${monthCount}`);
   }
 
   const leapIndex = monthCount === 13 ? findLeapMonthIndex(firstMonth11, monthCount) : -1;
-  const spans = buildMonthSpans(firstMonth11, monthCount, leapIndex);
+  const spans = buildMonthSpans(firstMonth11, monthCount + 1, leapIndex);
   const newYearIndex = spans.findIndex((span) => span.month === 1 && !span.leap);
   if (newYearIndex < 0) {
     throw new Error("Lunar new year was not found");
@@ -133,6 +133,18 @@ export function calculateChineseCalendar(date) {
     }
   }
   throw new Error(`Date ${date} did not fall in the calculated lunisolar year`);
+}
+
+function month11Lunation(winterSolstice) {
+  const solsticeDate = utcPlus8CivilDate(winterSolstice);
+  let lunation = lunationAtOrBefore(winterSolstice);
+  while (utcPlus8CivilDate(newMoonInstant(lunation + 1)) <= solsticeDate) {
+    lunation++;
+  }
+  while (utcPlus8CivilDate(newMoonInstant(lunation)) > solsticeDate) {
+    lunation--;
+  }
+  return lunation;
 }
 
 export function cycleFromIndex(index) {
@@ -255,7 +267,19 @@ function calculateShuJiuVariant(date, startOffset, convention, sourceId) {
   }
   const startDate = addCivilDays(winterSolstice, startOffset);
   const endDate = addCivilDays(startDate, 80);
-  if (date < startDate || date > endDate) {
+  if (date < startDate) {
+    return {
+      active: false,
+      name: null,
+      dayIndex: null,
+      totalDays: null,
+      startDate,
+      endDate,
+      description: `${convention}，每九日为一九，共九九八十一日。`,
+      sourceId,
+    };
+  }
+  if (date > endDate) {
     let next = termDate(year, SOLAR_TERM.WINTER_SOLSTICE);
     if (date >= next) {
       next = termDate(year + 1, SOLAR_TERM.WINTER_SOLSTICE);

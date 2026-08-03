@@ -31,19 +31,22 @@ public final class SolarEphemeris {
         return terrestrialTimeToInstant(jde, year + (term.approximateMonth() - 0.5) / 12.0);
     }
 
-    /** Apparent geocentric solar ecliptic longitude in degrees, referred to the true equinox. */
+    /** Apparent geocentric solar ecliptic longitude in degrees, referred to the true equinox of date. */
     public static double apparentSolarLongitude(double julianEphemerisDay) {
         double t = (julianEphemerisDay - J2000) / 36_525.0;
-        double meanLongitude = normalize(280.46646 + 36_000.76983 * t + 0.0003032 * t * t);
-        double meanAnomaly = normalize(357.52911 + 35_999.05029 * t - 0.0001537 * t * t
-                + t * t * t / 24_490_000.0);
-        double anomalyRadians = radians(meanAnomaly);
-        double equationOfCenter = (1.914602 - 0.004817 * t - 0.000014 * t * t) * sin(anomalyRadians)
-                + (0.019993 - 0.000101 * t) * sin(2 * anomalyRadians)
-                + 0.000289 * sin(3 * anomalyRadians);
-        double trueLongitude = meanLongitude + equationOfCenter;
-        double omega = radians(125.04 - 1934.136 * t);
-        return normalize(trueLongitude - 0.00569 - 0.00478 * sin(omega));
+        double geometricLongitude = normalize(Math.toDegrees(EarthVsop87.longitude(julianEphemerisDay)) + 180.0);
+        double radius = EarthVsop87.radius(julianEphemerisDay);
+        double omega = radians(normalize(125.04452 - 1934.136261 * t + 0.0020708 * t * t
+                + t * t * t / 450_000.0));
+        double meanSolarLongitude = radians(normalize(280.4665 + 36_000.7698 * t));
+        double meanLunarLongitude = radians(normalize(218.3165 + 481_267.8813 * t));
+        double nutationLongitude = (-17.20 * sin(omega)
+                - 1.32 * sin(2 * meanSolarLongitude)
+                - 0.23 * sin(2 * meanLunarLongitude)
+                + 0.21 * sin(2 * omega)) / 3_600.0;
+        double aberration = 20.4898 / (3_600.0 * radius);
+        double fk5Correction = 0.09033 / 3_600.0;
+        return normalize(geometricLongitude + nutationLongitude - aberration - fk5Correction);
     }
 
     public static double longitudeAt(Instant instant) {

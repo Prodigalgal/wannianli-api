@@ -40,16 +40,21 @@ class AlmanacServiceTest {
         assertThat(result.traditionalAlmanac().dutyGod().name()).isEqualTo("勾陈");
         assertThat(result.traditionalAlmanac().dutyGod().path()).isEqualTo("黑道");
         assertThat(result.traditionalAlmanac().gods().auspicious())
-                .contains("天德合", "月德合", "天巫", "福德");
+                .containsExactly("月德合", "天德合", "天恩", "四相", "民日", "天巫", "福德");
         assertThat(result.traditionalAlmanac().gods().inauspicious())
-                .contains("灾煞", "天火", "天狗");
+                .containsExactly("灾煞", "天火");
+        assertThat(result.traditionalAlmanac().pengZu().heavenlyStemRule())
+                .isEqualTo("己不破券，二主并亡");
+        assertThat(result.traditionalAlmanac().pengZu().earthlyBranchRule())
+                .isEqualTo("酉不会客，宾主有伤");
         assertThat(result.traditionalAlmanac().fetalGod().position()).isEqualTo("占大门外东北");
         assertThat(result.traditionalAlmanac().clash().description()).isEqualTo("冲兔（癸卯），煞东");
         assertThat(result.traditionalAlmanac().mansion().name()).isEqualTo("危");
 
-        assertThat(result.activities().dayGrade()).isEqualTo(DayGrade.SUPERIOR);
+        assertThat(result.activities().dayGrade()).isEqualTo(DayGrade.MIDDLE);
         assertThat(result.activities().recommended()).contains("开市", "交易", "纳财");
-        assertThat(result.activities().avoided()).contains("求医", "疗病");
+        assertThat(result.activities().recommended()).doesNotContain("宴会", "庆赐赏贺");
+        assertThat(result.activities().avoided()).contains("宴会", "求医", "疗病");
         assertThat(result.activities().ruleHits())
                 .anySatisfy(hit -> {
                     assertThat(hit.ruleId()).startsWith("DISASTER_SHA");

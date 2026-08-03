@@ -45,8 +45,8 @@ public final class ChineseCalendarCalculator {
         Instant secondSolstice = SolarEphemeris.solarTermInstant(
                 firstSolsticeYear + 1, SolarTerm.WINTER_SOLSTICE, zone);
 
-        int firstMonth11Lunation = NewMoonEphemeris.lunationAtOrBefore(firstSolstice);
-        int secondMonth11Lunation = NewMoonEphemeris.lunationAtOrBefore(secondSolstice);
+        int firstMonth11Lunation = month11Lunation(firstSolstice);
+        int secondMonth11Lunation = month11Lunation(secondSolstice);
         int monthCount = secondMonth11Lunation - firstMonth11Lunation;
         if (monthCount != 12 && monthCount != 13) {
             throw new IllegalStateException("Astronomical month sequence is invalid: " + monthCount);
@@ -55,7 +55,8 @@ public final class ChineseCalendarCalculator {
         int leapIndex = monthCount == 13
                 ? findLeapMonthIndex(firstMonth11Lunation, monthCount)
                 : -1;
-        List<MonthSpan> spans = buildMonthSpans(firstMonth11Lunation, monthCount, leapIndex);
+        // Include the terminal month eleven so dates between its new moon and winter solstice are covered.
+        List<MonthSpan> spans = buildMonthSpans(firstMonth11Lunation, monthCount + 1, leapIndex);
         int newYearIndex = findNewYearIndex(spans);
         int lunarYear = spans.get(newYearIndex).startDate().getYear();
 
@@ -72,6 +73,20 @@ public final class ChineseCalendarCalculator {
             }
         }
         throw new IllegalStateException("Date did not fall within calculated lunisolar year: " + reference);
+    }
+
+    private int month11Lunation(Instant winterSolstice) {
+        LocalDate solsticeDate = winterSolstice.atZone(zone).toLocalDate();
+        int lunation = NewMoonEphemeris.lunationAtOrBefore(winterSolstice);
+        while (!NewMoonEphemeris.newMoonInstant(lunation + 1).atZone(zone).toLocalDate()
+                .isAfter(solsticeDate)) {
+            lunation++;
+        }
+        while (NewMoonEphemeris.newMoonInstant(lunation).atZone(zone).toLocalDate()
+                .isAfter(solsticeDate)) {
+            lunation--;
+        }
+        return lunation;
     }
 
     private int findLeapMonthIndex(int firstLunation, int monthCount) {

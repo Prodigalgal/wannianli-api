@@ -5,13 +5,13 @@ const OFFICERS = ["建", "除", "满", "平", "定", "执", "破", "危", "成",
 const DUTY_GODS = ["青龙", "明堂", "天刑", "朱雀", "金匮", "天德", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陈"];
 const YELLOW_PATH = [true, true, false, false, true, true, false, true, false, false, true, false];
 const STEM_TABOOS = [
-  "甲不开仓，财物耗散", "乙不栽植，千株不长", "丙不修灶，必见灾殃", "丁不剃头，头必生疮", "戊不受田，田主不祥",
-  "己不破券，二比并亡", "庚不经络，织机虚张", "辛不合酱，主人不尝", "壬不汲水，更难提防", "癸不词讼，理弱敌强",
+  "甲不开仓，财物耗亡", "乙不栽植，千株不长", "丙不修灶，必见火殃", "丁不剃头，头主生疮", "戊不受田，田主不祥",
+  "己不破券，二主并亡", "庚不经络，织机虚张", "辛不合酱，主人不尝", "壬不决水，难更堤防", "癸不词论，理弱敌强",
 ];
 const BRANCH_TABOOS = [
-  "子不问卜，自惹祸殃", "丑不冠带，主不还乡", "寅不祭祀，神鬼不尝", "卯不穿井，水泉不香",
-  "辰不哭泣，必主重丧", "巳不远行，财物伏藏", "午不苫盖，屋主更张", "未不服药，毒气入肠",
-  "申不安床，鬼祟入房", "酉不会客，醉坐颠狂", "戌不吃犬，作怪上床", "亥不嫁娶，不利新郎",
+  "子不问卜，自惹灾殃", "丑不冠带，主不还乡", "寅不祭祀，鬼神不尝", "卯不穿井，泉水不香",
+  "辰不哭泣，必主重丧", "巳不远行，财物伏藏", "午不苫盖，室主更张", "未不服药，毒气入肠",
+  "申不安床，鬼祟入房", "酉不会客，宾主有伤", "戌不吃犬，作怪上床", "亥不嫁娶，必主分张",
 ];
 const FETAL_GOD_POSITIONS = [
   "占门碓外东南", "碓磨厕外东南", "厨灶炉外正南", "仓库门外正南", "房床栖外正南", "占门床外正南",
@@ -90,9 +90,9 @@ function isMaternalStorehouse(dayBranch, longitude) {
   return [8, 9].includes(dayBranch);
 }
 
-function addOfficerAliases(officer, auspicious, inauspicious) {
+function addOfficerAliases(officer, dayBranch, auspicious, inauspicious) {
   const aliases = {
-    "建": [["兵福"], []], "除": [["吉期", "兵宝"], []], "满": [["天巫", "福德"], ["天狗"]],
+    "建": [["兵福"], []], "除": [["吉期", "兵宝"], []], "满": [["天巫", "福德"], dayBranch === 10 ? ["天狗"] : []],
     "平": [[], ["死神"]], "定": [["时阴"], []], "破": [[], ["月破", "大耗"]],
     "成": [["天喜", "天医"], []], "开": [["时阳", "生气"], []], "闭": [[], ["血支"]],
   };
@@ -111,20 +111,34 @@ function calculateGods(month, day, officer, solarLongitude) {
   if (day.stemIndex === monthVirtueStem) auspicious.push("月德");
   if (day.stemIndex === (monthVirtueStem + 5) % 10) auspicious.push("月德合");
   const heavenlyVirtueStem = [3, -1, 8, 7, -1, 0, 9, -1, 2, 1, -1, 6][monthOrdinal];
-  if (heavenlyVirtueStem >= 0 && day.stemIndex === heavenlyVirtueStem) auspicious.push("天德");
+  const heavenlyVirtueBranch = [-1, 8, -1, -1, 11, -1, -1, 2, -1, -1, 5, -1][monthOrdinal];
+  if ((heavenlyVirtueStem >= 0 && day.stemIndex === heavenlyVirtueStem)
+      || day.branchIndex === heavenlyVirtueBranch) auspicious.push("天德");
   if (heavenlyVirtueStem >= 0 && day.stemIndex === (heavenlyVirtueStem + 5) % 10) auspicious.push("天德合");
+  if (day.index <= 4 || (day.index >= 15 && day.index <= 19) || (day.index >= 45 && day.index <= 49)) auspicious.push("天恩");
+  if (day.stemIndex === [2, 3, 6, 5, 4, 7, 8, 9, 6, 1, 0, 7][monthOrdinal]) auspicious.push("月恩");
+  const season = Math.floor(monthOrdinal / 3);
+  if ([[2, 3], [4, 5], [8, 9], [0, 1]][season].includes(day.stemIndex)) auspicious.push("四相");
+  if (day.branchIndex === [6, 4, 0, 2][season]) auspicious.push("时德");
+  const seasonalDays = [
+    ["王日", [2, 5, 8, 11]], ["官日", [3, 6, 9, 0]], ["守日", [4, 7, 10, 1]],
+    ["相日", [5, 8, 11, 2]], ["民日", [6, 9, 0, 3]],
+  ];
+  for (const [name, branches] of seasonalDays) {
+    if (day.branchIndex === branches[season]) auspicious.push(name);
+  }
   if (isHeavenlyPardon(day, solarLongitude)) auspicious.push("天赦");
   if (isMaternalStorehouse(day.branchIndex, solarLongitude)) auspicious.push("母仓");
   if (isThreeHarmony(month.branchIndex, day.branchIndex)) auspicious.push("三合");
   if (SIX_HARMONY[month.branchIndex] === day.branchIndex) auspicious.push("六合");
-  addOfficerAliases(officer, auspicious, inauspicious);
+  addOfficerAliases(officer, day.branchIndex, auspicious, inauspicious);
 
   const threeSha = threeShaBranches(month.branchIndex);
   if (day.branchIndex === threeSha[0]) inauspicious.push("劫煞");
   if (day.branchIndex === threeSha[1]) inauspicious.push("灾煞", "天火");
   if (day.branchIndex === threeSha[2]) inauspicious.push("月煞", "月虚");
   if (SIX_HARM[month.branchIndex] === day.branchIndex) inauspicious.push("月害");
-  const virtuePresent = auspicious.some((name) => ["天德", "月德", "天德合", "月德合", "天赦"].includes(name));
+  const virtuePresent = auspicious.some((name) => ["天德", "月德", "天德合", "月德合"].includes(name));
   return { auspicious, inauspicious, virtuePresent };
 }
 
@@ -165,7 +179,7 @@ export function calculateTraditionalAlmanac(date, month, day, solarLongitude) {
       sourceId: "YUXIAJI_TRADITION", evidenceLevel: "C_TRADITIONAL_TRANSMISSION",
     },
     clash: calculateClash(day),
-    fetalGod: { position: FETAL_GOD_POSITIONS[day.index], sourceId: "YUXIAJI_TRADITION", evidenceLevel: "C_TRADITIONAL_TRANSMISSION" },
+    fetalGod: { position: FETAL_GOD_POSITIONS[day.index], sourceId: "FETAL_GOD_TRADITION", evidenceLevel: "C_TRADITIONAL_TRANSMISSION" },
     mansion: calculateMansion(date),
   };
 }

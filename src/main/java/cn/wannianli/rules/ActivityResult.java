@@ -43,7 +43,8 @@ public record ActivityResult(
     public enum Disposition {
         RECOMMENDED,
         AVOID,
-        CAUTION
+        CAUTION,
+        OMITTED
     }
 
     public record ActivityDecision(

@@ -111,7 +111,11 @@ public final class SeasonalCalculator {
         }
         LocalDate start = winterSolstice.plusDays(startOffset);
         LocalDate end = start.plusDays(80);
-        if (date.isBefore(start) || date.isAfter(end)) {
+        if (date.isBefore(start)) {
+            return new PeriodStatus(false, null, null, null, start, end,
+                    convention + "，每九日为一九，共九九八十一日。", source);
+        }
+        if (date.isAfter(end)) {
             LocalDate next = termDate(date.getYear(), SolarTerm.WINTER_SOLSTICE);
             if (!date.isBefore(next)) {
                 next = termDate(date.getYear() + 1, SolarTerm.WINTER_SOLSTICE);

@@ -1,3 +1,5 @@
+import { EARTH_LONGITUDE, EARTH_RADIUS } from "./vsop87.js";
+
 export const MS_PER_DAY = 86_400_000;
 export const UTC_PLUS_8_MS = 8 * 60 * 60 * 1000;
 
@@ -139,8 +141,8 @@ function decimalYear(instant) {
 }
 
 export function deltaTSeconds(year) {
-  if (year < 1800 || year > 2200) {
-    throw new RangeError("Delta-T supports years 1800 through 2200");
+  if (year < 1800 || year > 2201) {
+    throw new RangeError("Delta-T supports years 1800 through 2201");
   }
   if (year < 1860) {
     const t = year - 1800;
@@ -195,18 +197,36 @@ function terrestrialTimeToInstant(jde, approximateYear) {
   return instantFromJulianDate(jde - deltaTSeconds(approximateYear) / 86_400);
 }
 
+function evaluateVsop(series, julianEphemerisDay) {
+  const tau = (julianEphemerisDay - J2000) / 365_250;
+  let tauPower = 1;
+  let result = 0;
+  for (const terms of series) {
+    let sum = 0;
+    for (let index = 0; index < terms.length; index += 3) {
+      sum += terms[index] * Math.cos(terms[index + 1] + terms[index + 2] * tau);
+    }
+    result += sum * tauPower;
+    tauPower *= tau;
+  }
+  return result;
+}
+
 export function apparentSolarLongitude(julianEphemerisDay) {
   const t = (julianEphemerisDay - J2000) / 36_525;
-  const meanLongitude = normalizeDegrees(280.46646 + 36_000.76983 * t + 0.0003032 * t * t);
-  const meanAnomaly = normalizeDegrees(
-    357.52911 + 35_999.05029 * t - 0.0001537 * t * t + t ** 3 / 24_490_000,
-  );
-  const anomaly = meanAnomaly * Math.PI / 180;
-  const equation = (1.914602 - 0.004817 * t - 0.000014 * t * t) * Math.sin(anomaly)
-    + (0.019993 - 0.000101 * t) * Math.sin(2 * anomaly)
-    + 0.000289 * Math.sin(3 * anomaly);
-  const omega = (125.04 - 1934.136 * t) * Math.PI / 180;
-  return normalizeDegrees(meanLongitude + equation - 0.00569 - 0.00478 * Math.sin(omega));
+  const geometricLongitude = normalizeDegrees(evaluateVsop(EARTH_LONGITUDE, julianEphemerisDay) * 180 / Math.PI + 180);
+  const radius = evaluateVsop(EARTH_RADIUS, julianEphemerisDay);
+  const radians = (degrees) => normalizeDegrees(degrees) * Math.PI / 180;
+  const omega = radians(125.04452 - 1934.136261 * t + 0.0020708 * t ** 2 + t ** 3 / 450_000);
+  const meanSolarLongitude = radians(280.4665 + 36_000.7698 * t);
+  const meanLunarLongitude = radians(218.3165 + 481_267.8813 * t);
+  const nutationLongitude = (-17.20 * Math.sin(omega)
+    - 1.32 * Math.sin(2 * meanSolarLongitude)
+    - 0.23 * Math.sin(2 * meanLunarLongitude)
+    + 0.21 * Math.sin(2 * omega)) / 3_600;
+  const aberration = 20.4898 / (3_600 * radius);
+  const fk5Correction = 0.09033 / 3_600;
+  return normalizeDegrees(geometricLongitude + nutationLongitude - aberration - fk5Correction);
 }
 
 export function longitudeAt(instant) {

@@ -26,13 +26,29 @@ import cn.wannianli.rules.ActivityResult.RuleHit;
 public final class ActivityRuleEngine {
 
     public static final String XIEJI_VOLUME_10 = "XIEJI_BIANFANGSHU_VOLUME_10";
-    private static final String CANONICAL = "A_IMPERIAL_CANON";
+    private static final String CANONICAL = "B_PRIMARY_TEXT_TRANSCRIPTION";
     private static final String TRANSMITTED = "C_TRADITIONAL_TRANSMISSION";
 
     private static final List<String> VIRTUE_RECOMMENDS = activities(
             "祭祀,祈福,求嗣,上册进表章,颁诏,覃恩,肆赦,施恩封拜,诏命公卿,招贤,举正直,施恩惠恤孤独,宣政事," +
-                    "行惠爱,雪冤枉,缓刑狱,庆赐赏贺,宴会,行幸,遣使,安抚边境,选将,训兵,出师,上官赴任,临政亲民," +
+                    "行惠爱,雪冤枉,缓刑狱,庆赐赏贺,宴会,行幸,遣使,安抚边境,选将,训兵,上官赴任,临政亲民," +
                     "结婚姻,纳采问名,嫁娶,搬移,解除,求医,疗病,裁制,营建宫室,缮城郭,兴造动土,竖柱上梁,修仓库,栽种,牧养,纳畜,安葬");
+    private static final List<String> HEAVENLY_PARDON_RECOMMENDS = VIRTUE_RECOMMENDS.stream()
+            .filter(activity -> !activity.equals("出师"))
+            .toList();
+    private static final List<String> HEAVENLY_GRACE_RECOMMENDS = activities(
+            "覃恩,肆赦,施恩惠恤孤独,布政事,行惠爱,雪冤枉,缓刑狱,庆赐赏贺,宴会");
+    private static final List<String> SEASONAL_VIRTUE_RECOMMENDS = activities(
+            "祭祀,祈福,求嗣,施恩封拜,举正直,庆赐赏贺,宴会,行幸,遣使,上官赴任,临政亲民," +
+                    "结婚姻,纳采问名,搬移,解除,求医,疗病,裁制,修宫室,缮城郭,兴造动土,竖柱上梁," +
+                    "纳财,开仓库,出货财,栽种,牧养");
+    private static final List<String> ROYAL_DAY_RECOMMENDS = activities(
+            "颁诏,覃恩,肆赦,施恩封拜,诏命公卿,招贤,举正直,施恩惠恤孤独,宣政事,行惠爱," +
+                    "雪冤枉,缓刑狱,庆赐赏贺,宴会,行幸,遣使,安抚边境,选将,训兵,上官赴任,临政亲民,裁制");
+    private static final List<String> OFFICE_DAY_RECOMMENDS = activities("袭爵受封,上官赴任,临政亲民");
+    private static final List<String> GUARDING_DAY_RECOMMENDS = activities("袭爵受封,上官赴任,临政亲民,安抚边境");
+    private static final List<String> PEOPLE_DAY_RECOMMENDS = activities(
+            "宴会,结婚姻,纳采问名,进人口,搬移,开市,立券,交易,纳财,栽种,牧养,纳畜");
     private static final List<String> THREE_SHA_AVOIDS = activities(
             "祈福,求嗣,上册进表章,颁诏,施恩封拜,诏命公卿,招贤,举正直,宣政事,庆赐赏贺,宴会,冠带,行幸,遣使," +
                     "安抚边境,选将,训兵,出师,上官赴任,临政亲民,结婚姻,纳采问名,嫁娶,进人口,搬移,安床,解除," +
@@ -48,15 +64,22 @@ public final class ActivityRuleEngine {
     private static final List<String> LIMITED_SEVERE_AVOIDS = activities("安抚边境,选将,训兵,出师,求医,疗病");
 
     private static final Map<String, RuleSpec> OFFICER_RULES = officerRules();
-    private static final String[] STEM_ACTIVITY = {"开仓库", "栽种", "修灶", "剃头", "受田", "破券", "经络", "合酱", "汲水", "词讼"};
+    private static final String[] STEM_ACTIVITY = {"开仓库", "栽种", "修灶", "剃头", "受田", "破券", "经络", "合酱", "决水", "词论"};
     private static final String[] BRANCH_ACTIVITY = {"问卜", "冠带", "祭祀", "穿井", "哭泣", "远行", "苫盖", "服药", "安床", "会客", "食犬", "嫁娶"};
 
-    public ActivityResult evaluate(LocalDate date, Cycle month, Cycle day, TraditionalAlmanac almanac) {
+    public ActivityResult evaluate(LocalDate date, Cycle month, Cycle day, TraditionalAlmanac almanac,
+                                   double solarLongitude) {
         List<RuleHit> hits = new ArrayList<>();
         RuleSpec officer = OFFICER_RULES.get(almanac.dayOfficer().name());
         hits.add(hit(officer, "日支与节月月支推得" + almanac.dayOfficer().name() + "日"));
         addAuspiciousGodRules(hits, almanac);
         addInauspiciousGodRules(hits, month, almanac);
+        addOfficerCombinationRules(hits, almanac, solarLongitude);
+        if (day.branchIndex() == 9) {
+            hits.add(new RuleHit("DAY_BRANCH_YOU_RETAINED_TABOOS", "酉日用事专例", "制化专例",
+                    XIEJI_VOLUME_10, CANONICAL, 0, 1, List.of(), activities("宴会"),
+                    "当日地支为酉", "卷十明定凡酉日忌宴会，并且庆赐赏贺不注宜。"));
+        }
         hits.add(new RuleHit("DUTY_GOD_" + almanac.dutyGod().name(), almanac.dutyGod().name(), "黄黑道十二值神",
                 "XIEJI_BIANFANGSHU_VOLUME_7", CANONICAL, 0, 0, List.of(), List.of(),
                 "当日值" + almanac.dutyGod().name() + "，属" + almanac.dutyGod().path(),
@@ -75,13 +98,33 @@ public final class ActivityRuleEngine {
         for (String god : almanac.gods().auspicious()) {
             switch (god) {
                 case "天德", "月德", "天德合", "月德合" -> hits.add(new RuleHit(
-                        "VIRTUE_" + god, god, "吉神", XIEJI_VOLUME_10, CANONICAL, 3, 0,
+                        "VIRTUE_" + god + "_RETAINED_TABOOS", god, "吉神", XIEJI_VOLUME_10, CANONICAL, 3, 0,
                         VIRTUE_RECOMMENDS, activities("畋猎,取鱼"), "命中" + god + "起例",
                         "卷十列为上吉；忌畋猎取鱼以免伤生气。"));
                 case "天赦" -> hits.add(new RuleHit(
-                        "HEAVENLY_PARDON", "天赦", "吉神", XIEJI_VOLUME_10, CANONICAL, 3, 0,
-                        VIRTUE_RECOMMENDS, activities("畋猎,取鱼"), "命中四时天赦干支",
+                        "HEAVENLY_PARDON_RETAINED_TABOOS", "天赦", "吉神", XIEJI_VOLUME_10, CANONICAL, 3, 0,
+                        HEAVENLY_PARDON_RECOMMENDS, activities("畋猎,取鱼"), "命中四时天赦干支",
                         "天地合德、四时旺辰，能解诸凶；不用于出师。"));
+                case "天恩" -> hits.add(new RuleHit(
+                        "HEAVENLY_GRACE", "天恩", "吉神", XIEJI_VOLUME_10, CANONICAL, 2, 0,
+                        HEAVENLY_GRACE_RECOMMENDS, List.of(), "命中六十甲子天恩日段",
+                        "卷五起例、卷十逐项用事。"));
+                case "月恩" -> hits.add(seasonalVirtue("MONTH_GRACE", "月恩"));
+                case "四相" -> hits.add(seasonalVirtue("FOUR_PHASES", "四相"));
+                case "时德" -> hits.add(seasonalVirtue("SEASONAL_VIRTUE", "时德"));
+                case "王日" -> hits.add(new RuleHit(
+                        "ROYAL_DAY", "王日", "吉神", XIEJI_VOLUME_10, CANONICAL, 2, 0,
+                        ROYAL_DAY_RECOMMENDS, List.of(), "命中四时王日支", "卷五校订起例、卷十逐项用事。"));
+                case "官日", "相日" -> hits.add(new RuleHit(
+                        god.equals("官日") ? "OFFICIAL_DAY" : "ASSISTING_DAY", god, "吉神",
+                        XIEJI_VOLUME_10, CANONICAL, 1, 0, OFFICE_DAY_RECOMMENDS, List.of(),
+                        "命中四时" + god + "支", "卷五校订起例、卷十逐项用事。"));
+                case "守日" -> hits.add(new RuleHit(
+                        "GUARDING_DAY", "守日", "吉神", XIEJI_VOLUME_10, CANONICAL, 1, 0,
+                        GUARDING_DAY_RECOMMENDS, List.of(), "命中四时守日支", "卷五校订起例、卷十逐项用事。"));
+                case "民日" -> hits.add(new RuleHit(
+                        "PEOPLE_DAY", "民日", "吉神", XIEJI_VOLUME_10, CANONICAL, 1, 0,
+                        PEOPLE_DAY_RECOMMENDS, List.of(), "命中四时民日支", "卷五校订起例、卷十逐项用事。"));
                 case "母仓" -> hits.add(new RuleHit(
                         "MATERNAL_STOREHOUSE", "母仓", "吉神", XIEJI_VOLUME_10, CANONICAL, 1, 0,
                         activities("纳财,栽种,牧养,纳畜"), List.of(), "命中四时母仓日支",
@@ -135,6 +178,55 @@ public final class ActivityRuleEngine {
                             "开仓库,出货财,修置产室,牧养,纳畜,破土,安葬,启攒"),
                     "日支冲月建六合之支", "卷十称月害之凶轻于刑煞，但非德不可解。"));
         }
+        if (bad.contains("天狗")) {
+            hits.add(new RuleHit("TIAN_GOU_RETAINED_TABOOS", "天狗", "凶煞", XIEJI_VOLUME_10,
+                    CANONICAL, 0, 1, List.of(), activities("祭祀"), "申月戌日为满日",
+                    "卷十明定天狗忌祭祀，与德神并仍忌；祈福、求嗣不注宜。"));
+        }
+    }
+
+    private RuleHit seasonalVirtue(String id, String name) {
+        return new RuleHit(id, name, "吉神", XIEJI_VOLUME_10, CANONICAL, 1, 0,
+                SEASONAL_VIRTUE_RECOMMENDS, List.of(), "命中四时" + name + "起例",
+                "卷五起例、卷十将月恩、四相、时德合列用事。" );
+    }
+
+    private void addOfficerCombinationRules(List<RuleHit> hits, TraditionalAlmanac almanac,
+                                            double solarLongitude) {
+        String officer = almanac.dayOfficer().name();
+        List<String> seasonal = new ArrayList<>();
+        if (officer.equals("危") && inArc(solarLongitude, 225, 315)) {
+            seasonal.add("伐木");
+        }
+        if (Set.of("执", "危", "收").contains(officer) && inArc(solarLongitude, 210, 315)) {
+            seasonal.add("畋猎");
+        }
+        if (Set.of("执", "危", "收").contains(officer) && inArc(solarLongitude, 330, 45)) {
+            seasonal.add("取鱼");
+        }
+        if (!seasonal.isEmpty()) {
+            hits.add(new RuleHit("OFFICER_SEASONAL_" + officer, officer + "日节令用事", "建除节令组合",
+                    XIEJI_VOLUME_10, CANONICAL, 0, 0, List.copyOf(new LinkedHashSet<>(seasonal)), List.of(),
+                    "命中" + officer + "日及相应太阳黄经区间", "卷十依霜降、立冬、雨水、立春、立夏限定伐木畋猎取鱼。"));
+        }
+        if (officer.equals("收") && almanac.gods().auspicious().stream()
+                .anyMatch(Set.of("月恩", "四相", "时德")::contains)) {
+            hits.add(new RuleHit("OFFICER_RECEIVE_STOREHOUSE_COMBINATION", "收日修仓库组合", "建除神煞组合",
+                    XIEJI_VOLUME_10, CANONICAL, 0, 0, activities("修仓库"), List.of(),
+                    "收日与月恩、四相或时德同现", "卷十明定收日无修造义，须与月恩、四相、时德并后才宜修仓库。"));
+        }
+        Set<String> good = Set.copyOf(almanac.gods().auspicious());
+        if (good.contains("母仓") && (good.contains("月恩") || good.contains("四相") || officer.equals("开"))) {
+            hits.add(new RuleHit("MATERNAL_STOREHOUSE_REPAIR_COMBINATION", "母仓修仓库组合", "吉神组合",
+                    XIEJI_VOLUME_10, CANONICAL, 0, 0, activities("修仓库"), List.of(),
+                    "母仓与月恩、四相或开日同现", "卷十明定母仓须与月恩、四相或开日并，才宜修仓库。"));
+        }
+    }
+
+    private boolean inArc(double longitude, double start, double end) {
+        return start < end
+                ? longitude >= start && longitude < end
+                : longitude >= start || longitude < end;
     }
 
     private RuleHit severe(String id, String name, int strength, List<String> avoids, String match) {
@@ -150,6 +242,7 @@ public final class ActivityRuleEngine {
 
     private ActivityResult resolve(List<RuleHit> hits, DayGrade grade, boolean virtue, boolean allAvoided) {
         Map<String, Evidence> evidence = new LinkedHashMap<>();
+        Set<String> suppressedActivities = suppressedActivities(hits);
         for (RuleHit hit : hits) {
             boolean canonical = hit.evidenceLevel().equals(CANONICAL);
             for (String activity : hit.recommends()) {
@@ -174,31 +267,41 @@ public final class ActivityRuleEngine {
                     ? concat(value.supplementalRecommend, value.supplementalAvoid)
                     : List.of();
             boolean retainedTaboo = avoidBy.stream().anyMatch(rule -> rule.endsWith("_RETAINED_TABOOS"));
-            Disposition disposition = disposition(recommendBy, avoidBy, grade, virtue, allAvoided, retainedTaboo);
+            boolean suppressed = suppressedActivities.contains(activity);
+            Disposition disposition = disposition(recommendBy, avoidBy, grade, virtue, allAvoided,
+                    retainedTaboo, suppressed);
             switch (disposition) {
                 case RECOMMENDED -> recommended.add(activity);
                 case AVOID -> avoided.add(activity);
                 case CAUTION -> caution.add(activity);
+                case OMITTED -> {
+                    // A canonical special case says not to print this otherwise-favorable activity.
+                }
             }
             decisions.add(new ActivityDecision(activity, disposition,
                     !recommendBy.isEmpty() && !avoidBy.isEmpty(), recommendBy, avoidBy, excluded,
-                    rationale(recommendBy, avoidBy, disposition, grade, virtue, allAvoided, hasCanonical, retainedTaboo)));
+                    rationale(recommendBy, avoidBy, disposition, grade, virtue, allAvoided, hasCanonical,
+                            retainedTaboo, suppressed)));
         }
 
         return new ActivityResult(recommended, avoided, caution, grade, virtue, allAvoided, decisions, hits,
                 new ConflictPolicy("《钦定协纪辨方书》六等消解", XIEJI_VOLUME_10,
                         "上从宜；上次逢德从宜、不逢德宜忌并存；中逢德从宜、不逢德从忌；中次逢德宜忌并存、不逢德从忌；下从忌且无德时诸事皆忌；最下不论德神皆诸事忌。",
                         List.of("上", "上次", "中", "中次", "下", "最下"),
-                        "低证据传统只补充官修主规则未裁定的活动，不参与反向覆盖。"));
+                        "原文明列的专忌、逐月及组合专例先执行；其后才用六等关系处理剩余冲突。低证据传统只补充官修主规则未裁定的活动。"));
     }
 
     private Disposition disposition(List<String> recommends, List<String> avoids, DayGrade grade,
-                                    boolean virtue, boolean allAvoided, boolean retainedTaboo) {
+                                    boolean virtue, boolean allAvoided, boolean retainedTaboo,
+                                    boolean suppressed) {
         if (allAvoided) {
             return Disposition.AVOID;
         }
         if (retainedTaboo) {
             return Disposition.AVOID;
+        }
+        if (suppressed) {
+            return avoids.isEmpty() ? Disposition.OMITTED : Disposition.AVOID;
         }
         if (recommends.isEmpty()) {
             return Disposition.AVOID;
@@ -217,12 +320,15 @@ public final class ActivityRuleEngine {
 
     private String rationale(List<String> recommends, List<String> avoids, Disposition disposition,
                              DayGrade grade, boolean virtue, boolean allAvoided, boolean canonical,
-                             boolean retainedTaboo) {
+                             boolean retainedTaboo, boolean suppressed) {
         if (allAvoided) {
             return "日等为" + grade.classicalName() + "，按六等表归入诸事皆忌。";
         }
         if (retainedTaboo) {
             return "卷十制化专例明确保留此忌，优先于通用六等冲突表。";
+        }
+        if (suppressed) {
+            return avoids.isEmpty() ? "卷十专例规定不注宜，故不输出到宜项。" : "卷十专例先撤销宜项，再采用其余忌项。";
         }
         if (recommends.isEmpty() || avoids.isEmpty()) {
             return canonical ? "官修主规则只有单向结论，直接采用。" : "官修主规则未裁定，由低等级传统补充。";
@@ -232,12 +338,19 @@ public final class ActivityRuleEngine {
     }
 
     private DayGrade grade(List<RuleHit> hits) {
+        if (hits.stream().anyMatch(hit -> hit.ruleId().equals("DISASTER_SHA_RETAINED_TABOOS"))) {
+            return MIDDLE;
+        }
         boolean monthBreak = hits.stream().anyMatch(hit -> hit.ruleId().equals("OFFICER_破"));
         boolean severeSha = hits.stream().anyMatch(hit -> Set.of("DISASTER_SHA", "MONTH_SHA").contains(hit.ruleId()));
         if (monthBreak && severeSha) {
             return LOWEST;
         }
-        int good = hits.stream().filter(hit -> hit.evidenceLevel().equals(CANONICAL))
+        int virtueGood = hits.stream()
+                .filter(hit -> hit.evidenceLevel().equals(CANONICAL) && hit.ruleId().startsWith("VIRTUE_"))
+                .mapToInt(RuleHit::favorableStrength).max().orElse(0);
+        int good = virtueGood + hits.stream()
+                .filter(hit -> hit.evidenceLevel().equals(CANONICAL) && !hit.ruleId().startsWith("VIRTUE_"))
                 .mapToInt(RuleHit::favorableStrength).sum();
         int bad = hits.stream().filter(hit -> hit.evidenceLevel().equals(CANONICAL))
                 .mapToInt(RuleHit::unfavorableStrength).sum();
@@ -255,6 +368,23 @@ public final class ActivityRuleEngine {
             return MIDDLE_SECOND;
         }
         return INFERIOR;
+    }
+
+    private Set<String> suppressedActivities(List<RuleHit> hits) {
+        Set<String> suppressed = new LinkedHashSet<>();
+        for (RuleHit hit : hits) {
+            switch (hit.ruleId()) {
+                case "DAY_BRANCH_YOU_RETAINED_TABOOS" -> suppressed.add("庆赐赏贺");
+                case "TIAN_GOU_RETAINED_TABOOS" -> {
+                    suppressed.add("祈福");
+                    suppressed.add("求嗣");
+                }
+                default -> {
+                    // Most rules express a direct recommendation or taboo and need no suppression.
+                }
+            }
+        }
+        return Set.copyOf(suppressed);
     }
 
     private RuleHit hit(RuleSpec spec, String matchedBecause) {

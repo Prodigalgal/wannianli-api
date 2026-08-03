@@ -22,8 +22,10 @@ public final class TraditionalAlmanacCalculator {
 
     public static final String XIEJI_VOLUME_1 = "XIEJI_BIANFANGSHU_VOLUME_1";
     public static final String XIEJI_VOLUME_4 = "XIEJI_BIANFANGSHU_VOLUME_4";
+    public static final String XIEJI_VOLUME_5 = "XIEJI_BIANFANGSHU_VOLUME_5";
     public static final String XIEJI_VOLUME_7 = "XIEJI_BIANFANGSHU_VOLUME_7";
     public static final String YUXIAJI = "YUXIAJI_TRADITION";
+    public static final String FETAL_GOD_TRADITION = "FETAL_GOD_TRADITION";
 
     private static final String[] OFFICERS = {"建", "除", "满", "平", "定", "执", "破", "危", "成", "收", "开", "闭"};
     private static final String[] DUTY_GODS = {
@@ -33,13 +35,13 @@ public final class TraditionalAlmanacCalculator {
             true, true, false, false, true, true, false, true, false, false, true, false
     };
     private static final String[] STEM_TABOOS = {
-            "甲不开仓，财物耗散", "乙不栽植，千株不长", "丙不修灶，必见灾殃", "丁不剃头，头必生疮", "戊不受田，田主不祥",
-            "己不破券，二比并亡", "庚不经络，织机虚张", "辛不合酱，主人不尝", "壬不汲水，更难提防", "癸不词讼，理弱敌强"
+            "甲不开仓，财物耗亡", "乙不栽植，千株不长", "丙不修灶，必见火殃", "丁不剃头，头主生疮", "戊不受田，田主不祥",
+            "己不破券，二主并亡", "庚不经络，织机虚张", "辛不合酱，主人不尝", "壬不决水，难更堤防", "癸不词论，理弱敌强"
     };
     private static final String[] BRANCH_TABOOS = {
-            "子不问卜，自惹祸殃", "丑不冠带，主不还乡", "寅不祭祀，神鬼不尝", "卯不穿井，水泉不香",
-            "辰不哭泣，必主重丧", "巳不远行，财物伏藏", "午不苫盖，屋主更张", "未不服药，毒气入肠",
-            "申不安床，鬼祟入房", "酉不会客，醉坐颠狂", "戌不吃犬，作怪上床", "亥不嫁娶，不利新郎"
+            "子不问卜，自惹灾殃", "丑不冠带，主不还乡", "寅不祭祀，鬼神不尝", "卯不穿井，泉水不香",
+            "辰不哭泣，必主重丧", "巳不远行，财物伏藏", "午不苫盖，室主更张", "未不服药，毒气入肠",
+            "申不安床，鬼祟入房", "酉不会客，宾主有伤", "戌不吃犬，作怪上床", "亥不嫁娶，必主分张"
     };
     private static final String[] FETAL_GOD_POSITIONS = {
             "占门碓外东南", "碓磨厕外东南", "厨灶炉外正南", "仓库门外正南", "房床栖外正南", "占门床外正南",
@@ -81,7 +83,8 @@ public final class TraditionalAlmanacCalculator {
                 new PengZuTaboo(STEM_TABOOS[day.stemIndex()], BRANCH_TABOOS[day.branchIndex()],
                         YUXIAJI, "C_TRADITIONAL_TRANSMISSION"),
                 clash(day),
-                new FetalGod(FETAL_GOD_POSITIONS[day.index()], YUXIAJI, "C_TRADITIONAL_TRANSMISSION"),
+                new FetalGod(FETAL_GOD_POSITIONS[day.index()], FETAL_GOD_TRADITION,
+                        "C_TRADITIONAL_TRANSMISSION"),
                 mansion(date));
     }
 
@@ -123,13 +126,32 @@ public final class TraditionalAlmanacCalculator {
             good.add("月德合");
         }
         int[] heavenlyVirtueStems = {3, -1, 8, 7, -1, 0, 9, -1, 2, 1, -1, 6};
+        int[] heavenlyVirtueBranches = {-1, 8, -1, -1, 11, -1, -1, 2, -1, -1, 5, -1};
         int heavenlyVirtueStem = heavenlyVirtueStems[monthOrdinal];
-        if (heavenlyVirtueStem >= 0 && day.stemIndex() == heavenlyVirtueStem) {
+        if ((heavenlyVirtueStem >= 0 && day.stemIndex() == heavenlyVirtueStem)
+                || day.branchIndex() == heavenlyVirtueBranches[monthOrdinal]) {
             good.add("天德");
         }
         if (heavenlyVirtueStem >= 0 && day.stemIndex() == (heavenlyVirtueStem + 5) % 10) {
             good.add("天德合");
         }
+        if (isHeavenlyGrace(day.index())) {
+            good.add("天恩");
+        }
+        int[] monthGraceStems = {2, 3, 6, 5, 4, 7, 8, 9, 6, 1, 0, 7};
+        if (day.stemIndex() == monthGraceStems[monthOrdinal]) {
+            good.add("月恩");
+        }
+        int season = monthOrdinal / 3;
+        int[][] fourPhaseStems = {{2, 3}, {4, 5}, {8, 9}, {0, 1}};
+        if (contains(fourPhaseStems[season], day.stemIndex())) {
+            good.add("四相");
+        }
+        int[] timeVirtueBranches = {6, 4, 0, 2};
+        if (day.branchIndex() == timeVirtueBranches[season]) {
+            good.add("时德");
+        }
+        addSeasonalDays(good, season, day.branchIndex());
         if (isHeavenlyPardon(day, solarLongitude)) {
             good.add("天赦");
         }
@@ -142,7 +164,7 @@ public final class TraditionalAlmanacCalculator {
         if (SIX_HARMONY[month.branchIndex()] == day.branchIndex()) {
             good.add("六合");
         }
-        addOfficerAliases(officer, good, bad);
+        addOfficerAliases(officer, day.branchIndex(), good, bad);
 
         int[] threeSha = threeShaBranches(month.branchIndex());
         if (day.branchIndex() == threeSha[0]) {
@@ -161,11 +183,11 @@ public final class TraditionalAlmanacCalculator {
         }
 
         boolean virtue = good.stream().anyMatch(name -> name.equals("天德") || name.equals("月德")
-                || name.equals("天德合") || name.equals("月德合") || name.equals("天赦"));
+                || name.equals("天德合") || name.equals("月德合"));
         return new Gods(good, bad, virtue);
     }
 
-    private void addOfficerAliases(String officer, List<String> good, List<String> bad) {
+    private void addOfficerAliases(String officer, int dayBranch, List<String> good, List<String> bad) {
         switch (officer) {
             case "建" -> good.add("兵福");
             case "除" -> {
@@ -175,7 +197,9 @@ public final class TraditionalAlmanacCalculator {
             case "满" -> {
                 good.add("天巫");
                 good.add("福德");
-                bad.add("天狗");
+                if (dayBranch == 10) {
+                    bad.add("天狗");
+                }
             }
             case "平" -> bad.add("死神");
             case "破" -> {
@@ -196,6 +220,43 @@ public final class TraditionalAlmanacCalculator {
                 // Officers without an alias remain represented by the officer field itself.
             }
         }
+    }
+
+    private boolean isHeavenlyGrace(int cycleIndex) {
+        return cycleIndex <= 4 || (cycleIndex >= 15 && cycleIndex <= 19)
+                || (cycleIndex >= 45 && cycleIndex <= 49);
+    }
+
+    private void addSeasonalDays(List<String> good, int season, int dayBranch) {
+        int[] royal = {2, 5, 8, 11};
+        int[] official = {3, 6, 9, 0};
+        int[] guarding = {4, 7, 10, 1};
+        int[] assisting = {5, 8, 11, 2};
+        int[] people = {6, 9, 0, 3};
+        if (dayBranch == royal[season]) {
+            good.add("王日");
+        }
+        if (dayBranch == official[season]) {
+            good.add("官日");
+        }
+        if (dayBranch == guarding[season]) {
+            good.add("守日");
+        }
+        if (dayBranch == assisting[season]) {
+            good.add("相日");
+        }
+        if (dayBranch == people[season]) {
+            good.add("民日");
+        }
+    }
+
+    private boolean contains(int[] values, int candidate) {
+        for (int value : values) {
+            if (value == candidate) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isHeavenlyPardon(Cycle day, double longitude) {

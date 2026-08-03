@@ -135,7 +135,7 @@ export function calculateAuditableAlmanac(now = new Date()) {
   const pillars = calculatePillars(now, date, solarLongitude);
   const seasonal = calculateSeasonal(now, solarLongitude);
   const almanac = calculateTraditionalAlmanac(date, pillars.month, pillars.day, solarLongitude);
-  const activities = evaluateActivities(date, pillars.month, pillars.day, almanac);
+  const activities = evaluateActivities(date, pillars.month, pillars.day, almanac, solarLongitude);
   return {
     result: buildPublicResult(now, date, lunar, pillars, seasonal, almanac, activities),
     audit: {

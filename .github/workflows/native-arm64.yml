@@ -26,6 +26,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: worker/package-lock.json
+
+      - name: Verify standalone Worker implementation
+        working-directory: worker
+        run: |
+          npm ci
+          npm test
+          npx wrangler deploy --dry-run
+
       - name: Set up GraalVM 25
         uses: graalvm/setup-graalvm@v1
         with:
@@ -84,7 +98,9 @@ jobs:
           test "$ready" = true
           jq --exit-status \
             '."当前时间" and ."公历" and ."农历" and ."四柱" and ."宜忌" and
-             (."农历"."是否闰月" == "否") and (."三伏"."是否在期内" == "是") and
+             ((."农历"."是否闰月" == "是") or (."农历"."是否闰月" == "否")) and
+             ((."三伏"."是否在期内" == "是") or (."三伏"."是否在期内" == "否")) and
+             ((."宜忌"."有德神" == "是") or (."宜忌"."有德神" == "否")) and
              (tostring | contains(":true") | not) and (tostring | contains(":false") | not) and
              (has("references") | not)' \
             response.json

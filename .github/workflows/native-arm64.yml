@@ -83,7 +83,7 @@ jobs:
 
           test "$ready" = true
           jq --exit-status \
-            '.currentTime and .gregorian and .lunar and .fourPillars and .activities and (has("references") | not)' \
+            '."当前时间" and ."公历" and ."农历" and ."四柱" and ."宜忌" and (has("references") | not)' \
             response.json
 
       - name: Log in to GHCR

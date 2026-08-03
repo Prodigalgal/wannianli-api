@@ -5,27 +5,29 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import cn.wannianli.calendar.SeasonalContext;
 
 public record CurrentAlmanacResponse(
-        ZonedDateTime currentTime,
-        GregorianDate gregorian,
-        LunarDate lunar,
-        FourPillars fourPillars,
-        String zodiac,
-        String season,
-        SolarTerm solarTerm,
-        Period sanFu,
-        ShuJiu shuJiu,
-        DayOfficer dayOfficer,
-        DutyGod dutyGod,
-        List<String> auspiciousGods,
-        List<String> inauspiciousGods,
-        PengZuTaboo pengZuTaboo,
-        Clash clash,
-        String fetalGod,
-        Mansion mansion,
-        Activities activities) {
+        @JsonProperty("当前时间") ZonedDateTime currentTime,
+        @JsonProperty("公历") GregorianDate gregorian,
+        @JsonProperty("农历") LunarDate lunar,
+        @JsonProperty("四柱") FourPillars fourPillars,
+        @JsonProperty("生肖") String zodiac,
+        @JsonProperty("季节") String season,
+        @JsonProperty("节气") SolarTerm solarTerm,
+        @JsonProperty("三伏") Period sanFu,
+        @JsonProperty("数九") ShuJiu shuJiu,
+        @JsonProperty("建除十二神") DayOfficer dayOfficer,
+        @JsonProperty("黄黑道十二值神") DutyGod dutyGod,
+        @JsonProperty("吉神") List<String> auspiciousGods,
+        @JsonProperty("凶煞") List<String> inauspiciousGods,
+        @JsonProperty("彭祖百忌") PengZuTaboo pengZuTaboo,
+        @JsonProperty("冲煞") Clash clash,
+        @JsonProperty("胎神") String fetalGod,
+        @JsonProperty("二十八宿") Mansion mansion,
+        @JsonProperty("宜忌") Activities activities) {
 
     public CurrentAlmanacResponse {
         auspiciousGods = List.copyOf(auspiciousGods);
@@ -66,12 +68,12 @@ public record CurrentAlmanacResponse(
     }
 
     public record GregorianDate(
-            LocalDate date,
-            int year,
-            int month,
-            int day,
-            String weekday,
-            long julianDayNumber) {
+            @JsonProperty("日期") LocalDate date,
+            @JsonProperty("年") int year,
+            @JsonProperty("月") int month,
+            @JsonProperty("日") int day,
+            @JsonProperty("星期") String weekday,
+            @JsonProperty("儒略日数") long julianDayNumber) {
 
         private static GregorianDate from(AlmanacResponse.GregorianDate source) {
             return new GregorianDate(source.date(), source.year(), source.month(), source.day(),
@@ -80,14 +82,14 @@ public record CurrentAlmanacResponse(
     }
 
     public record LunarDate(
-            int year,
-            int month,
-            int day,
-            boolean leapMonth,
-            int daysInMonth,
-            String display,
-            LocalDate monthStartDate,
-            Instant astronomicalNewMoon) {
+            @JsonProperty("年") int year,
+            @JsonProperty("月") int month,
+            @JsonProperty("日") int day,
+            @JsonProperty("是否闰月") boolean leapMonth,
+            @JsonProperty("本月天数") int daysInMonth,
+            @JsonProperty("中文日期") String display,
+            @JsonProperty("月朔日期") LocalDate monthStartDate,
+            @JsonProperty("天文朔时刻") Instant astronomicalNewMoon) {
 
         private static LunarDate from(AlmanacResponse.LunarDate source) {
             return new LunarDate(source.year(), source.month(), source.day(), source.leapMonth(),
@@ -96,7 +98,11 @@ public record CurrentAlmanacResponse(
         }
     }
 
-    public record FourPillars(Pillar year, Pillar month, Pillar day, Pillar hour) {
+    public record FourPillars(
+            @JsonProperty("年柱") Pillar year,
+            @JsonProperty("月柱") Pillar month,
+            @JsonProperty("日柱") Pillar day,
+            @JsonProperty("时柱") Pillar hour) {
 
         private static FourPillars from(AlmanacResponse.FourPillars source) {
             return new FourPillars(Pillar.from(source.year()), Pillar.from(source.month()),
@@ -105,11 +111,11 @@ public record CurrentAlmanacResponse(
     }
 
     public record Pillar(
-            String value,
-            String heavenlyStem,
-            String earthlyBranch,
-            String zodiac,
-            String naYin) {
+            @JsonProperty("干支") String value,
+            @JsonProperty("天干") String heavenlyStem,
+            @JsonProperty("地支") String earthlyBranch,
+            @JsonProperty("生肖") String zodiac,
+            @JsonProperty("纳音") String naYin) {
 
         private static Pillar from(AlmanacResponse.Pillar source) {
             return new Pillar(source.value(), source.heavenlyStem(), source.earthlyBranch(),
@@ -118,12 +124,12 @@ public record CurrentAlmanacResponse(
     }
 
     public record SolarTerm(
-            String currentPeriod,
-            String todayTerm,
-            int dayInPeriod,
-            long daysUntilNext,
-            TermMoment previous,
-            TermMoment next) {
+            @JsonProperty("当前节气") String currentPeriod,
+            @JsonProperty("今日交节") String todayTerm,
+            @JsonProperty("节气第几天") int dayInPeriod,
+            @JsonProperty("距下个节气天数") long daysUntilNext,
+            @JsonProperty("前一节气") TermMoment previous,
+            @JsonProperty("下一节气") TermMoment next) {
 
         private static SolarTerm from(SeasonalContext.SolarTermStatus source) {
             return new SolarTerm(source.currentPeriod(), source.todayTerm(), source.dayInPeriod(),
@@ -131,7 +137,9 @@ public record CurrentAlmanacResponse(
         }
     }
 
-    public record TermMoment(String name, ZonedDateTime at) {
+    public record TermMoment(
+            @JsonProperty("名称") String name,
+            @JsonProperty("交节时刻") ZonedDateTime at) {
 
         private static TermMoment from(SeasonalContext.TermMoment source) {
             return new TermMoment(source.name(), source.at());
@@ -139,13 +147,13 @@ public record CurrentAlmanacResponse(
     }
 
     public record Period(
-            boolean active,
-            String name,
-            Integer dayIndex,
-            Integer totalDays,
-            LocalDate startDate,
-            LocalDate endDate,
-            String description) {
+            @JsonProperty("是否在期内") boolean active,
+            @JsonProperty("名称") String name,
+            @JsonProperty("第几天") Integer dayIndex,
+            @JsonProperty("总天数") Integer totalDays,
+            @JsonProperty("开始日期") LocalDate startDate,
+            @JsonProperty("结束日期") LocalDate endDate,
+            @JsonProperty("描述") String description) {
 
         private static Period from(SeasonalContext.PeriodStatus source) {
             return new Period(source.active(), source.name(), source.dayIndex(), source.totalDays(),
@@ -153,7 +161,10 @@ public record CurrentAlmanacResponse(
         }
     }
 
-    public record ShuJiu(String primaryConvention, Period primary, List<Period> variants) {
+    public record ShuJiu(
+            @JsonProperty("主口径") String primaryConvention,
+            @JsonProperty("主结果") Period primary,
+            @JsonProperty("并列口径") List<Period> variants) {
 
         public ShuJiu {
             variants = List.copyOf(variants);
@@ -165,28 +176,44 @@ public record CurrentAlmanacResponse(
         }
     }
 
-    public record DayOfficer(String name, String generalNature) {
+    public record DayOfficer(
+            @JsonProperty("名称") String name,
+            @JsonProperty("通常吉凶") String generalNature) {
     }
 
-    public record DutyGod(String name, String path, String luck) {
+    public record DutyGod(
+            @JsonProperty("值神") String name,
+            @JsonProperty("黄黑道") String path,
+            @JsonProperty("吉凶") String luck) {
     }
 
-    public record PengZuTaboo(String heavenlyStemRule, String earthlyBranchRule) {
+    public record PengZuTaboo(
+            @JsonProperty("天干禁忌") String heavenlyStemRule,
+            @JsonProperty("地支禁忌") String earthlyBranchRule) {
     }
 
-    public record Clash(String opposingPillar, String zodiac, String direction, String description) {
+    public record Clash(
+            @JsonProperty("相冲干支") String opposingPillar,
+            @JsonProperty("相冲生肖") String zodiac,
+            @JsonProperty("煞方") String direction,
+            @JsonProperty("冲煞") String description) {
     }
 
-    public record Mansion(String name, String fullName, String luck, String palace, String guardian) {
+    public record Mansion(
+            @JsonProperty("宿名") String name,
+            @JsonProperty("全名") String fullName,
+            @JsonProperty("吉凶") String luck,
+            @JsonProperty("宫位") String palace,
+            @JsonProperty("守护") String guardian) {
     }
 
     public record Activities(
-            List<String> recommended,
-            List<String> avoided,
-            List<String> caution,
-            String dayGrade,
-            boolean virtuePresent,
-            boolean allActivitiesAvoided) {
+            @JsonProperty("宜") List<String> recommended,
+            @JsonProperty("忌") List<String> avoided,
+            @JsonProperty("宜忌并存") List<String> caution,
+            @JsonProperty("日等") String dayGrade,
+            @JsonProperty("有德神") boolean virtuePresent,
+            @JsonProperty("诸事皆忌") boolean allActivitiesAvoided) {
 
         public Activities {
             recommended = List.copyOf(recommended);

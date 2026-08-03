@@ -6,6 +6,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashSet;
+import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,13 +34,18 @@ class AlmanacHttpTest {
         assertThat(response.headers().firstValue("content-type").orElse(""))
                 .startsWith("application/json");
         assertThat(response.body())
-                .contains("\"currentTime\"")
-                .contains("\"fourPillars\"")
-                .contains("\"activities\"")
-                .contains("\"dayOfficer\"")
-                .contains("\"dutyGod\"")
-                .contains("\"auspiciousGods\"")
-                .contains("\"inauspiciousGods\"")
+                .contains("\"当前时间\"")
+                .contains("\"四柱\"")
+                .contains("\"年柱\"")
+                .contains("\"纳音\"")
+                .contains("\"宜忌\"")
+                .contains("\"建除十二神\"")
+                .contains("\"黄黑道十二值神\"")
+                .contains("\"吉神\"")
+                .contains("\"凶煞\"")
+                .doesNotContain("\"currentTime\"")
+                .doesNotContain("\"fourPillars\"")
+                .doesNotContain("\"activities\"")
                 .doesNotContain("references")
                 .doesNotContain("sourceId")
                 .doesNotContain("evidenceLevel")
@@ -49,5 +56,12 @@ class AlmanacHttpTest {
                 .doesNotContain("culturalUseNotice")
                 .doesNotContain("不构成科学")
                 .doesNotContain("法律或医学建议");
+
+        var keys = new HashSet<String>();
+        var matcher = Pattern.compile("\\\"([^\\\"]+)\\\"\\s*:").matcher(response.body());
+        while (matcher.find()) {
+            keys.add(matcher.group(1));
+        }
+        assertThat(keys).isNotEmpty().allSatisfy(key -> assertThat(key).doesNotContainPattern("[A-Za-z]"));
     }
 }

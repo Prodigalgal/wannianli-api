@@ -100,7 +100,7 @@ public final class SeasonalCalculator {
     private ShuJiuStatus shuJiu(LocalDate date) {
         PeriodStatus ancient = shuJiu(date, 1, "冬至次日起数", SHUJIU_ANCIENT_SOURCE);
         PeriodStatus wuCustom = shuJiu(date, 0, "冬至日起数", SHUJIU_WU_SOURCE);
-        return new ShuJiuStatus("冬至次日起数（较早文献口径）", ancient, List.of(ancient, wuCustom),
+        return new ShuJiuStatus("冬至次日起数", ancient, List.of(ancient, wuCustom),
                 "古籍存在两种起数口径，结果并列而不强行混同；现代常见口径多采用冬至日起数。" );
     }
 

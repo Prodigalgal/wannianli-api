@@ -370,7 +370,7 @@ export function calculateSeasonal(now, solarLongitude = longitudeAt(now)) {
     solarTerm: calculateSolarTermStatus(now),
     sanFu: calculateSanFu(date),
     shuJiu: {
-      primaryConvention: "冬至次日起数（较早文献口径）",
+      primaryConvention: "冬至次日起数",
       primary,
       variants: [primary, wuCustom],
       note: "古籍存在两种起数口径，结果并列而不强行混同。",

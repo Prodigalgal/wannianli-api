@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: wannianli-api
+  jackson:
+    time-zone: GMT+08:00
+
+server:
+  port: 8080
+  shutdown: graceful
+  error:
+    include-message: never
+
+logging:
+  level:
+    root: INFO
+    cn.wannianli: INFO

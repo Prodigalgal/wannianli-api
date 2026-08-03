@@ -1,0 +1,78 @@
+name: Native ARM64
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: native-arm64-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IMAGE_NAME: ghcr.io/prodigalgal/wannianli-api
+
+jobs:
+  build:
+    name: Test, native compile and publish
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up GraalVM 25
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: "25"
+          distribution: graalvm-community
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          cache: gradle
+
+      - name: Verify and compile native ARM64 executable
+        run: ./gradlew clean test nativeCompile --no-daemon
+
+      - name: Verify executable architecture
+        shell: bash
+        run: |
+          file build/native/nativeCompile/wannianli-api | tee native-file.txt
+          grep -Eq 'ARM aarch64|ARM64' native-file.txt
+          test -x build/native/nativeCompile/wannianli-api
+
+      - name: Upload native executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: wannianli-api-linux-arm64
+          path: build/native/nativeCompile/wannianli-api
+          if-no-files-found: error
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push ARM64 image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:sha-${{ github.sha }}
+            ${{ env.IMAGE_NAME }}:latest
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.description=Library-free Chinese almanac API native ARM64 image
+          provenance: mode=max
+          sbom: true

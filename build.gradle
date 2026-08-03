@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.1.0'
+    id 'org.graalvm.buildtools.native' version '1.1.5'
+}
+
+group = 'cn.wannianli'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation platform('org.springframework.boot:spring-boot-dependencies:4.1.0')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    testImplementation platform('org.springframework.boot:spring-boot-dependencies:4.1.0')
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += '-parameters'
+}
+
+graalvmNative {
+    binaries {
+        main {
+            imageName = 'wannianli-api'
+            mainClass = 'cn.wannianli.WannianliApplication'
+            buildArgs.addAll('--no-fallback', '-march=compatibility')
+        }
+    }
+    metadataRepository {
+        enabled = true
+    }
+}

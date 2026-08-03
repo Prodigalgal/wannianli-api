@@ -1,0 +1,12 @@
+.git
+.github
+.gradle
+.idea
+docs
+src
+build/*
+!build/native/
+!build/native/nativeCompile/
+!build/native/nativeCompile/wannianli-api
+*.iml
+*.log

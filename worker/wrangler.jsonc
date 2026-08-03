@@ -11,9 +11,6 @@
       "custom_domain": true
     }
   ],
-  "vars": {
-    "ORIGIN_URL": "https://wannianli-direct.mnnu.eu.org/api/v1/almanac/current"
-  },
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1

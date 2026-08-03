@@ -35,7 +35,7 @@ Invoke-RestMethod http://127.0.0.1:8080/api/v1/almanac/current
 
 ## Cloudflare Worker 入口
 
-Worker 是无缓存边缘代理，不复制历法算法；Kubernetes Java 服务仍是唯一计算来源。
+Worker 是完全独立的 JavaScript 历法实现，在 Cloudflare 边缘自行计算朔、节气、农历、四柱、传统黄历和宜忌，不访问 Kubernetes Java 服务或其他源站。
 
 - `https://wannianli-worker.mnnu.eu.org`
 - `https://wannianli-worker.mnnu.eu.org/api/v1/almanac/current`

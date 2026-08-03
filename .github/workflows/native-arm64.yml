@@ -83,7 +83,10 @@ jobs:
 
           test "$ready" = true
           jq --exit-status \
-            '."当前时间" and ."公历" and ."农历" and ."四柱" and ."宜忌" and (has("references") | not)' \
+            '."当前时间" and ."公历" and ."农历" and ."四柱" and ."宜忌" and
+             (."农历"."是否闰月" == "否") and (."三伏"."是否在期内" == "是") and
+             (tostring | contains(":true") | not) and (tostring | contains(":false") | not) and
+             (has("references") | not)' \
             response.json
 
       - name: Log in to GHCR

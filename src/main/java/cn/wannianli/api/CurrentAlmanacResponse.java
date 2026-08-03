@@ -63,8 +63,12 @@ public record CurrentAlmanacResponse(
                         traditional.mansion().luck(), traditional.mansion().palace(),
                         traditional.mansion().guardian()),
                 new Activities(activityResult.recommended(), activityResult.avoided(), activityResult.caution(),
-                        activityResult.dayGrade().classicalName(), activityResult.virtuePresent(),
-                        activityResult.allActivitiesAvoided()));
+                        activityResult.dayGrade().classicalName(), yesNo(activityResult.virtuePresent()),
+                        yesNo(activityResult.allActivitiesAvoided())));
+    }
+
+    private static String yesNo(boolean value) {
+        return value ? "是" : "否";
     }
 
     public record GregorianDate(
@@ -85,14 +89,14 @@ public record CurrentAlmanacResponse(
             @JsonProperty("年") int year,
             @JsonProperty("月") int month,
             @JsonProperty("日") int day,
-            @JsonProperty("是否闰月") boolean leapMonth,
+            @JsonProperty("是否闰月") String leapMonth,
             @JsonProperty("本月天数") int daysInMonth,
             @JsonProperty("中文日期") String display,
             @JsonProperty("月朔日期") LocalDate monthStartDate,
             @JsonProperty("天文朔时刻") Instant astronomicalNewMoon) {
 
         private static LunarDate from(AlmanacResponse.LunarDate source) {
-            return new LunarDate(source.year(), source.month(), source.day(), source.leapMonth(),
+            return new LunarDate(source.year(), source.month(), source.day(), yesNo(source.leapMonth()),
                     source.daysInMonth(), source.display(), source.monthStartDate(),
                     source.astronomicalNewMoon());
         }
@@ -147,7 +151,7 @@ public record CurrentAlmanacResponse(
     }
 
     public record Period(
-            @JsonProperty("是否在期内") boolean active,
+            @JsonProperty("是否在期内") String active,
             @JsonProperty("名称") String name,
             @JsonProperty("第几天") Integer dayIndex,
             @JsonProperty("总天数") Integer totalDays,
@@ -156,7 +160,7 @@ public record CurrentAlmanacResponse(
             @JsonProperty("描述") String description) {
 
         private static Period from(SeasonalContext.PeriodStatus source) {
-            return new Period(source.active(), source.name(), source.dayIndex(), source.totalDays(),
+            return new Period(yesNo(source.active()), source.name(), source.dayIndex(), source.totalDays(),
                     source.startDate(), source.endDate(), source.description());
         }
     }
@@ -212,8 +216,8 @@ public record CurrentAlmanacResponse(
             @JsonProperty("忌") List<String> avoided,
             @JsonProperty("宜忌并存") List<String> caution,
             @JsonProperty("日等") String dayGrade,
-            @JsonProperty("有德神") boolean virtuePresent,
-            @JsonProperty("诸事皆忌") boolean allActivitiesAvoided) {
+            @JsonProperty("有德神") String virtuePresent,
+            @JsonProperty("诸事皆忌") String allActivitiesAvoided) {
 
         public Activities {
             recommended = List.copyOf(recommended);

@@ -31,6 +31,17 @@ Invoke-RestMethod http://127.0.0.1:8080/api/v1/almanac/current
 
 公开 JSON 使用中文键名，只返回上述结果，不混入文献、免责说明、证据等级或规则轨迹。后台审计模型仍保留每个活动的裁决轨迹、每条命中规则的原始宜忌、证据等级和出处，并由测试验证引用闭合性。
 
+所有公开布尔值统一为中文字符串“是”或“否”，不输出裸 `true` / `false`。
+
+## Cloudflare Worker 入口
+
+Worker 是无缓存边缘代理，不复制历法算法；Kubernetes Java 服务仍是唯一计算来源。
+
+- `https://wannianli-worker.mnnu.eu.org`
+- `https://wannianli-worker.mnnu.eu.org/api/v1/almanac/current`
+
+Worker 源码、测试和部署说明见 [worker/README.md](worker/README.md)。
+
 ## 自研历算
 
 历算层没有日期查表，也没有第三方历法实现：

@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "wannianli-worker",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-03",
+  "account_id": "15d9992e9b3ec4916dfb2d1918156e5a",
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "wannianli-worker.mnnu.eu.org",
+      "custom_domain": true
+    }
+  ],
+  "vars": {
+    "ORIGIN_URL": "https://wannianli-direct.mnnu.eu.org/api/v1/almanac/current"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}

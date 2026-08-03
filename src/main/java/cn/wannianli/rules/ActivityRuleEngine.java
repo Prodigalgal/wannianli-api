@@ -341,6 +341,12 @@ public final class ActivityRuleEngine {
         if (hits.stream().anyMatch(hit -> hit.ruleId().equals("DISASTER_SHA_RETAINED_TABOOS"))) {
             return MIDDLE;
         }
+        boolean monthSha = hits.stream().anyMatch(hit -> hit.ruleId().equals("MONTH_SHA"));
+        boolean exhaustedOfficer = hits.stream()
+                .anyMatch(hit -> Set.of("OFFICER_平", "OFFICER_闭").contains(hit.ruleId()));
+        if (monthSha && exhaustedOfficer) {
+            return INFERIOR;
+        }
         boolean monthBreak = hits.stream().anyMatch(hit -> hit.ruleId().equals("OFFICER_破"));
         boolean severeSha = hits.stream().anyMatch(hit -> Set.of("DISASTER_SHA", "MONTH_SHA").contains(hit.ruleId()));
         if (monthBreak && severeSha) {

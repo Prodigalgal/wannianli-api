@@ -97,6 +97,17 @@ test("keeps the next-day shu-jiu start on winter-solstice day", () => {
   assert.equal(value["数九"]["并列口径"][1]["第几天"], 1);
 });
 
+test("treats month-sha on an exhausted officer day without four virtues as all avoided", () => {
+  const value = calculateCurrentAlmanac(new Date("2026-08-04T04:00:00Z"));
+  assert.equal(value["四柱"]["日柱"]["干支"], "庚戌");
+  assert.equal(value["建除十二神"]["名称"], "平");
+  assert.ok(value["凶煞"].includes("月煞"));
+  assert.equal(value["宜忌"]["有德神"], "否");
+  assert.equal(value["宜忌"]["日等"], "下");
+  assert.equal(value["宜忌"]["诸事皆忌"], "是");
+  assert.deepEqual(value["宜忌"]["宜"], []);
+});
+
 test("calculates the 2020 leap fourth month civil-day boundary", () => {
   const regular = calculateChineseCalendar("2020-04-23");
   const leap = calculateChineseCalendar("2020-05-23");

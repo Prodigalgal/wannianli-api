@@ -207,6 +207,9 @@ function addOfficerCombinationRules(hits, almanac, solarLongitude) {
 
 function dayGrade(hits) {
   if (hits.some((hit) => hit.ruleId === "DISASTER_SHA_RETAINED_TABOOS")) return { key: "MIDDLE", name: "中" };
+  const monthSha = hits.some((hit) => hit.ruleId === "MONTH_SHA");
+  const exhaustedOfficer = hits.some((hit) => ["OFFICER_平", "OFFICER_闭"].includes(hit.ruleId));
+  if (monthSha && exhaustedOfficer) return { key: "INFERIOR", name: "下" };
   const monthBreak = hits.some((hit) => hit.ruleId === "OFFICER_破");
   const severeSha = hits.some((hit) => ["DISASTER_SHA", "MONTH_SHA"].includes(hit.ruleId));
   if (monthBreak && severeSha) return { key: "LOWEST", name: "最下" };

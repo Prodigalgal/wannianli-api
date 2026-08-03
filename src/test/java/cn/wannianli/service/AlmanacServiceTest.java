@@ -95,4 +95,18 @@ class AlmanacServiceTest {
             assertThat(decision.rationale()).isNotBlank();
         });
     }
+
+    @Test
+    void monthShaOnAnExhaustedOfficerDayWithoutFourVirtuesAvoidsAllActivities() {
+        var result = new AlmanacService(
+                Clock.fixed(Instant.parse("2026-08-04T04:00:00Z"), UTC_PLUS_8)).current();
+
+        assertThat(result.fourPillars().day().value()).isEqualTo("庚戌");
+        assertThat(result.traditionalAlmanac().dayOfficer().name()).isEqualTo("平");
+        assertThat(result.traditionalAlmanac().gods().inauspicious()).contains("月煞");
+        assertThat(result.traditionalAlmanac().gods().virtuePresent()).isFalse();
+        assertThat(result.activities().dayGrade()).isEqualTo(DayGrade.INFERIOR);
+        assertThat(result.activities().allActivitiesAvoided()).isTrue();
+        assertThat(result.activities().recommended()).isEmpty();
+    }
 }

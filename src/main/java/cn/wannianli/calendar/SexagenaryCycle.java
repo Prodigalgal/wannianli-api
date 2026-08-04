@@ -3,6 +3,8 @@ package cn.wannianli.calendar;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Objects;
 
 import cn.wannianli.calendar.astronomy.JulianDate;
 
@@ -51,6 +53,14 @@ public final class SexagenaryCycle {
                 ZODIAC[normalized % 12], NAYIN[normalized / 2]);
     }
 
+    public static XunKong xunKong(Cycle cycle) {
+        Objects.requireNonNull(cycle, "cycle");
+        int xunStartIndex = cycle.index() / 10 * 10;
+        return new XunKong(
+                fromIndex(xunStartIndex).name() + "旬",
+                List.of(BRANCHES[(xunStartIndex + 10) % 12], BRANCHES[(xunStartIndex + 11) % 12]));
+    }
+
     private static Cycle fromStemBranch(int stem, int branch) {
         for (int i = 0; i < 60; i++) {
             if (i % 10 == stem && i % 12 == branch) {
@@ -72,5 +82,11 @@ public final class SexagenaryCycle {
             String name,
             String zodiac,
             String naYin) {
+    }
+
+    public record XunKong(String xunName, List<String> emptyBranches) {
+        public XunKong {
+            emptyBranches = List.copyOf(emptyBranches);
+        }
     }
 }

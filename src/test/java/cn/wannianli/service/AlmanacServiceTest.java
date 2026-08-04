@@ -28,6 +28,13 @@ class AlmanacServiceTest {
         assertThat(result.fourPillars().month().value()).isEqualTo("乙未");
         assertThat(result.fourPillars().day().value()).isEqualTo("己酉");
         assertThat(result.fourPillars().hour().value()).isEqualTo("庚午");
+        assertThat(result.xunKong().year().xunName()).isEqualTo("甲辰旬");
+        assertThat(result.xunKong().year().emptyBranches()).containsExactly("寅", "卯");
+        assertThat(result.xunKong().month().xunName()).isEqualTo("甲午旬");
+        assertThat(result.xunKong().month().emptyBranches()).containsExactly("辰", "巳");
+        assertThat(result.xunKong().day()).isEqualTo(result.xunKong().year());
+        assertThat(result.xunKong().hour().xunName()).isEqualTo("甲子旬");
+        assertThat(result.xunKong().hour().emptyBranches()).containsExactly("戌", "亥");
         assertThat(result.zodiac()).isEqualTo("马");
 
         assertThat(result.seasonal().season()).isEqualTo("夏季");
@@ -62,7 +69,8 @@ class AlmanacServiceTest {
                 });
         assertThat(result.calculationDisclosure().javaCalendarLibraryUsed()).isFalse();
         assertThat(result.references()).extracting(reference -> reference.id())
-                .contains("GB_T_33661_2017", "XIEJI_BIANFANGSHU_VOLUME_10", "HKO_2026");
+                .contains("GB_T_33661_2017", "XIEJI_BIANFANGSHU_VOLUME_10", "HKO_2026",
+                        "ZENGSHAN_BUYI_CHAPTER_26", "GUJIN_TUSHU_JICHENG_VOLUME_592");
     }
 
     @Test
@@ -84,6 +92,7 @@ class AlmanacServiceTest {
                 .map(reference -> reference.id())
                 .collect(Collectors.toSet());
 
+        assertThat(result.xunKong().sourceIds()).isNotEmpty().allMatch(referenceIds::contains);
         assertThat(result.activities().ruleHits()).isNotEmpty().allSatisfy(hit -> {
             assertThat(hit.ruleId()).isNotBlank();
             assertThat(hit.matchedBecause()).isNotBlank();

@@ -1,11 +1,15 @@
 import assert from "node:assert/strict";
 
-import { calculateChineseCalendar } from "../worker/src/calendar.js";
+import { BRANCHES, calculateChineseCalendar, calculateXunKong, cycleFromIndex } from "../worker/src/calendar.js";
 import { calculateCurrentAlmanac } from "../worker/src/engine.js";
 
 const DAY_MS = 86_400_000;
 const first = Date.UTC(1801, 0, 1);
 const last = Date.UTC(2199, 11, 31);
+const cyclesByName = new Map(Array.from({ length: 60 }, (_, index) => {
+  const cycle = cycleFromIndex(index);
+  return [cycle.name, cycle];
+}));
 
 function civilDate(timestamp) {
   return new Date(timestamp).toISOString().slice(0, 10);
@@ -64,6 +68,16 @@ for (let timestamp = first; timestamp <= last; timestamp += DAY_MS) {
     }
     for (const pillar of Object.values(result["四柱"])) {
       assert.equal([...pillar["干支"]].length, 2, `${date}: pillar length`);
+    }
+    for (const pillarName of ["年柱", "月柱", "日柱", "时柱"]) {
+      const cycle = cyclesByName.get(result["四柱"][pillarName]["干支"]);
+      assert.ok(cycle, `${date}: ${pillarName} cycle`);
+      const expected = calculateXunKong(cycle);
+      const actual = result["旬空"][pillarName];
+      assert.equal(actual["所属旬"], expected.xunName, `${date}: ${pillarName} xun`);
+      assert.deepEqual(actual["空亡"], expected.emptyBranches, `${date}: ${pillarName} empty branches`);
+      assert.equal(new Set(actual["空亡"]).size, 2, `${date}: ${pillarName} distinct empty branches`);
+      assert.ok(actual["空亡"].every((branch) => BRANCHES.includes(branch)), `${date}: ${pillarName} valid branches`);
     }
     assert.ok(!JSON.stringify(result).includes("日本"), `${date}: Japanese era leaked`);
     fullResults++;

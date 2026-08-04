@@ -15,6 +15,7 @@ public record AlmanacResponse(
         GregorianDate gregorian,
         LunarDate lunar,
         FourPillars fourPillars,
+        FourPillarXunKong xunKong,
         String zodiac,
         SeasonalContext seasonal,
         TraditionalAlmanac traditionalAlmanac,
@@ -62,6 +63,23 @@ public record AlmanacResponse(
             String earthlyBranch,
             String zodiac,
             String naYin) {
+    }
+
+    public record FourPillarXunKong(
+            XunKong year,
+            XunKong month,
+            XunKong day,
+            XunKong hour,
+            List<String> sourceIds) {
+        public FourPillarXunKong {
+            sourceIds = List.copyOf(sourceIds);
+        }
+    }
+
+    public record XunKong(String xunName, List<String> emptyBranches) {
+        public XunKong {
+            emptyBranches = List.copyOf(emptyBranches);
+        }
     }
 
     public record CalculationDisclosure(

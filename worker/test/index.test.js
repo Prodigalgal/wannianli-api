@@ -3,7 +3,7 @@ import { readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 import { formatUtcPlus8, SOLAR_TERM, SOLAR_TERMS, solarTermInstant, utcPlus8CivilDate } from "../src/astronomy.js";
-import { calculateChineseCalendar, cycleFromIndex } from "../src/calendar.js";
+import { calculateChineseCalendar, calculateXunKong, cycleFromIndex } from "../src/calendar.js";
 import { calculateTraditionalAlmanac } from "../src/almanac.js";
 import { evaluateActivities } from "../src/rules.js";
 import { calculateAuditableAlmanac, calculateCurrentAlmanac } from "../src/engine.js";
@@ -41,6 +41,12 @@ test("calculates the fixed 2026-08-03 result independently", () => {
     Object.fromEntries(Object.entries(value["四柱"]).map(([key, pillar]) => [key, pillar["干支"]])),
     { "年柱": "丙午", "月柱": "乙未", "日柱": "己酉", "时柱": "庚午" },
   );
+  assert.deepEqual(value["旬空"], {
+    "年柱": { "所属旬": "甲辰旬", "空亡": ["寅", "卯"] },
+    "月柱": { "所属旬": "甲午旬", "空亡": ["辰", "巳"] },
+    "日柱": { "所属旬": "甲辰旬", "空亡": ["寅", "卯"] },
+    "时柱": { "所属旬": "甲子旬", "空亡": ["戌", "亥"] },
+  });
   assert.equal(value["生肖"], "马");
   assert.equal(value["季节"], "夏季");
   assert.equal(value["节气"]["当前节气"], "大暑");
@@ -71,6 +77,22 @@ test("calculates the fixed 2026-08-03 result independently", () => {
   assert.ok(!value["宜忌"]["宜"].includes("宴会"));
   assert.ok(!value["宜忌"]["宜"].includes("庆赐赏贺"));
   assert.deepEqual(value["宜忌"]["宜"].filter((item) => value["宜忌"]["忌"].includes(item)), []);
+});
+
+test("calculates all six xun-kong groups across the whole cycle", () => {
+  const expected = [
+    ["甲子旬", ["戌", "亥"]],
+    ["甲戌旬", ["申", "酉"]],
+    ["甲申旬", ["午", "未"]],
+    ["甲午旬", ["辰", "巳"]],
+    ["甲辰旬", ["寅", "卯"]],
+    ["甲寅旬", ["子", "丑"]],
+  ];
+  for (let index = 0; index < 60; index++) {
+    const actual = calculateXunKong(cycleFromIndex(index));
+    assert.equal(actual.xunName, expected[Math.floor(index / 10)][0], `index ${index} xun`);
+    assert.deepEqual(actual.emptyBranches, expected[Math.floor(index / 10)][1], `index ${index} empty branches`);
+  }
 });
 
 test("uses Chinese-only public keys and Chinese boolean strings", () => {

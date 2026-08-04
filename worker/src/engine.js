@@ -6,7 +6,7 @@ import {
   utcPlus8CivilDate,
 } from "./astronomy.js";
 import { calculateTraditionalAlmanac } from "./almanac.js";
-import { calculateChineseCalendar, calculatePillars, calculateSeasonal } from "./calendar.js";
+import { calculateChineseCalendar, calculatePillars, calculateSeasonal, calculateXunKong } from "./calendar.js";
 import { evaluateActivities } from "./rules.js";
 
 const WEEKDAYS = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
@@ -22,6 +22,23 @@ function publicPillar(value) {
   };
 }
 
+function publicXunKong(value) {
+  return {
+    "所属旬": value.xunName,
+    "空亡": value.emptyBranches,
+  };
+}
+
+function calculateFourPillarXunKong(pillars) {
+  return {
+    year: calculateXunKong(pillars.year),
+    month: calculateXunKong(pillars.month),
+    day: calculateXunKong(pillars.day),
+    hour: calculateXunKong(pillars.hour),
+    sourceIds: ["ZENGSHAN_BUYI_CHAPTER_26", "GUJIN_TUSHU_JICHENG_VOLUME_592"],
+  };
+}
+
 function publicPeriod(value) {
   return {
     "是否在期内": yesNo(value.active),
@@ -34,7 +51,7 @@ function publicPeriod(value) {
   };
 }
 
-function buildPublicResult(now, date, lunar, pillars, seasonal, almanac, activities) {
+function buildPublicResult(now, date, lunar, pillars, xunKong, seasonal, almanac, activities) {
   const civil = parseCivil(date);
   const weekday = WEEKDAYS[new Date(Date.UTC(civil.year, civil.month - 1, civil.day)).getUTCDay()];
   return {
@@ -62,6 +79,12 @@ function buildPublicResult(now, date, lunar, pillars, seasonal, almanac, activit
       "月柱": publicPillar(pillars.month),
       "日柱": publicPillar(pillars.day),
       "时柱": publicPillar(pillars.hour),
+    },
+    "旬空": {
+      "年柱": publicXunKong(xunKong.year),
+      "月柱": publicXunKong(xunKong.month),
+      "日柱": publicXunKong(xunKong.day),
+      "时柱": publicXunKong(xunKong.hour),
     },
     "生肖": pillars.year.zodiac,
     "季节": seasonal.season,
@@ -133,16 +156,18 @@ export function calculateAuditableAlmanac(now = new Date()) {
   const lunar = calculateChineseCalendar(date);
   const solarLongitude = longitudeAt(now);
   const pillars = calculatePillars(now, date, solarLongitude);
+  const xunKong = calculateFourPillarXunKong(pillars);
   const seasonal = calculateSeasonal(now, solarLongitude);
   const almanac = calculateTraditionalAlmanac(date, pillars.month, pillars.day, solarLongitude);
   const activities = evaluateActivities(date, pillars.month, pillars.day, almanac, solarLongitude);
   return {
-    result: buildPublicResult(now, date, lunar, pillars, seasonal, almanac, activities),
+    result: buildPublicResult(now, date, lunar, pillars, xunKong, seasonal, almanac, activities),
     audit: {
       fixedOffset: "UTC+08:00",
       solarLongitude,
       lunar,
       pillars,
+      xunKong,
       seasonal,
       traditionalAlmanac: almanac,
       activityDecisions: activities.decisions,

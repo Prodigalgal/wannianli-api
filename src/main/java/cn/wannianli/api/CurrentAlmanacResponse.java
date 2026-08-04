@@ -14,6 +14,7 @@ public record CurrentAlmanacResponse(
         @JsonProperty("公历") GregorianDate gregorian,
         @JsonProperty("农历") LunarDate lunar,
         @JsonProperty("四柱") FourPillars fourPillars,
+        @JsonProperty("旬空") FourPillarXunKong xunKong,
         @JsonProperty("生肖") String zodiac,
         @JsonProperty("季节") String season,
         @JsonProperty("节气") SolarTerm solarTerm,
@@ -44,6 +45,7 @@ public record CurrentAlmanacResponse(
                 GregorianDate.from(source.gregorian()),
                 LunarDate.from(source.lunar()),
                 FourPillars.from(source.fourPillars()),
+                FourPillarXunKong.from(source.xunKong()),
                 source.zodiac(),
                 seasonal.season(),
                 SolarTerm.from(seasonal.solarTerm()),
@@ -124,6 +126,31 @@ public record CurrentAlmanacResponse(
         private static Pillar from(AlmanacResponse.Pillar source) {
             return new Pillar(source.value(), source.heavenlyStem(), source.earthlyBranch(),
                     source.zodiac(), source.naYin());
+        }
+    }
+
+    public record FourPillarXunKong(
+            @JsonProperty("年柱") XunKong year,
+            @JsonProperty("月柱") XunKong month,
+            @JsonProperty("日柱") XunKong day,
+            @JsonProperty("时柱") XunKong hour) {
+
+        private static FourPillarXunKong from(AlmanacResponse.FourPillarXunKong source) {
+            return new FourPillarXunKong(XunKong.from(source.year()), XunKong.from(source.month()),
+                    XunKong.from(source.day()), XunKong.from(source.hour()));
+        }
+    }
+
+    public record XunKong(
+            @JsonProperty("所属旬") String xunName,
+            @JsonProperty("空亡") List<String> emptyBranches) {
+
+        public XunKong {
+            emptyBranches = List.copyOf(emptyBranches);
+        }
+
+        private static XunKong from(AlmanacResponse.XunKong source) {
+            return new XunKong(source.xunName(), source.emptyBranches());
         }
     }
 

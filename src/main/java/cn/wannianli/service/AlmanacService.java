@@ -9,12 +9,14 @@ import org.springframework.stereotype.Service;
 import cn.wannianli.almanac.TraditionalAlmanacCalculator;
 import cn.wannianli.api.AlmanacResponse;
 import cn.wannianli.api.AlmanacResponse.CalculationDisclosure;
+import cn.wannianli.api.AlmanacResponse.FourPillarXunKong;
 import cn.wannianli.api.AlmanacResponse.FourPillars;
 import cn.wannianli.api.AlmanacResponse.GregorianDate;
 import cn.wannianli.api.AlmanacResponse.LunarDate;
 import cn.wannianli.api.AlmanacResponse.Pillar;
 import cn.wannianli.api.AlmanacResponse.ResponseMeta;
 import cn.wannianli.api.AlmanacResponse.Validation;
+import cn.wannianli.api.AlmanacResponse.XunKong;
 import cn.wannianli.api.ReferenceCatalog;
 import cn.wannianli.calendar.ChineseCalendarCalculator;
 import cn.wannianli.calendar.ChineseCalendarDate;
@@ -69,6 +71,9 @@ public class AlmanacService {
                         "年柱以立春精确时刻换年，月柱以节交接，日柱按UTC+08:00民用日且晚子时不换日，时柱按双小时辰。",
                         List.of("LI_XUZHONG_MINGSHU_VOLUME_3", "SANMING_TONGHUI_VOLUME_2",
                                 "WUXING_DAYI_VOLUME_1", "SANMING_TONGHUI_VOLUME_1")),
+                new FourPillarXunKong(xunKong(yearPillar), xunKong(monthPillar), xunKong(dayPillar),
+                        xunKong(hourPillar),
+                        List.of("ZENGSHAN_BUYI_CHAPTER_26", "GUJIN_TUSHU_JICHENG_VOLUME_592")),
                 yearPillar.zodiac(),
                 seasonalCalculator.calculate(now),
                 traditional,
@@ -80,6 +85,11 @@ public class AlmanacService {
     private Pillar pillar(Cycle cycle) {
         return new Pillar(cycle.name(), SexagenaryCycle.STEMS[cycle.stemIndex()],
                 SexagenaryCycle.BRANCHES[cycle.branchIndex()], cycle.zodiac(), cycle.naYin());
+    }
+
+    private XunKong xunKong(Cycle cycle) {
+        var value = SexagenaryCycle.xunKong(cycle);
+        return new XunKong(value.xunName(), value.emptyBranches());
     }
 
     private CalculationDisclosure disclosure() {
@@ -95,7 +105,7 @@ public class AlmanacService {
                                 "香港天文台2026大暑、立秋、处暑及七月朔分钟值",
                                 "香港天文台2014冬至同日朔、2015春节边界"),
                         List.of("朔望月长度只能为29或30日", "冬至所在月为十一月", "闰月为十三个月中首个无中气月",
-                                "干支索引、建除与十二值神均按模周期闭合")),
+                                "干支索引、六旬旬空、建除与十二值神均按模周期闭合")),
                 List.of(
                         "节气时刻为项目内数值结果；2026年8月四个分钟值已对齐香港天文台，其他年份仍不冒充官方发布值。",
                         "二十八宿绝对起元在《协纪辨方书》中明载不可考，响应使用公开的现代通行锚点并降低证据等级。",

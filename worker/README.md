@@ -1,6 +1,6 @@
 # Cloudflare Worker 版本
 
-该 Worker 是从零实现的独立万年历计算服务。天文朔、二十四节气、农历置闰、四柱、传统黄历和宜忌冲突消解都在 Cloudflare Worker 内完成，不访问 Kubernetes 或任何其他源站。
+该 Worker 是从零实现的独立万年历计算服务。天文朔、二十四节气、农历置闰、四柱、六旬旬空、传统黄历和宜忌冲突消解都在 Cloudflare Worker 内完成，不访问 Kubernetes 或任何其他源站。
 
 - 自定义域名：`https://wannianli-worker.mnnu.eu.org`
 - 完整路径：`https://wannianli-worker.mnnu.eu.org/api/v1/almanac/current`
@@ -16,6 +16,6 @@ npx wrangler deploy --dry-run
 npx wrangler deploy
 ```
 
-测试覆盖香港天文台 2026 全年 365 日、2020-2030 春节、2014 冬至同日朔、2020 闰四月、2199 上界、2026 年节气与朔的分钟值、2026-08-03 完整定值、古籍组合专例和无回源约束。Java 与 Worker 的太阳系数由仓库内同一个带 SHA-256 校验的 VSOP87D 生成器产生。
+测试覆盖香港天文台 2026 全年 365 日、2020-2030 春节、2014 冬至同日朔、2020 闰四月、2199 上界、2026 年节气与朔的分钟值、全部六十甲子旬空、2026-08-03 完整定值、古籍组合专例和无回源约束。Java 与 Worker 的太阳系数由仓库内同一个带 SHA-256 校验的 VSOP87D 生成器产生。
 
 部署身份通过本机 `CLOUDFLARE_API_TOKEN` 注入，不得写入仓库或 Wrangler 配置。

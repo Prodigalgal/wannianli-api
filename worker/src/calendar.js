@@ -159,6 +159,17 @@ export function cycleFromIndex(index) {
   };
 }
 
+export function calculateXunKong(cycle) {
+  if (!cycle || !Number.isInteger(cycle.index) || cycle.index < 0 || cycle.index >= 60) {
+    throw new TypeError("cycle must be a normalized sexagenary-cycle value");
+  }
+  const xunStartIndex = Math.floor(cycle.index / 10) * 10;
+  return {
+    xunName: `${cycleFromIndex(xunStartIndex).name}旬`,
+    emptyBranches: [BRANCHES[(xunStartIndex + 10) % 12], BRANCHES[(xunStartIndex + 11) % 12]],
+  };
+}
+
 function cycleFromStemBranch(stemIndex, branchIndex) {
   for (let index = 0; index < 60; index++) {
     if (index % 10 === stemIndex && index % 12 === branchIndex) {

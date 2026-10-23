@@ -1671,6 +1671,18 @@
           "安葬",
           "启攒"
         ]
+      },
+      {
+        "id": "CLASSICAL_RAW_EARTH_SACK",
+        "activities": [
+          "塞穴"
+        ]
+      },
+      {
+        "id": "CLASSICAL_RAW_EARTH_TOKEN",
+        "activities": [
+          "塞穴"
+        ]
       }
     ],
     "branchSuppression": {

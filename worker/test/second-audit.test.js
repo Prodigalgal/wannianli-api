@@ -61,9 +61,12 @@ test("placement pairs are enforced across an entire year, including day-branch a
       ...(day.branchIndex===5?["出师","遣使"]:[]), ...(day.stemIndex===3?["整容"]:[]), ...(day.stemIndex===8?["穿井"]:[])];
     for (const activity of prohibited) assert.ok(!result.宜忌.宜.includes(activity), `${new Date(t).toISOString()} ${activity}`);
   }
-  const sample=at("2024-03-06");
+  const sample=at("2024-04-23");
   assert.ok(sample.result.宜忌.忌.includes("远行"));
   assert.equal(sample.audit.activityDecisions.find(d=>d.activity==="遣使").disposition,"OMITTED");
+  const withGoingLoss=at("2024-03-06");
+  assert.ok(withGoingLoss.result.凶煞.includes("往亡"));
+  assert.equal(withGoingLoss.audit.activityDecisions.find(d=>d.activity==="遣使").disposition,"AVOID");
   const restricted=at("2024-01-18");
   assert.ok(restricted.result.凶煞.includes("无禄"));
   assert.ok(restricted.audit.activityDecisions.find(d=>d.activity==="远行").avoidedBy.includes("DAY_SI_RETAINED_TABOOS"));

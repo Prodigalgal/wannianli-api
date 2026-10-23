@@ -18,7 +18,15 @@ test("the complete facsimile catalog and page ledger do not turn unreviewed page
     assert.ok(!seen.has(identity), identity); seen.add(identity);
     assert.ok(["RULE_COLLATION", "TABLE_TRANSCRIBED"].includes(page.status));
     assert.equal(createHash("sha256").update(await readFile(new URL(page.image, root))).digest("hex"), page.sha256, identity);
+    if (page.originalSha1) assert.equal(page.originalSha1, file.publishedSha1, identity);
   }
-  assert.equal(ledger.reviewedPages.filter(page => page.volume === 6).length, 30);
-  assert.equal(ledger.reviewedPages.filter(page => page.volume === 10).length, 12);
+  assert.equal(ledger.reviewedPages.filter(page => page.volume === 6).length, 85);
+  assert.equal(ledger.reviewedPages.filter(page => page.volume === 10).length, 32);
+  const batch = JSON.parse(await readFile(new URL("docs/sources/collation-batch02.json", root)));
+  assert.equal(batch.addedPages, 75);
+  assert.equal(batch.cumulativePages, ledger.reviewedPages.length);
+  assert.equal(batch.pages.length, batch.addedPages);
+  for (const blank of batch.blankPagesExcluded) {
+    assert.ok(!seen.has(blank.fileId + "/" + blank.scanPage), "blank page must not inflate review coverage");
+  }
 });

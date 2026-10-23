@@ -307,14 +307,21 @@ function resolve(hits, grade, virtuePresent, allActivitiesAvoided, selected, day
     for (const a of hits.find(hit => hit.ruleId === "PRESSING_PLACEMENT").avoids) suppressedActivities.add(a);
     relievedRules.add("PRESSING_PLACEMENT");
   }
-  if (monthAversion && ["行幸", "上官赴任"].some(a => unreconciled.has(a))) {
+  const aversionChangesProclamation = monthAversion && ["行幸", "上官赴任"].some(a => unreconciled.has(a));
+  const goingLoss = hits.some(hit => hit.ruleId === "CLASSICAL_RAW_GOING_LOSS");
+  if (aversionChangesProclamation) {
     for (const a of ["颁诏", "施恩封拜", "诏命公卿", "招贤", "举正直"]) suppressedActivities.add(a);
+  }
+  if (aversionChangesProclamation || goingLoss) {
     if (evidence.has("宣政事")) {
       const original = evidence.get("宣政事");
       if (original.canonicalRecommend.length) {
         suppressedActivities.add("宣政事");
         for (const id of original.canonicalRecommend) add("布政事", "canonicalRecommend", id);
-        for (const id of original.canonicalAvoid) if (id !== "MONTH_AVERSION" && !id.includes("AVERSION")) add("布政事", "canonicalAvoid", id);
+        for (const id of original.canonicalAvoid) {
+          if (aversionChangesProclamation && id.includes("AVERSION") || goingLoss && id.includes("GOING_LOSS")) continue;
+          add("布政事", "canonicalAvoid", id);
+        }
       }
     }
   } else if (evidence.get("宣政事")?.canonicalRecommend.length) suppressedActivities.add("布政事");

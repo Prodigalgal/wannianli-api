@@ -52,11 +52,15 @@ class SecondAuditRegressionTest {
         var level = at("2024-01-04").activities();
         assertThat(level.dayGrade().classicalName()).isEqualTo("下");
         assertThat(level.avoided()).contains("安床", "经络", "开仓库", "出货财");
-        var travel = at("2024-03-06").activities();
+        var travel = at("2024-04-23").activities();
         assertThat(travel.avoided()).contains("远行");
         assertThat(travel.recommended()).doesNotContain("遣使", "出师");
         assertThat(travel.decisions()).filteredOn(d -> d.activity().equals("遣使")).singleElement()
                 .satisfies(d -> assertThat(d.disposition()).isEqualTo(Disposition.OMITTED));
+        var withGoingLoss = at("2024-03-06");
+        assertThat(withGoingLoss.traditionalAlmanac().gods().inauspicious()).contains("往亡");
+        assertThat(withGoingLoss.activities().decisions()).filteredOn(d -> d.activity().equals("遣使")).singleElement()
+                .satisfies(d -> assertThat(d.disposition()).isEqualTo(Disposition.AVOID));
         var restricted = at("2024-01-18");
         assertThat(restricted.traditionalAlmanac().gods().inauspicious()).contains("无禄");
         assertThat(restricted.activities().decisions()).filteredOn(d -> d.activity().equals("远行")).singleElement()

@@ -375,14 +375,21 @@ public final class ActivityRuleEngine {
             suppressedActivities.addAll(hit.avoids());
             relievedRules.add(hit.ruleId());
         });
-        if (monthAversion && (unreconciled.contains("行幸") || unreconciled.contains("上官赴任"))) {
+        boolean aversionChangesProclamation = monthAversion && (unreconciled.contains("行幸") || unreconciled.contains("上官赴任"));
+        boolean goingLoss = hits.stream().anyMatch(hit -> hit.ruleId().equals("CLASSICAL_RAW_GOING_LOSS"));
+        if (aversionChangesProclamation) {
             suppressedActivities.addAll(activities("颁诏,施恩封拜,诏命公卿,招贤,举正直"));
+        }
+        if (aversionChangesProclamation || goingLoss) {
             Evidence original = evidence.get("宣政事");
             if (original != null && !original.canonicalRecommend.isEmpty()) {
                 suppressedActivities.add("宣政事");
                 Evidence changed = evidence.computeIfAbsent("布政事", ignored -> new Evidence());
                 for (String id : original.canonicalRecommend) changed.addRecommend(id, true);
-                for (String id : original.canonicalAvoid) if (!id.equals("MONTH_AVERSION") && !id.contains("AVERSION")) changed.addAvoid(id, true);
+                for (String id : original.canonicalAvoid) {
+                    if (aversionChangesProclamation && id.contains("AVERSION") || goingLoss && id.contains("GOING_LOSS")) continue;
+                    changed.addAvoid(id, true);
+                }
             }
         } else if (evidence.containsKey("宣政事") && !evidence.get("宣政事").canonicalRecommend.isEmpty()) suppressedActivities.add("布政事");
         if (evidence.containsKey("营建宫室") && !evidence.get("营建宫室").canonicalRecommend.isEmpty()) suppressedActivities.add("修宫室");

@@ -1,0 +1,580 @@
+{
+  "releaseId": "20261023T030352Z",
+  "createdAt": "2026-10-23T03:03:52.938Z",
+  "softwareVersion": "2.3.0",
+  "schemaVersion": "2.0",
+  "status": "deployed-and-verified",
+  "source": {
+    "baseCommit": "23c2f75dabeef1860e34d2b3d4b88325defda21b",
+    "workingTreeIncludedUncommittedChanges": false,
+    "fingerprintSha256": "e1d1c57bca4a7f8857c2bce2a88875859d3544db10864af77968c264ae147779",
+    "files": [
+      {
+        "path": ".dockerignore",
+        "sha256": "d21f1fc5b79b733b4b055563df13264bc10d47e8782d5e48875757dee69e1081"
+      },
+      {
+        "path": "build.gradle",
+        "sha256": "f2b024661b9a98dbd108af8bc6a1b9d9b120a15c26c55363922bc31b8fd978c0"
+      },
+      {
+        "path": "deploy/compose.yaml",
+        "sha256": "42f1b0811894edf14d0b25a7b3721a43903f9990a5a3265aec85cf65f0fe0fd5"
+      },
+      {
+        "path": "Dockerfile",
+        "sha256": "7380b43cc8597b893d7c8b1439910ad7e663ff0068603d4eef75019824f38810"
+      },
+      {
+        "path": "gradle/wrapper/gradle-wrapper.jar",
+        "sha256": "76805e32c009c0cf0dd5d206bddc9fb22ea42e84db904b764f3047de095493f3"
+      },
+      {
+        "path": "gradle/wrapper/gradle-wrapper.properties",
+        "sha256": "6009cea91ce8dbcc62cb2ea6dec6ddd4c87b65fc326872f5abfc7e77fd24aa36"
+      },
+      {
+        "path": "gradlew",
+        "sha256": "fb68debc1b1acf8ec55dc0d5e5495e1dedd0bd6b61f304bee61613eeb2bd9b92"
+      },
+      {
+        "path": "gradlew.bat",
+        "sha256": "fedad02c18e266ec094995a5751b7fe1eb6e74f66bf75db64fae2e50eb22c234"
+      },
+      {
+        "path": "licenses/ERFA.txt",
+        "sha256": "b298c6557aaee6fe1db894370135fdf29795a3bd4276355a3d5ccabcbeecb7d8"
+      },
+      {
+        "path": "settings.gradle",
+        "sha256": "e242c7853506b64c39703c410d39d9adbda8edcbb736a5d2d03f68381494b181"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/almanac/TraditionalAlmanac.java",
+        "sha256": "8a29332ff33b7df21a61808aeb06eceabba05efd3fb7ca9e66809dec4d67a464"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/almanac/TraditionalAlmanacCalculator.java",
+        "sha256": "74ecc80b9e637247031603ba483956835d1a595bf4918331a43f3535f4b6f3e9"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacApiException.java",
+        "sha256": "38b3cf4ca8ae6d25220faa12cf1ba292fe0eb3515da4e661b663af4d08e41b9d"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacCalculationRequest.java",
+        "sha256": "b0b876ba5ce63a32563d50b5344020cedcca52c0b0ae2371b68555c761228ba5"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacController.java",
+        "sha256": "f7b5c5cdd25e9c50fc25c84a0003cee38606154b83b0f55a928030ecf42b7653"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacExceptionHandler.java",
+        "sha256": "cb7cdeca8447e3a42bcada8a4232ebcd8e75d256a8cafa3b3d94d71dbcf41214"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacRequestParser.java",
+        "sha256": "351f6fea85354f738144f3b1c38c0a3f355a271174d1f746e7454d955ff60d82"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacResponse.java",
+        "sha256": "b5609a1176c5a9e8acd79cba8e817e4eb8ccbcb25ca398ed512433ed3c976847"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/ApiContract.java",
+        "sha256": "510fea7d5e65a4cc272365ff83f9f54f1b25337249e6a5c0c4471d354f79c807"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/ApiErrors.java",
+        "sha256": "2e19f1703b55bb48c0f6c47367bda4c624e8d499d6e465d653f56108dc523368"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/BoundedJson.java",
+        "sha256": "4b156d71f391bae2639f4c787e9303ce87c7b9f998d787cdfea39281303552b0"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/CalculationScope.java",
+        "sha256": "51dbc1e59840a7d1c3635a90c30e8b2cfe7cafcc7485adaff2bb17610d82fa0a"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/CurrentAlmanacResponse.java",
+        "sha256": "40a48543f300bddebe1198a174f09708bee524adf2f3fe397f0cad906939b7a0"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/McpController.java",
+        "sha256": "7d99b7af22f3c553c4df03cdf5e16a18538bbf963f8317300bdcd723cb0d3895"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/RangeCalculator.java",
+        "sha256": "c48b832bd0c832626b45e5f7e7dd861ff3b47847a05078e38d4a54786bc77798"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/ReferenceCatalog.java",
+        "sha256": "7f84eb862b034ff52e8d445debeea116e78e4664cc49c9e32e7b4020fb44319a"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/SemanticAlmanacController.java",
+        "sha256": "a90066fb3b0d948f256a8016d83625172f17fdbac8ac954e691c387d75fcea02"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/SemanticExceptionHandler.java",
+        "sha256": "800c926a22c164e76d78fafc07c788959e258a4b16bc86732f4d481de8273cbc"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/SemanticRequest.java",
+        "sha256": "9501e30c9245ddaaf3cc5717577a66cd760b6742aaed3a1810915ba2f373a886"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/DeltaT.java",
+        "sha256": "e8fb3a5f20a4e6f623df4f79ec6abd77ac7a0d738f8b8e442d18c770fa3bc5ee"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/EarthVsop87.java",
+        "sha256": "c901f7456727b26e707264ddf771d1b8c94d0230e631cac0891e1691730a6496"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/JulianDate.java",
+        "sha256": "74f642582d7ca08e451a2f2a05e2565ec7530742b90a9b81bb44e97f77c4156b"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/NewMoonEphemeris.java",
+        "sha256": "b055e15f9545d03f95398f7528dbe67cda6f154c8bbac0000f31ffa981a4bf6d"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/Nutation1980.java",
+        "sha256": "d48f0fdfa4286f6f9e7285f5774b22e96751487a3222ec29fb7f9c534d158a7f"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/ObservedDeltaT.java",
+        "sha256": "4276084b4376af3ec22c8ea8a92bfd56c36148a21c6b0225b648cde6edf909f9"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/SolarEphemeris.java",
+        "sha256": "7c853c42618788e250f74e33d8e2c7f476205a73d3dc9d0e46dc5437e20f97d1"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/SolarTerm.java",
+        "sha256": "07b12c3cf2accfac0ac07e0480b9eb931e4ce4de8ae61f4f950a1aa9a835f6c7"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/ChineseCalendarCalculator.java",
+        "sha256": "bbbefde1c5733ddea80a5c11bba1b7b82dd9d69b510ff5e531413f0ae2a8f208"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/ChineseCalendarDate.java",
+        "sha256": "a8d71c19ef44cb5aabdeecc026adc6900db0810aea380b45b4ee52f9a4d62b6b"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/SeasonalCalculator.java",
+        "sha256": "076c28e3fa333d9126e5015cc153cd4a7caba1b24b7a39500cd42d6c589b22c5"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/SeasonalContext.java",
+        "sha256": "1425d56cb9afff7abf876989512de329d50d55e28d7881b030bee29ec9926eac"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/SexagenaryCycle.java",
+        "sha256": "71feb3e6dcc7e88733a21761f7528c32d8684826afbcaeea4f6fdc309f01a82b"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/config/ApiRequestGuard.java",
+        "sha256": "c3ecb42434acd338abfa97fa22bc726110e5582cffb56c84927c8ac5253909d9"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/config/ApiSecurityFilter.java",
+        "sha256": "13b774373e6d7eec9d74c83c109fc72cf3fd713100a096eb066a22c44867dbc1"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/config/TimeConfiguration.java",
+        "sha256": "038a00ff8be452a4b342841933a92c9277deb84eeff698fa147af0fbd88a559e"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/rules/ActivityResult.java",
+        "sha256": "9c26a7f8966a9b0f4631d8862c1f3d1c5dfe6cedc28ae4fac7a5b1423d294778"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/rules/ActivityRuleEngine.java",
+        "sha256": "24990bd88acd1d7df1260a3ea30404ffa0b982ee88f4f3a56b858bc93d9d8a2c"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/rules/ClassicalGods.java",
+        "sha256": "0346419b706587df24439476fb6a8549d7d330600bfc7d65d8e4232f6b7eee9a"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/rules/ClassicalRules.java",
+        "sha256": "6acd723ec4728650a9d1f6239a0dbe9ba6587e24c5070f493e10ca76c51b332a"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/service/AlmanacService.java",
+        "sha256": "6ae07e4a05bc72ba8e4f56a0eee4f785b6a7bd8b82a6c20da5c7768086202be0"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/WannianliApplication.java",
+        "sha256": "2482f17027ae78f37f14d19307a7dbe06315af84ae59a1a7c58292664e47ae8b"
+      },
+      {
+        "path": "src/main/resources/api/contract.json",
+        "sha256": "af46bb21c1a19b144caf04219b5130b17857de3e7ae9a7f5adf59cc72cb07bec"
+      },
+      {
+        "path": "src/main/resources/api/openapi.json",
+        "sha256": "0d1cad483f029a189d4bda47fe8b5b246f8295c5eb1f28d2d0e3de607d83c237"
+      },
+      {
+        "path": "src/main/resources/application.yml",
+        "sha256": "3f2b13c17ca1474854e4b83220b76fbea2ed3e506d489e718515e5d67ee3666d"
+      },
+      {
+        "path": "src/main/resources/META-INF/licenses/ERFA.txt",
+        "sha256": "b298c6557aaee6fe1db894370135fdf29795a3bd4276355a3d5ccabcbeecb7d8"
+      },
+      {
+        "path": "src/main/resources/rules/core-gods.json",
+        "sha256": "27416e45fbbbc5960bd0b467a8ad05cd5f83b44328e87991345394404606947e"
+      },
+      {
+        "path": "src/main/resources/rules/volume10.json",
+        "sha256": "5a3248d1c98fae2c0314d50c11482bab20a91a1db062558163686f1a57c3bb61"
+      },
+      {
+        "path": "worker/package-lock.json",
+        "sha256": "6b22d40e0f49a128faf7c53bd5cf1f4ac65f2a75714322b525ad8c45f90cd20b"
+      },
+      {
+        "path": "worker/package.json",
+        "sha256": "b2c50d48169679ee5be9b90b028a401fe95db38e4bfaa1d2a6d41936850a98f2"
+      },
+      {
+        "path": "worker/src/almanac.js",
+        "sha256": "cfee07d8975cc2777e06fb6987f0f248fcddab41aee9a9ad9ea9bcf5f0ef7db3"
+      },
+      {
+        "path": "worker/src/astronomy.js",
+        "sha256": "15ac05248bd7124c24c38d099ddc5ac9fca85c3c503e2f17b10dbde2f4d7cdb3"
+      },
+      {
+        "path": "worker/src/calendar.js",
+        "sha256": "5242d79219983f1143e1479403f4f606bc7fe616034e93234fbd5b9bc866cc29"
+      },
+      {
+        "path": "worker/src/classical.js",
+        "sha256": "82b36f94b069986348c8d0027bb6a5f9bbee860b4331f9b3c848be587734b29e"
+      },
+      {
+        "path": "worker/src/disclosure.js",
+        "sha256": "ef76746d681e5da9c758fd21d8574dd30965a415f7736b3caf1a2d1f8361dab0"
+      },
+      {
+        "path": "worker/src/engine.js",
+        "sha256": "8d27ef174f84dc990075de3afe2f547a3434962591c998e84d65e729c9f00b78"
+      },
+      {
+        "path": "worker/src/god-rules.js",
+        "sha256": "4f392fa8a3807d9f972012842e1022a8445a57f3b89606c03e00681a13976484"
+      },
+      {
+        "path": "worker/src/index.js",
+        "sha256": "acd3af993a91d9a60f4ca5bb6dd02a78453b60522193f42367aa31e1e9ae3371"
+      },
+      {
+        "path": "worker/src/json.js",
+        "sha256": "298e07a3b39d9fd9503a16fbc4cee69fb2ef3d6411ba974ba53fa9246ff38aa4"
+      },
+      {
+        "path": "worker/src/mcp.js",
+        "sha256": "ca5f1b072c119dae31c6f3a48707cf67d87e9d6b8f3b5bcf27f2d0da1ca3ad66"
+      },
+      {
+        "path": "worker/src/nutation.js",
+        "sha256": "9cf2dc84e2eb11f1fc52b1b57e7091bafc63300ad16ba3ad9f8424314133f076"
+      },
+      {
+        "path": "worker/src/observed-delta-t.js",
+        "sha256": "9606c9b1c02a6346b308bc0cb50409c86e0259c0fda1e60b2cc2b7ee6fff057b"
+      },
+      {
+        "path": "worker/src/range.js",
+        "sha256": "f8de50bb5d1e8a679aacc012a4a8285528f1401c234ec0c2cbe1ea0b274c0023"
+      },
+      {
+        "path": "worker/src/request.js",
+        "sha256": "b1707383aab12c608f1e3d646370ace800914fcff4c01f670427175ec36c489a"
+      },
+      {
+        "path": "worker/src/rules.js",
+        "sha256": "62543830182a5674d317f3aee1db6152036ee6d1d9c59a54062b89043c2f84c5"
+      },
+      {
+        "path": "worker/src/security.js",
+        "sha256": "358fa9e3152989e4eb310bf5e5349fcbad35dbac3e1852cad483133b4c7744e9"
+      },
+      {
+        "path": "worker/src/semantic.js",
+        "sha256": "80ff762980cfdaed90ffa80238670331959f9226ea6e22e711ede4be3fa884ff"
+      },
+      {
+        "path": "worker/src/vsop87.js",
+        "sha256": "09fb6c53da9bc02ffb4d5316a39bee16a7fa5434c78235a4fa07542cc7d5437f"
+      },
+      {
+        "path": "worker/wrangler.jsonc",
+        "sha256": "88b48bb6d34410a419a105d7f43d661fa6407d8696ddd8cbc4a528ee8a5c1b23"
+      }
+    ]
+  },
+  "java": {
+    "artifact": "wannianli-api.jar",
+    "bytes": 20370670,
+    "sha256": "495a990b2b4e656190f589430ff6758dc4e464b838989a434516989db3a9a417",
+    "containerId": "3b1d8548f5e95e3c36a47634930db7939cc0c3c0f6f2a7ced165bf63ff095acb",
+    "status": "running",
+    "startedAt": "2026-10-23T03:10:24.049058839Z",
+    "restartCount": 0,
+    "oomKilled": false,
+    "verifiedMountedJarSha256": "495a990b2b4e656190f589430ff6758dc4e464b838989a434516989db3a9a417"
+  },
+  "previousReleaseId": "20261023T021538Z",
+  "worker": {
+    "versionId": "8892ad30-c4fa-4db4-af33-8541b232e426",
+    "bundleSha256": "c28f3da88c1461a1aaeeb8f24b939294ce3c97090c62c405cdeb9191eb82b496",
+    "bytes": 481985,
+    "uploadedAt": "2026-10-23T03:09:12.872Z",
+    "deploymentId": "bc4df227-f9d1-4454-a848-85d299e80413",
+    "deployedAt": "2026-10-23T03:08:57.193362Z",
+    "trafficPercent": 100
+  },
+  "validation": {
+    "javaTests": 68,
+    "workerTests": 71,
+    "parityDays": 1827,
+    "v2Cases": 273,
+    "v2SampledDays": 261,
+    "v2BoundaryCases": 12,
+    "v2RangeCases": 3,
+    "mcpSdkGenerations": 2,
+    "astronomicalDifferences": 39,
+    "maxAstronomicalDifferenceMs": 1,
+    "monthlyGodStarts": 192,
+    "monthlyDayCombinationsPerImplementation": 720,
+    "newRulePages": 40,
+    "registeredSourcePages": 42,
+    "unchangedAstronomyValidationInheritedFrom": "20261023T003812Z",
+    "remoteNativeCi": {
+      "id": 39892908868,
+      "url": "https://github.com/Prodigalgal/wannianli-api/actions/runs/39892908868",
+      "status": "completed",
+      "conclusion": "success",
+      "sourceCommit": "23c2f75dabeef1860e34d2b3d4b88325defda21b",
+      "checkoutMergeCommit": "7e0320447318048ad1553ef50d16f6ecdbeb113a",
+      "validatedTree": "d4e41d2c5002f939804a39e845c462536ac23920",
+      "sourceTreeMatchesHead": true,
+      "binarySha256": "c3793df6b71657f2c0a4955716d5a19350c82eadfd08276e9590bccc7cc29296",
+      "binaryBytes": 92473464,
+      "architecture": "ELF64 aarch64",
+      "containerV1Checks": 16,
+      "containerV2AndMcpChecks": 31,
+      "imagePublication": "skipped"
+    },
+    "remoteWorkerCi": {
+      "id": 39892908907,
+      "url": "https://github.com/Prodigalgal/wannianli-api/actions/runs/39892908907",
+      "sourceCommit": "23c2f75dabeef1860e34d2b3d4b88325defda21b",
+      "conclusion": "success"
+    }
+  },
+  "changeScope": "Volume-six 16 month gods and named combinations; 40 facsimile rule pages, catalog/ledger, official HKO 1916 time-standard evidence, and USNO observed/predicted snapshots. No astronomy numeric or grade-rule change.",
+  "previous": {
+    "releaseId": "20261023T021538Z",
+    "jarSha256": "2241a39102c41aa9a00ca568ca6645b072561954c4b9b7b777d9e4e71aaf1c60",
+    "workerVersion": "ffa7964a-7090-418e-98a3-8a2b7277bee6"
+  },
+  "verification": {
+    "completedAt": "2026-10-23T03:15:51.997Z",
+    "publicChecks": [
+      {
+        "target": "java",
+        "base": "https://wannianli.mnnu.eu.org",
+        "v2AndMcpChecks": 31,
+        "v1Checks": 16,
+        "volume06Checks": 3,
+        "mcpSdkGenerations": 2,
+        "result": "passed"
+      },
+      {
+        "target": "worker",
+        "base": "https://wannianli-worker.mnnu.eu.org",
+        "v2AndMcpChecks": 31,
+        "v1Checks": 16,
+        "volume06Checks": 3,
+        "mcpSdkGenerations": 2,
+        "result": "passed"
+      }
+    ],
+    "currentEntrypoints": 4,
+    "reports": [
+      {
+        "file": "current-comparison.log",
+        "sha256": "8662bc14694785708bb41d6dc806fedc7a8f4e84099585992c60c3bd117837cf"
+      },
+      {
+        "file": "delta-t-sources.json",
+        "sha256": "99e0af0ca6d304405eac28bcd6f024b84000533048124f385d7cffe480d35c27"
+      },
+      {
+        "file": "historical-attribution.json",
+        "sha256": "630ecd8f38f19f5e2ca11684764aebf141e77a5d7143de38e754e18e18df86c6"
+      },
+      {
+        "file": "java-build.log",
+        "sha256": "e265a5823eea566b178f3f43d1de55097b49c4c733fd31236832e035e7db5388"
+      },
+      {
+        "file": "java-deploy.log",
+        "sha256": "50b839f24fa18f792fe0a50d0b991710985189f5cac4ea27ef2eb2770e12ebe4"
+      },
+      {
+        "file": "java-runtime.json",
+        "sha256": "19217f416073d6fd1cefee9a21442fe6c70cc6b0d9002e7c00e7428bdb83c116"
+      },
+      {
+        "file": "java-sdk-verification.log",
+        "sha256": "ba9a0f2be73d17b0fd02202535e7eaceda33bd35987bc554139447d7e83dfaaa"
+      },
+      {
+        "file": "java-v1-verification.json",
+        "sha256": "d7a0ef3468bcb79743a1a21400e1c2774486681aeadd7c7fb81cbcd3144393d7"
+      },
+      {
+        "file": "java-v1-verification.log",
+        "sha256": "8ba38972a8d611528ce5105beca9be75ea94f0196309ef856aecf26358ae409a"
+      },
+      {
+        "file": "java-v2-verification.json",
+        "sha256": "7f3acfe226e558bbecdf6d7f5f5c796e73b98e4f35c97d582c0a8ab66686d11e"
+      },
+      {
+        "file": "java-v2-verification.log",
+        "sha256": "eb789958fe0ac7da2f21654de36660753b059bf82e2b2b907ed873c23701fff7"
+      },
+      {
+        "file": "java-volume06-verification.json",
+        "sha256": "c2ac5ad0ce4f8bc35df4b90650cbf0abea5dee61f073c690dcb88eaadf95e775"
+      },
+      {
+        "file": "native-build.log",
+        "sha256": "384f98035fb73c934afb1da1a24ac4881ecb949b401e222d48510d7443661b42"
+      },
+      {
+        "file": "native-ci-run.json",
+        "sha256": "69d81d3d4613fb40e604e2804a6175f30a6c9ef2f0791bb9dc77ced2d8dfd2f2"
+      },
+      {
+        "file": "native-container-v1.json",
+        "sha256": "ed9faf21b2d83ddc2ab17f11a9f8619146a9180857cc65db3c53b629a6d1a0d3"
+      },
+      {
+        "file": "native-container-v2.json",
+        "sha256": "c779b3702cce34ccd072ffd0f9ba5764b74a7c0aa8d0a3de167c93e85afe4cb7"
+      },
+      {
+        "file": "native-file.txt",
+        "sha256": "b4860d40ad7eee3f364c2f11526c908c55eabaf35af5012c86e5e85c9fe3fb21"
+      },
+      {
+        "file": "native-host.txt",
+        "sha256": "ef1d7488a61bb1345cfaef75d4b15484763aee80a1946f44e37dc789a580cb08"
+      },
+      {
+        "file": "native-ldd.txt",
+        "sha256": "c4cb0ccfeb63fcb61025419cc41f839415a35ac7f5b7031b654c91b28aec465f"
+      },
+      {
+        "file": "native-parity.log",
+        "sha256": "c4f334244dda74d222c599588c52b8a18efce06f6cbe471dbb6b3beec1883680"
+      },
+      {
+        "file": "native-sha256.txt",
+        "sha256": "014acb28891ef17cc2caf68bf153dfe2d92b4f94645b851ce90308f39e3bfc6b"
+      },
+      {
+        "file": "parity-verification.log",
+        "sha256": "0e6dd3f9cf11d53828c8d37a84511e604706b199480f4dcc154e45134f2c67f2"
+      },
+      {
+        "file": "worker-build.log",
+        "sha256": "e8a48c927739ce6b1af0ce38b0eb2abd74e457989a769482c7e24e1e777f482c"
+      },
+      {
+        "file": "worker-ci-run.json",
+        "sha256": "a92d1f8752422f8780f6b2709cbb05bf8328c0b0d085d227cd5bfe27426dccf0"
+      },
+      {
+        "file": "worker-deploy.log",
+        "sha256": "02a333de1f365074d4d0d5216e809af3e39a6cc3b43a2e03e7372c49de157776"
+      },
+      {
+        "file": "worker-sdk-verification.log",
+        "sha256": "8b7a4d776222fb0267c0d204e055b25cd33c9e91996c4987d954a87eb10c91f9"
+      },
+      {
+        "file": "worker-test.log",
+        "sha256": "a9d9a5c5930118b1b6d1e36683a773cb15bea4f6a9849c6c6771bf3bffe6bcd6"
+      },
+      {
+        "file": "worker-v1-verification.json",
+        "sha256": "aaaa0f79f58f202862bc2a0c5cab1f1ee965d2bd4e38de1d1541064b0eb9cb43"
+      },
+      {
+        "file": "worker-v1-verification.log",
+        "sha256": "7302be8766b5855aa51921be89c726722acda1b70064c6bfde07f6c52a62155b"
+      },
+      {
+        "file": "worker-v2-verification.json",
+        "sha256": "ebe2845f7b37c3ade2487f7a1c681647503c55fa22523d0e24a4f317e89caae9"
+      },
+      {
+        "file": "worker-v2-verification.log",
+        "sha256": "b59475b7a4af9034c3280b9eacb27ddd3c9f213c8ed98c0c94d6de94e8b71c6d"
+      },
+      {
+        "file": "worker-volume06-verification.json",
+        "sha256": "f938746231dbf56811c1a2ee8cab5ac87fa9d609f1313af3f2bfdf44c4a7a721"
+      }
+    ],
+    "tools": [
+      {
+        "path": "tools/compare-implementations.mjs",
+        "sha256": "d3914123c1931303af9056ac29437e5b9261c4e9a653b15e894773e567e29aab"
+      },
+      {
+        "path": "tools/verify-api-v2.mjs",
+        "sha256": "343ff165597ec8bd9db9076b85cf3b2f6b5346b88da24e2a80bcb20e241a516c"
+      },
+      {
+        "path": "tools/verify-deployment.mjs",
+        "sha256": "ecf31edbce86f6929a2562e5d5325e9f4cd32009de326281574fa5dd82769e5f"
+      },
+      {
+        "path": "tools/verify-volume06.mjs",
+        "sha256": "ad85fd3e46c06272dba06edbfa103d5d467afef7420b5fbac6081a6c3dbf302a"
+      },
+      {
+        "path": "tools/compare-current.mjs",
+        "sha256": "e07bfe5271612734a756e5f3975aa1b324734a8f882b7183747244b5c483b78c"
+      },
+      {
+        "path": "tools/audit-delta-t.mjs",
+        "sha256": "6121b797cfbb321c021869d295f75a09353506dd203bf10cce9697c0a3ac342b"
+      },
+      {
+        "path": "tools/catalog-classical-sources.mjs",
+        "sha256": "6a1f7c0ef6093ecbe72943a85f3102007e84f9a9f827acf11cfc884f03c8f418"
+      },
+      {
+        "path": "worker/test/mcp.test.js",
+        "sha256": "6ec9ef014c7fc65d13f99b84e0edd7ab73dd770f6b6c2464d140a49b79460420"
+      }
+    ]
+  }
+}

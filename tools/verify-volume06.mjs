@@ -1,0 +1,15 @@
+import assert from "node:assert/strict";
+import contract from "../src/main/resources/api/contract.json" with {type:"json"};
+import {writeFile} from "node:fs/promises";
+const [base,output]=process.argv.slice(2),checks=[];
+const json=async path=>{const r=await fetch(new URL(path,base),{signal:AbortSignal.timeout(30000)});assert.equal(r.status,200);return r.json();};
+const api=await json("/api/v2/almanac/openapi.json");assert.equal(api.info.version,contract.serverInfo.version);checks.push("OpenAPI software version "+contract.serverInfo.version);
+const current=await json("/api/v2/almanac?date=2026-08-03&time=12:00:00");
+for(const name of ["兵吉","天仓","续世"])assert.ok(current.auspiciousGods.includes(name));checks.push("New volume-six gods present on 2026-08-03");
+const crossing=await json("/api/v2/almanac?date=2024-05-11&time=12:00:00");
+assert.ok(crossing.auspiciousGods.includes("驿马"));assert.equal(crossing.activities.virtuePresent,true);
+assert.ok(crossing.inauspiciousGods.includes("月破"));assert.ok(crossing.activities.avoided.includes("搬移"));
+assert.ok(!crossing.activities.recommended.includes("搬移"));
+for(const key of ["recommended","avoided","caution"])assert.ok(!crossing.activities[key].includes("般移"));
+checks.push("Horse and month break with virtue retains moving-house taboo under its canonical name");
+const report={base,verifiedAt:new Date().toISOString(),checks,passed:checks.length};await writeFile(output,JSON.stringify(report,null,2)+"\n");console.log(JSON.stringify(report));

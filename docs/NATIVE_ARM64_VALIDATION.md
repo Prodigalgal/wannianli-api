@@ -1,6 +1,16 @@
 # ARM64原生验收记录
 
-日期：2026-10-23。当前记录对应源提交`7b0812b7495278678c34a757c8374e63be643697`，不是此前仅通过旧提交的记录。
+## 2.3.0 卷六扩展
+
+日期：2026-10-23。[Native ARM64运行39892908868](https://github.com/Prodigalgal/wannianli-api/actions/runs/39892908868)与[Worker/JVM运行39892908907](https://github.com/Prodigalgal/wannianli-api/actions/runs/39892908907)均成功。构建源`23c2f75dabeef1860e34d2b3d4b88325defda21b`；PR实际检出`7e0320447318048ad1553ef50d16f6ecdbeb113a`，两者tree同为`d4e41d2c5002f939804a39e845c462536ac23920`，已通过GitHub API与本地Git核对。
+
+Java 68项、Worker 71项通过，包括本批12×60逐月组合、最终用途、条件会合与搬移禁忌回归，以及原图/上游快照校验。真实ARM64原生HTTP的1827天v1、273例v2、3个区间与两代SDK通过；39处天文时间字段容许同民用日内1毫秒差，其余业务字段严格相等。原生容器默认安全配置的31项v2/MCP、16项v1检查通过。
+
+原生二进制实际下载后复核为ELF64机器类型183，92473464字节，SHA-256 `c3793df6b71657f2c0a4955716d5a19350c82eadfd08276e9590bccc7cc29296`。证据在`build/validation/native/39892908868/`和`build/releases/20261023T030352Z/`。发布job为skipped，GHCR latest未改；生产继续按x86_64 JAR与Worker分别部署，不把ARM64制品称为生产JAR。
+
+## 2.2.1历史记录
+
+以下2.2.1历史记录对应源提交`7b0812b7495278678c34a757c8374e63be643697`，不是此前仅通过旧提交的记录。
 
 - [Native ARM64实际运行](https://github.com/Prodigalgal/wannianli-api/actions/runs/39888421730)：原生编译、架构核验、差分、MCP客户端和原生容器检查全部成功。
 - [Worker/JVM跨实现实际运行](https://github.com/Prodigalgal/wannianli-api/actions/runs/39888421598)：64项Worker测试、Java测试与公开契约差分成功。

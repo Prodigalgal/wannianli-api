@@ -45,23 +45,23 @@ curl -fsS https://wannianli.mnnu.eu.org/api/v1/almanac/current
 
 同名JAR内容变化不会自动触发Compose重建，因此发布必须显式使用 `--force-recreate`。先将新JAR上传到独立发布目录、核对SHA-256并备份旧包，再原子替换。必须等待应用启动并实际调用计算接口，不能仅以容器为Up判断完成。此主机本次进程到应用启动约138秒，发布后还须等待实际计算就绪。
 
-当前API/MCP 2.2.1、区间及太阳模型修正的版本、备份和验收见[发布记录](../docs/DEPLOYMENT_2026-10-23_V221.md)。前版见[2026-10-22 v2记录](../docs/DEPLOYMENT_2026-10-22_V2.md)，较早v1见[历史记录](../docs/DEPLOYMENT_2026-10-22.md)。发布清单位于`deploy/releases/`，先核对目标版本再操作回滚。
+当前API/MCP 2.3.0、本批卷六月神扩展的版本、备份和验收见[发布记录](../docs/DEPLOYMENT_2026-10-23_V230.md)。前版见[2026-10-22 v2记录](../docs/DEPLOYMENT_2026-10-22_V2.md)，较早v1见[历史记录](../docs/DEPLOYMENT_2026-10-22.md)。发布清单位于`deploy/releases/`，先核对目标版本再操作回滚。
 
 ## 本轮JAR回滚
 
-发布`20261023T021538Z`的旧包保存在 `/opt/wannianli-api/releases/20261023T021538Z/previous.jar`，旧Compose配置保存为同目录的 `compose.previous.yaml`。回滚时恢复这两个文件，先核对旧包哈希：
+发布`20261023T030352Z`的旧包保存在 `/opt/wannianli-api/releases/20261023T030352Z/previous.jar`，旧Compose配置保存为同目录的 `compose.previous.yaml`。回滚时恢复这两个文件，先核对旧包哈希：
 
 ```bash
 cd /opt/wannianli-api
-printf '%s  %s\n' 92c6b8a9f40212cea3497dbaa596e89e593177172199a1828f52b18de2692f19 releases/20261023T021538Z/previous.jar | sha256sum -c -
-install -m 0444 releases/20261023T021538Z/previous.jar wannianli-api.jar.rollback
-install -m 0644 releases/20261023T021538Z/compose.previous.yaml compose.yaml.rollback
+printf '%s  %s\n' 2241a39102c41aa9a00ca568ca6645b072561954c4b9b7b777d9e4e71aaf1c60 releases/20261023T030352Z/previous.jar | sha256sum -c -
+install -m 0444 releases/20261023T030352Z/previous.jar wannianli-api.jar.rollback
+install -m 0644 releases/20261023T030352Z/compose.previous.yaml compose.yaml.rollback
 mv -f wannianli-api.jar.rollback wannianli-api.jar
 mv -f compose.yaml.rollback compose.yaml
 docker compose up -d --no-deps --force-recreate --pull never wannianli-api
 ```
 
-之后验证当前与指定日期计算、v2和MCP。该旧包为2.2.0，支持区间、第二批规则和太阳修正，但覆盖说明尚未包含本次原表核验；回滚会恢复这部分旧说明。旧版Worker可在原账户内用`wrangler versions deploy 2dad3c1a-8342-4b04-9ec8-dc5894035aa3@100 --yes`恢复，随后独立执行同样的公网验收；Java回滚不会自动回滚Worker。
+之后验证当前与指定日期计算、v2和MCP。该旧包为2.2.1，保留区间、第二批规则、太阳修正及等第原表来源说明，尚无本批16项卷六月神；回滚会撤销本批扩展。旧版Worker可在原账户内用`wrangler versions deploy ffa7964a-7090-418e-98a3-8a2b7277bee6@100 --yes`恢复，随后独立执行同样的公网验收；Java回滚不会自动回滚Worker。
 
 ## 原迁移方案的DNS回退
 

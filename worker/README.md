@@ -14,7 +14,7 @@
 
 实现与 Java 服务共享已校勘规则口径、版本化逐月数据和接口Schema，但没有 Java 运行时依赖，也不是 Java 服务的代理。v1结果为中文键、布尔语义“是/否”；v2及MCP使用英文程序字段、原生布尔值及核心子集scope。规则来源、命中条件和冲突裁决轨迹保留在内部审计对象与测试中。
 
-当前API/MCP 2.2.1、区间及太阳模型修正的版本与验收见[发布记录](../docs/DEPLOYMENT_2026-10-23_V221.md)，具体取舍见[第四轮记录](../docs/FOURTH_AUDIT.md)。神煞为明确裁剪的核心子集，部分日等返回“未定”；采用范围与文献裁决见[算法审计](../docs/ALGORITHM_AUDIT.md)。
+当前API/MCP 2.3.0、本批卷六月神扩展与线上验收见[发布记录](../docs/DEPLOYMENT_2026-10-23_V230.md)，具体取舍见[第四轮记录](../docs/FOURTH_AUDIT.md)。神煞为明确裁剪的核心子集，部分日等返回“未定”；采用范围与文献裁决见[算法审计](../docs/ALGORITHM_AUDIT.md)。
 
 所有入口共用本地令牌桶，突发20次、每分钟补充120次、并发4个；Cloudflare绑定另作每个边缘位置约120次/分钟的共享限流，绑定缺失则503。它不是全球严格配额；详见 [Cloudflare原生限流说明](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)。单次HTTP计算请求体上限1024字节，MCP上限16384字节且另限深度、字段数及字符串；流读取超时5秒，不接受压缩请求体。
 

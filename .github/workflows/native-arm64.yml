@@ -81,6 +81,7 @@ jobs:
           test -x build/native/nativeCompile/wannianli-api
           ldd build/native/nativeCompile/wannianli-api | tee native-ldd.txt
           ! grep -q 'not found' native-ldd.txt
+          sha256sum build/native/nativeCompile/wannianli-api | tee native-sha256.txt
 
       - name: Compare native Java and Worker calculations and MCP clients
         shell: bash
@@ -131,7 +132,7 @@ jobs:
              (has("references") | not)' \
             response.json
           node tools/verify-api-v2.mjs http://127.0.0.1:18080 native-container-v2.json
-          node tools/verify-deployment.mjs http://127.0.0.1:18080 --pace-ms 600 --report native-container-v1.json
+          node tools/verify-deployment.mjs http://127.0.0.1:18080 --direct-app --pace-ms 600 --report native-container-v1.json
 
       - name: Preserve native validation evidence
         if: always()

@@ -4,6 +4,9 @@ import { dirname, resolve } from "node:path";
 import { calculateAuditableAlmanac, calculateCurrentAlmanac } from "../worker/src/engine.js";
 
 const args = process.argv.slice(2);
+const directIndex = args.indexOf("--direct-app");
+const directApp = directIndex >= 0;
+if (directApp) args.splice(directIndex, 1);
 const paceIndex = args.indexOf("--pace-ms");
 const paceMs = paceIndex >= 0 ? Number(args.splice(paceIndex, 2)[1]) : 0;
 assert.ok(Number.isInteger(paceMs) && paceMs >= 0 && paceMs <= 5000, "--pace-ms must be 0-5000");
@@ -33,7 +36,9 @@ for (const base of args) {
     checks.push({ name, status });
     return { response, text, data: text ? JSON.parse(text) : undefined };
   }
-  for (const path of ["/", "/api/v1/almanac/current"]) {
+  // Production Traefik rewrites / to current; the application itself has no root route.
+  if (directApp) await request("direct application root", "/", {}, 404);
+  for (const path of directApp ? ["/api/v1/almanac/current"] : ["/", "/api/v1/almanac/current"]) {
     const { data } = await request(`current ${path}`, path);
     assert.deepEqual(normalized(data), normalized(calculateCurrentAlmanac(new Date(data["当前时间"]))), `${base}: current calculation`);
   }

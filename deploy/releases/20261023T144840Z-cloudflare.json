@@ -1,0 +1,244 @@
+{
+  "changeId": "20261023T144840Z-cloudflare",
+  "status": "APPLIED_AND_VERIFIED",
+  "completedAt": "2026-10-23T14:56:17.309Z",
+  "softwareVersion": "2.5.0",
+  "runtimeDeploymentChanged": false,
+  "originalRelease": "20261023T132116Z",
+  "configurationSourceCommit": "cb87c74c965885f6cf8a77ef41efb94ce752c52e",
+  "zoneName": "mnnu.eu.org",
+  "zoneId": "4a254fc1b885dec1538a098e7229d60d",
+  "hostname": "wannianli-worker.mnnu.eu.org",
+  "rule": {
+    "rulesetId": "cbaee1ff9c10458fb37a0ff39cd6ec95",
+    "ruleId": "d4a1d4a374264d37a5a094ed0817bbf9",
+    "ref": "wannianli_programmatic_api_bic",
+    "description": "Allow programmatic calendar API and MCP clients; change BIC only",
+    "expression": "(http.host eq \"wannianli-worker.mnnu.eu.org\" and http.request.uri.path in {\"/\" \"/mcp\" \"/api/v1/almanac/current\" \"/api/v1/almanac/calculate\" \"/api/v2/almanac\" \"/api/v2/almanac/now\" \"/api/v2/almanac/capabilities\" \"/api/v2/almanac/openapi.json\" \"/api/v2/almanac/range\"})",
+    "action": "set_config",
+    "action_parameters": {
+      "bic": false
+    },
+    "enabled": true
+  },
+  "appliedAt": "2026-10-23T14:48:40.587Z",
+  "before": {
+    "status": 404,
+    "ruleCount": 0
+  },
+  "after": {
+    "rulesetId": "cbaee1ff9c10458fb37a0ff39cd6ec95",
+    "version": "1",
+    "ruleCount": 1,
+    "otherRulesUnchanged": true
+  },
+  "globalBic": {
+    "before": "on",
+    "after": "on"
+  },
+  "requestedWafChange": false,
+  "requestedRateLimitChange": false,
+  "existingTokenPermissionsChanged": false,
+  "temporaryCredential": {
+    "sourceKey": "CF_ACCOUNT_3101557049_TOKEN_FACTORY",
+    "scope": "mnnu.eu.org only",
+    "permissionGroups": [
+      "Config Settings Write"
+    ],
+    "expiresOn": "2026-10-23T15:48:36Z",
+    "secretPersisted": false,
+    "revoked": true,
+    "revocationStatus": 200,
+    "absenceVerified": {
+      "checkedAt": "2026-10-23T14:56:17.304Z",
+      "status": 404,
+      "success": false,
+      "errorCodes": [
+        1003
+      ],
+      "expectedTokenAbsent": true
+    }
+  },
+  "validation": {
+    "pythonUrllib": {
+      "userAgent": [
+        [
+          "User-agent",
+          "Python-urllib/3.12"
+        ]
+      ],
+      "before": [
+        {
+          "path": "/",
+          "status": 403,
+          "contentType": "text/plain; charset=UTF-8",
+          "edge1010": true,
+          "json": false,
+          "errorCode": null
+        },
+        {
+          "path": "/api/v2/almanac/capabilities",
+          "status": 403,
+          "contentType": "text/plain; charset=UTF-8",
+          "edge1010": true,
+          "json": false,
+          "errorCode": null
+        },
+        {
+          "path": "/api/v2/almanac?date=2026-02-30",
+          "status": 403,
+          "contentType": "text/plain; charset=UTF-8",
+          "edge1010": true,
+          "json": false,
+          "errorCode": null
+        },
+        {
+          "path": "/not-an-api-path",
+          "status": 403,
+          "contentType": "text/plain; charset=UTF-8",
+          "edge1010": true,
+          "json": false,
+          "errorCode": null
+        }
+      ],
+      "after": [
+        {
+          "path": "/",
+          "status": 200,
+          "contentType": "application/json; charset=UTF-8",
+          "edge1010": false,
+          "json": true,
+          "errorCode": null
+        },
+        {
+          "path": "/api/v2/almanac/capabilities",
+          "status": 200,
+          "contentType": "application/json; charset=UTF-8",
+          "edge1010": false,
+          "json": true,
+          "errorCode": null
+        },
+        {
+          "path": "/api/v2/almanac?date=2026-02-30",
+          "status": 400,
+          "contentType": "application/json; charset=UTF-8",
+          "edge1010": false,
+          "json": true,
+          "errorCode": "INVALID_REQUEST"
+        },
+        {
+          "path": "/not-an-api-path",
+          "status": 403,
+          "contentType": "text/plain; charset=UTF-8",
+          "edge1010": true,
+          "json": false,
+          "errorCode": null
+        }
+      ]
+    },
+    "pythonMcp": {
+      "checkedAt": "2026-10-23T14:51:42Z",
+      "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+      "mcpVersion": "2.3.0",
+      "httpxVersion": "2.16.0",
+      "passed": 6,
+      "checks": [
+        "discover and list four tools",
+        "leap lunar calculation and structured content",
+        "range across leap-month boundary",
+        "invalid date remains a tool error",
+        "calendar capabilities",
+        "resource matches capabilities tool"
+      ],
+      "customUserAgent": false,
+      "tlsVerificationDisabled": false
+    },
+    "nodeMcpSdkGenerations": 2,
+    "v2McpPublicChecks": 31,
+    "quota": [
+      {
+        "request": 1,
+        "status": 200,
+        "retryAfter": null,
+        "quotaUnits": 14
+      },
+      {
+        "request": 2,
+        "status": 429,
+        "retryAfter": "1",
+        "errorCode": "RATE_LIMITED"
+      }
+    ]
+  },
+  "limitations": [
+    "Post-change client verification was performed on Windows; production-host Python was not rerun.",
+    "BIC remains enabled outside the exact host and path allowlist."
+  ],
+  "rollback": {
+    "method": "DELETE",
+    "path": "/zones/4a254fc1b885dec1538a098e7229d60d/rulesets/cbaee1ff9c10458fb37a0ff39cd6ec95/rules/d4a1d4a374264d37a5a094ed0817bbf9",
+    "credentialScope": "mnnu.eu.org Config Settings Write",
+    "preserveOtherRules": true
+  },
+  "evidence": [
+    {
+      "path": "build/security/cloudflare-bic-20261023/applied-rule-report.json",
+      "bytes": 2116,
+      "sha256": "da96b2755da14a3ca1ed2f34433ca23bde98d5f5a8888b4c062a7d39356131e7"
+    },
+    {
+      "path": "build/security/cloudflare-bic-20261023/configuration-before-scoped.json",
+      "bytes": 249,
+      "sha256": "b5607fa63f60366ca9c73002d2f36f31462786a35c55f7320a74b68eb806ce02"
+    },
+    {
+      "path": "build/security/cloudflare-bic-20261023/configuration-after-scoped.json",
+      "bytes": 1139,
+      "sha256": "1ee7bdf402618f4095266f1c448c388743dcc096308117e86616c5419e4d7a7c"
+    },
+    {
+      "path": "build/security/cloudflare-bic-20261023/python-before.json",
+      "bytes": 1041,
+      "sha256": "2cdbe92aab22a4913611cc38f9d4c27f282333c5fdc3e74e1af14551c69ee419"
+    },
+    {
+      "path": "build/security/cloudflare-bic-20261023/python-after.json",
+      "bytes": 1072,
+      "sha256": "1bf2bd3ce3d0542ed2579c596aa1f20a1645aad95fe4d67bdaa46de2d388e20a"
+    },
+    {
+      "path": "build/security/cloudflare-bic-20261023/python-mcp-after.json",
+      "bytes": 546,
+      "sha256": "ae75eacd771bcaa2530dab7000b6f8963e11fd61bc9bfd1e71023c103f2d1f1e"
+    },
+    {
+      "path": "build/security/cloudflare-bic-20261023/python-mcp-after.log",
+      "bytes": 484,
+      "sha256": "cfd6a94000f8c1748a13c256a55e4a7922add056cd2f27b2cd7b382def74ee37"
+    },
+    {
+      "path": "build/security/cloudflare-bic-20261023/node-sdk-after.log",
+      "bytes": 412,
+      "sha256": "564ddf2d43d59ebe58c2ae43cc64ad92db7bdf0c6bc21eb96eec981be37084f1"
+    },
+    {
+      "path": "build/security/cloudflare-bic-20261023/worker-v2-after.json",
+      "bytes": 2256,
+      "sha256": "5a2c97501c9bcdb6ee1d8bad45c62089b9811f9c8b03418a7cb0e009b3952b08"
+    },
+    {
+      "path": "build/security/cloudflare-bic-20261023/quota-after.json",
+      "bytes": 337,
+      "sha256": "8ae613508893a9fe01e4eabedbc84f0c972ccb1e159d11a8efdb232e2e89785e"
+    },
+    {
+      "path": "build/security/cloudflare-bic-20261023/revocation-check.json",
+      "bytes": 146,
+      "sha256": "d059742ccf7a8d656b396dbf763af11c7c207adb580ef4cba60f8a6c8d196830"
+    }
+  ],
+  "ruleSource": {
+    "path": "deploy/cloudflare-api-bic-rule.json",
+    "sha256": "8392c799b344cd1248383145519ccdf2d43d6d12b234a73d6a512780ec96c289"
+  }
+}

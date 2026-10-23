@@ -92,7 +92,7 @@ POST同路径接受`{"startDate":"2020-05-22","endDate":"2020-05-23","time":"23:
 
 错误状态包括400、404、405、408、413、415、429、431、500、503。稳定机器码包括 INVALID_REQUEST、NOT_FOUND、METHOD_NOT_ALLOWED、REQUEST_TIMEOUT、PAYLOAD_TOO_LARGE、UNSUPPORTED_MEDIA_TYPE、RATE_LIMITED、HEADERS_TOO_LARGE、INTERNAL_ERROR、SERVICE_UNAVAILABLE。协议层拒绝格式由Tomcat/Cloudflare决定。
 
-Worker默认Python urllib已复现Cloudflare 403/1010，属于到达应用前的BIC拒绝，可能是纯文本，不能归类为FORBIDDEN_ORIGIN或假定总有error.code。局部配置仍受规则集权限限制，见[当前边界与方案](CLOUDFLARE_API_COMPATIBILITY.md)。
+Worker默认Python urllib的403/1010已通过限定现有API/MCP路径的BIC配置修复，官方Python及两代Node MCP客户端复测通过。未匹配路径仍可能在到达应用前被Cloudflare以纯文本拒绝，不能归类为FORBIDDEN_ORIGIN或假定总有error.code，见[配置与复测](CLOUDFLARE_API_COMPATIBILITY.md)。
 
 单次计算请求体上限1024字节，重复JSON键在解析时即拒绝。GET查询字符串上限1024字符。与v1/MCP共用突发20、每分钟补充120、计算并发4的应用保护；Worker另有原生边缘限流。429/503带Retry-After；其他安全限制与v1一致。OpenAPI可公开读取，服务不执行模型指令、命令或外部URL请求。
 

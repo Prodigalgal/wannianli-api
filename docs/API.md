@@ -16,7 +16,7 @@
 
 线上2.5.0已于2026-10-23双端发布并通过公网验证，包含此前2.4.0扩展，详见[发布记录](DEPLOYMENT_2026-10-23_V250.md)。Java与运行独立的Worker使用同一请求格式、固定UTC+08:00，支持对应公历日期 **1801-01-01 至 2199-12-31**。
 
-Worker域名的默认Python urllib可被Cloudflare BIC以403/1010拦截；这不是应用的Origin错误，响应也可能不是JSON。局部配置方案已准备但规则集权限不足，尚未解决，见[兼容性边界](CLOUDFLARE_API_COMPATIBILITY.md)。
+Worker域名现有API/MCP路径的默认Python urllib已通过局部BIC配置复测；官方Python与两代Node MCP客户端通过。未匹配路径仍可能被Cloudflare在应用前以纯文本拒绝，不能把这类响应归为应用Origin错误或假定其为JSON，见[兼容性记录](CLOUDFLARE_API_COMPATIBILITY.md)。
 
 ## 接口与请求
 

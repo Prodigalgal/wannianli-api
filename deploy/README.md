@@ -47,7 +47,7 @@ curl -fsS https://wannianli.mnnu.eu.org/api/v1/almanac/current
 
 同名JAR内容变化不会自动触发Compose重建，因此发布必须显式使用 `--force-recreate`。先将新JAR上传到独立发布目录、核对SHA-256并备份旧包，再原子替换。必须等待实际计算就绪并核对挂载包；既往该主机启动约138秒，不能以容器Up代替接口验收。
 
-当前API/MCP 2.5.0，版本、CI制品、运行身份及每端60项公网验收见[发布记录](../docs/DEPLOYMENT_2026-10-23_V250.md)。本次经生产机既有Agent命令通道发布，没有变更SSH授权或路由。旧版2.3.0见[历史记录](../docs/DEPLOYMENT_2026-10-23_V230.md)。发布清单位于`deploy/releases/`，先核对目标版本再操作回滚。Worker默认Python urllib仍有Cloudflare1010限制，局部配置权限待补，见[边界](../docs/CLOUDFLARE_API_COMPATIBILITY.md)。
+当前API/MCP 2.5.0，版本、CI制品、运行身份及每端60项公网验收见[发布记录](../docs/DEPLOYMENT_2026-10-23_V250.md)。本次经生产机既有Agent命令通道发布，没有变更SSH授权或路由。旧版2.3.0见[历史记录](../docs/DEPLOYMENT_2026-10-23_V230.md)。发布清单位于`deploy/releases/`，先核对目标版本再操作回滚。Worker默认Python urllib的Cloudflare1010已通过九条API/MCP路径的局部配置修复，整站BIC仍开启；配置身份及回退见[兼容性记录](../docs/CLOUDFLARE_API_COMPATIBILITY.md)。
 
 ## 本轮JAR回滚
 

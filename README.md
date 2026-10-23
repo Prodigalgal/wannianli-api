@@ -25,7 +25,7 @@ Invoke-RestMethod http://127.0.0.1:8080/api/v1/almanac/current
 {"历法":"农历","年":2020,"月":4,"日":1,"时":12,"分":30,"秒":15,"是否闰月":"是"}
 ```
 
-时分秒可省略（默认零），是否闰月默认“否”。两接口均固定 `UTC+08:00`，不接受时区或查询参数。详细字段、示例、错误码及安全限制见 [接口文档](docs/API.md)。线上2.3.0验收见[发布记录](docs/DEPLOYMENT_2026-10-23_V230.md)；本分支2.4.0新增原图核验75页、累计117页，补10项月神，已构建验证、尚未发布，见[第二批核验](docs/SOURCE_COLLATION_BATCH02.md)。其他边界见[第四轮记录](docs/FOURTH_AUDIT.md)与[待办状态](docs/TODO.md)。
+时分秒可省略（默认零），是否闰月默认“否”。两接口均固定 `UTC+08:00`，不接受时区或查询参数。详细字段、示例、错误码及安全限制见 [接口文档](docs/API.md)。线上2.3.0验收见[发布记录](docs/DEPLOYMENT_2026-10-23_V230.md)；本分支2.4.0补10项月神，已构建验证、尚未发布，见[第二批核验](docs/SOURCE_COLLATION_BATCH02.md)。原图规则核验现累计160页，后续采用电子文本批量核对、原图裁决疑点，见[第三批核验](docs/SOURCE_COLLATION_BATCH03.md)与[文字来源](docs/ELECTRONIC_TEXTS.md)。其他边界见[第四轮记录](docs/FOURTH_AUDIT.md)与[待办状态](docs/TODO.md)。
 
 ## 返回内容
 

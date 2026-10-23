@@ -10,3 +10,4 @@ Dockerfile text eol=lf
 /docs/sources/astronomy/**/*.txt -text
 # Keep upstream metadata spaces as part of the hashed byte snapshot.
 /docs/sources/classical-texts/*.txt -text whitespace=-blank-at-eol
+/docs/sources/electronic-supplements/*.txt -text whitespace=-blank-at-eol

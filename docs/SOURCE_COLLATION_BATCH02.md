@@ -60,4 +60,6 @@
 
 Java完整74项、Worker完整86项通过；加固后的地囊/土符独立塞穴样例另行复验。两端1827日v1、273个v2（261周采样与12边界）、3个区间及两代官方MCP SDK通过。39处天文时刻相差至多1毫秒且同UTC+08民用日，其余业务字段严格相等；没有把这39处写成零差异。
 
+运行源码提交`ccb899a2a9d0989669509eec10ce4be45f030b79`的[Worker/JVM构建验收](https://github.com/Prodigalgal/wannianli-api/actions/runs/39919790575)与[ARM64原生编译、差分及容器验收](https://github.com/Prodigalgal/wannianli-api/actions/runs/39919790707)均成功；原生镜像发布job为skipped。后续文档归档不改变这批运行源码。本地JAR的SHA-256为`96a1d027e305eec36652db098ecbd8bd16a285da02d58b82cdd7d4e4ab8c6b19`。
+
 本地JAR已构建，软件标识2.4.0，尚未部署。发布预检时现有Java主机没有接受当前SSH密钥，故未启动双端切换。此前2.3.0的生产验收记录保持独立，本批核读和测试不冒充线上生效。源文核验计数不依赖是否发布，也不能代替运行时验收。

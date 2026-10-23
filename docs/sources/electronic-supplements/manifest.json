@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "role": "SUPPLEMENTARY_ELECTRONIC_TEXT",
+  "note": "维基文库原始Wikitext修订快照，用于批量规则对照；未核36卷完整性及图表，不增加原图核验或已实现规则计数。古籍原文为公有领域，平台转录及编辑适用来源页注明条款；保留来源与修订身份。",
+  "licensePage": "https://zh.wikisource.org/wiki/Wikisource:著作权信息",
+  "completeBookVerified": false,
+  "files": [
+    {
+      "file": "wikisource-volume06.txt",
+      "volume": 6,
+      "title": "欽定協紀辨方書 (四庫全書本)/卷06",
+      "pageId": 258552,
+      "revision": 787343,
+      "revisionTimestamp": "2016-10-27T11:54:36Z",
+      "sourceUrl": "https://zh.wikisource.org/w/index.php?oldid=787343",
+      "fetchedOn": "2026-10-23",
+      "bytes": 38409,
+      "sha256": "8c2ddb8056411ccde87b32b7f6be22ac841c6e84cb29579f082504869e4ceea6",
+      "status": "TRANSCRIPT_SNAPSHOT_NOT_RULE_VERIFIED"
+    },
+    {
+      "file": "wikisource-volume10.txt",
+      "volume": 10,
+      "title": "欽定協紀辨方書 (四庫全書本)/卷10",
+      "pageId": 258558,
+      "revision": 787351,
+      "revisionTimestamp": "2016-10-27T11:55:57Z",
+      "sourceUrl": "https://zh.wikisource.org/w/index.php?oldid=787351",
+      "fetchedOn": "2026-10-23",
+      "bytes": 60422,
+      "sha256": "0774eba5ce8ca40c4e9067c82b63a6808a6c82532efe85f9384f345bbc6b43a9",
+      "status": "TRANSCRIPT_SNAPSHOT_NOT_RULE_VERIFIED"
+    },
+    {
+      "file": "wikisource-volume14.txt",
+      "volume": 14,
+      "title": "欽定協紀辨方書 (四庫全書本)/卷14",
+      "pageId": 258564,
+      "revision": 627109,
+      "revisionTimestamp": "2016-10-14T03:23:42Z",
+      "sourceUrl": "https://zh.wikisource.org/w/index.php?oldid=627109",
+      "fetchedOn": "2026-10-23",
+      "bytes": 27596,
+      "sha256": "0db8d3d973392758282bfb49b98e71de30447114d8a8bf06ff54ebeaf01c3c8e",
+      "status": "TRANSCRIPT_SNAPSHOT_NOT_RULE_VERIFIED"
+    }
+  ]
+}

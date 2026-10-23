@@ -2096,7 +2096,7 @@
               "volume": 6,
               "leaf": "16b",
               "ambiguousLeaf": false,
-              "verifiedScanId": null,
+              "verifiedScanId": "CADAL06056507/34",
               "flags": [
                 "COMMENTARY",
                 "EXCEPTION_CANDIDATE"
@@ -3065,7 +3065,7 @@
               "volume": 6,
               "leaf": "27a",
               "ambiguousLeaf": false,
-              "verifiedScanId": null,
+              "verifiedScanId": "CADAL06056507/55",
               "flags": [
                 "REJECTED_OLD_THEORY_CANDIDATE"
               ]

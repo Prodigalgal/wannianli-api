@@ -45,7 +45,7 @@ const lines = ["# 全书分页索引与检索进度", "", "本页由 `node tools
   "## 进度分别计数", "", "| 项目 | 数量与口径 |", "|---|---|",
   `| 原始影像 | ${summary.facsimileFiles}册，${summary.volumes}卷，${summary.scanPages}扫描页；全部原始字节已在本机缓存并按公布SHA-1匹配 |`,
   `| 分页记录 | ${summary.pageRecords}页；每页有稳定ID、册号、扫描序号、尺寸及卷类路由候选 |`,
-  `| 既有影像核对 | ${summary.ruleCollationPages}页相关规则核对、${summary.tableTranscribedPages}页等第表转录；其余${summary.unreviewedPages}页未核 |`,
+  `| 既有影像核对 | ${summary.ruleCollationPages}页相关规则核对、${summary.tableTranscribedPages}页等第表转录；其余${summary.unreviewedPages}页未计入规则核验，含另表排除的结构页及留白 |`,
   `| 电子转录草稿 | ${summary.transcriptFiles}文件，含卷首及${summary.transcriptVolumes}卷，${summary.transcriptFragments}片段；缺卷${summary.missingTranscriptVolumes.join("、")} |`,
   `| 转录质量待核 | ${summary.emptyTranscriptFragments}空片段；${summary.duplicatedLeafMarkers}个重复叶码影响${summary.ambiguousTranscriptFragments}片段 |`,
   `| 影像/文本链接 | ${summary.verifiedScanTextLinks}条依据既有叶码核对；${summary.candidateScanTextLinks}条按锚点偏移推测，须回看影像 |`,

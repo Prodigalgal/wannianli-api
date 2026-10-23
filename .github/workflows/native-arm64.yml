@@ -3,11 +3,28 @@ name: Native ARM64
 on:
   push:
     branches: [main]
+  pull_request:
+    paths:
+      - "src/**"
+      - "worker/**"
+      - "tools/**"
+      - "licenses/**"
+      - "build.gradle"
+      - "settings.gradle"
+      - "gradle/**"
+      - "Dockerfile"
+      - ".dockerignore"
+      - ".github/workflows/native-arm64.yml"
   workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish the verified image (main branch only)"
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
-  packages: write
 
 concurrency:
   group: native-arm64-${{ github.ref }}
@@ -18,13 +35,15 @@ env:
 
 jobs:
   build:
-    name: Test, native compile and publish
+    name: Validate native ARM64
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 45
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js 22
         uses: actions/setup-node@v4
@@ -49,16 +68,23 @@ jobs:
           cache: gradle
 
       - name: Verify and compile native ARM64 executable
-        run: ./gradlew clean test nativeCompile --no-daemon
+        shell: bash
+        run: ./gradlew clean test nativeCompile --no-daemon | tee native-build.log
 
       - name: Verify executable architecture
         shell: bash
         run: |
+          test "$(uname -m)" = aarch64
+          uname -a | tee native-host.txt
           file build/native/nativeCompile/wannianli-api | tee native-file.txt
           grep -Eq 'ARM aarch64|ARM64' native-file.txt
           test -x build/native/nativeCompile/wannianli-api
           ldd build/native/nativeCompile/wannianli-api | tee native-ldd.txt
           ! grep -q 'not found' native-ldd.txt
+
+      - name: Compare native Java and Worker calculations and MCP clients
+        shell: bash
+        run: node tools/compare-implementations.mjs --native build/native/nativeCompile/wannianli-api | tee native-parity.log
 
       - name: Upload native executable
         uses: actions/upload-artifact@v4
@@ -104,6 +130,49 @@ jobs:
              (tostring | contains(":true") | not) and (tostring | contains(":false") | not) and
              (has("references") | not)' \
             response.json
+          node tools/verify-api-v2.mjs http://127.0.0.1:18080 native-container-v2.json
+          node tools/verify-deployment.mjs http://127.0.0.1:18080 --pace-ms 600 --report native-container-v1.json
+
+      - name: Preserve native validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-arm64-validation-${{ github.sha }}
+          path: |
+            native-*.txt
+            native-*.log
+            native-container-*.json
+            build/test-results/test/*.xml
+          if-no-files-found: warn
+
+  publish:
+    name: Publish verified ARM64 image
+    needs: build
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' ||
+       (github.event_name == 'workflow_dispatch' && inputs.publish))
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout the validated source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Download the validated executable
+        uses: actions/download-artifact@v4
+        with:
+          name: wannianli-api-linux-arm64
+          path: build/native/nativeCompile
+
+      - name: Restore executable permission
+        run: chmod +x build/native/nativeCompile/wannianli-api
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Log in to GHCR
         uses: docker/login-action@v3

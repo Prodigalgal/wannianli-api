@@ -30,9 +30,7 @@ public final class ChineseCalendarCalculator {
     }
 
     public ChineseCalendarDate calculate(LocalDate date) {
-        if (date.getYear() < 1801 || date.getYear() > 2199) {
-            throw new IllegalArgumentException("Chinese calendar calculation supports years 1801 through 2199");
-        }
+        requireSupportedDate(date);
 
         Instant reference = date.atTime(12, 0).atZone(zone).toInstant();
         Instant winterSolsticeThisYear = SolarEphemeris.solarTermInstant(
@@ -40,23 +38,7 @@ public final class ChineseCalendarCalculator {
         int firstSolsticeYear = date.isBefore(winterSolsticeThisYear.atZone(zone).toLocalDate())
                 ? date.getYear() - 1
                 : date.getYear();
-        Instant firstSolstice = SolarEphemeris.solarTermInstant(
-                firstSolsticeYear, SolarTerm.WINTER_SOLSTICE, zone);
-        Instant secondSolstice = SolarEphemeris.solarTermInstant(
-                firstSolsticeYear + 1, SolarTerm.WINTER_SOLSTICE, zone);
-
-        int firstMonth11Lunation = month11Lunation(firstSolstice);
-        int secondMonth11Lunation = month11Lunation(secondSolstice);
-        int monthCount = secondMonth11Lunation - firstMonth11Lunation;
-        if (monthCount != 12 && monthCount != 13) {
-            throw new IllegalStateException("Astronomical month sequence is invalid: " + monthCount);
-        }
-
-        int leapIndex = monthCount == 13
-                ? findLeapMonthIndex(firstMonth11Lunation, monthCount)
-                : -1;
-        // Include the terminal month eleven so dates between its new moon and winter solstice are covered.
-        List<MonthSpan> spans = buildMonthSpans(firstMonth11Lunation, monthCount + 1, leapIndex);
+        List<MonthSpan> spans = monthSpans(firstSolsticeYear);
         int newYearIndex = findNewYearIndex(spans);
         int lunarYear = spans.get(newYearIndex).startDate().getYear();
 
@@ -73,6 +55,54 @@ public final class ChineseCalendarCalculator {
             }
         }
         throw new IllegalStateException("Date did not fall within calculated lunisolar year: " + reference);
+    }
+
+    public LocalDate toGregorian(int year, int month, int day, boolean leapMonth) {
+        // Lunar year 1800 is needed for the supported Gregorian dates before Chinese New Year 1801.
+        if (year < 1800 || year > 2199 || month < 1 || month > 12 || day < 1 || day > 30) {
+            throw new IllegalArgumentException("农历年月日超出支持范围");
+        }
+        for (int solsticeYear = Math.max(year - 1, 1800); solsticeYear <= year; solsticeYear++) {
+            List<MonthSpan> spans = monthSpans(solsticeYear);
+            int newYearIndex = findNewYearIndex(spans);
+            int newYear = spans.get(newYearIndex).startDate().getYear();
+            for (int i = 0; i < spans.size(); i++) {
+                MonthSpan span = spans.get(i);
+                int lunarYear = i < newYearIndex ? newYear - 1 : newYear;
+                if (lunarYear != year || span.month() != month || span.leap() != leapMonth) {
+                    continue;
+                }
+                int length = Math.toIntExact(ChronoUnit.DAYS.between(span.startDate(), span.endDate()));
+                if (day > length) {
+                    throw new IllegalArgumentException("农历日期不存在：该月只有" + length + "天");
+                }
+                LocalDate date = span.startDate().plusDays(day - 1);
+                requireSupportedDate(date);
+                return date;
+            }
+        }
+        throw new IllegalArgumentException("农历月份不存在，请检查年份、月份及是否闰月");
+    }
+
+    private static void requireSupportedDate(LocalDate date) {
+        if (date.getYear() < 1801 || date.getYear() > 2199) {
+            throw new IllegalArgumentException("对应公历日期必须在1801-01-01至2199-12-31之间");
+        }
+    }
+
+    private List<MonthSpan> monthSpans(int firstSolsticeYear) {
+        Instant firstSolstice = SolarEphemeris.solarTermInstant(
+                firstSolsticeYear, SolarTerm.WINTER_SOLSTICE, zone);
+        Instant secondSolstice = SolarEphemeris.solarTermInstant(
+                firstSolsticeYear + 1, SolarTerm.WINTER_SOLSTICE, zone);
+        int firstLunation = month11Lunation(firstSolstice);
+        int monthCount = month11Lunation(secondSolstice) - firstLunation;
+        if (monthCount != 12 && monthCount != 13) {
+            throw new IllegalStateException("Astronomical month sequence is invalid: " + monthCount);
+        }
+        int leapIndex = monthCount == 13 ? findLeapMonthIndex(firstLunation, monthCount) : -1;
+        // Include the terminal month eleven so dates before the second winter solstice are covered.
+        return buildMonthSpans(firstLunation, monthCount + 1, leapIndex);
     }
 
     private int month11Lunation(Instant winterSolstice) {
@@ -103,7 +133,7 @@ public final class ChineseCalendarCalculator {
     private boolean containsMajorSolarTerm(Instant start, Instant end) {
         LocalDate startDate = start.atZone(zone).toLocalDate();
         LocalDate endDate = end.atZone(zone).toLocalDate();
-        for (int year = startDate.getYear() - 1; year <= endDate.getYear() + 1; year++) {
+        for (int year = startDate.getYear(); year <= endDate.getYear(); year++) {
             for (SolarTerm term : SolarTerm.values()) {
                 if (Math.floorMod((int) term.longitude(), 30) != 0) {
                     continue;

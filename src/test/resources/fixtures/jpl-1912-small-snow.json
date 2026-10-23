@@ -1,0 +1,20 @@
+{
+  "source": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2710%27&CENTER=%27500%40399%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%271912-11-22+15%3A30%27&STOP_TIME=%271912-11-22+16%3A30%27&STEP_SIZE=%271+m%27&QUANTITIES=%2731%27&CSV_FORMAT=%27YES%27&EXTRA_PREC=%27YES%27",
+  "retrievedAt": "2026-10-22T12:39:13.080Z",
+  "ephemeris": "Sun (10)                        {source: DE441}",
+  "quantity": "31: observer-centered IAU76/80 apparent ecliptic longitude of date",
+  "timeScale": "UT1 before 1962; compare against the project UT approximation",
+  "bracket": [
+    {
+      "time": "1912-Nov-22 15:48",
+      "longitude": 239.9998584
+    },
+    {
+      "time": "1912-Nov-22 15:49",
+      "longitude": 240.0005603
+    }
+  ],
+  "interpolatedCrossing": "1912-11-22T15:48:12.105Z",
+  "projectInstant": "1912-11-22T15:48:08.046Z",
+  "differenceSeconds": -4.058288330078125
+}

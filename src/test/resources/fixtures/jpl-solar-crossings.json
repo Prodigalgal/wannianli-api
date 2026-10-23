@@ -1,0 +1,91 @@
+{
+  "purpose": "Independent JPL DE441 quantity-31 apparent longitude crossings; minute samples linearly interpolated, not a project-model snapshot.",
+  "quantity": "31: geocentric IAU76/80 apparent ecliptic longitude of date",
+  "events": [
+    {
+      "source": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2710%27&CENTER=%27500%40399%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%271912-11-22+15%3A30%27&STOP_TIME=%271912-11-22+16%3A30%27&STEP_SIZE=%271+m%27&QUANTITIES=%2731%27&CSV_FORMAT=%27YES%27&EXTRA_PREC=%27YES%27",
+      "retrievedAt": "2026-10-22T12:39:13.080Z",
+      "ephemeris": "Sun (10)                        {source: DE441}",
+      "quantity": "31: observer-centered IAU76/80 apparent ecliptic longitude of date",
+      "timeScale": "UT1 before 1962; compare against the project UT approximation",
+      "bracket": [
+        {
+          "time": "1912-Nov-22 15:48",
+          "longitude": 239.9998584
+        },
+        {
+          "time": "1912-Nov-22 15:49",
+          "longitude": 240.0005603
+        }
+      ],
+      "interpolatedCrossing": "1912-11-22T15:48:12.105Z",
+      "year": 1912,
+      "term": "MINOR_SNOW",
+      "longitude": 240,
+      "maxDifferenceSeconds": 4
+    },
+    {
+      "year": 1979,
+      "term": "MAJOR_COLD",
+      "longitude": 300,
+      "source": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2710%27&CENTER=%27500%40399%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%271979-01-20+15%3A58%27&STOP_TIME=%271979-01-20+16%3A01%27&STEP_SIZE=%271+m%27&QUANTITIES=%2731%27&CSV_FORMAT=%27YES%27&EXTRA_PREC=%27YES%27",
+      "retrievedAt": "2026-10-22T18:03:03.812Z",
+      "ephemeris": "DE441",
+      "timeScale": "UTC",
+      "bracket": [
+        {
+          "time": "1979-Jan-20 15:59",
+          "longitude": 299.9993457
+        },
+        {
+          "time": "1979-Jan-20 16:00",
+          "longitude": 300.0000524
+        }
+      ],
+      "interpolatedCrossing": "1979-01-20T15:59:55.551Z",
+      "maxDifferenceSeconds": 4
+    },
+    {
+      "year": 2021,
+      "term": "WINTER_SOLSTICE",
+      "longitude": 270,
+      "source": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2710%27&CENTER=%27500%40399%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272021-12-21+15%3A59%27&STOP_TIME=%272021-12-21+16%3A01%27&STEP_SIZE=%271+m%27&QUANTITIES=%2731%27&CSV_FORMAT=%27YES%27&EXTRA_PREC=%27YES%27",
+      "retrievedAt": "2026-10-22T18:10:21.419Z",
+      "ephemeris": "DE441",
+      "timeScale": "UTC",
+      "bracket": [
+        {
+          "time": "2021-Dec-21 15:59",
+          "longitude": 269.9997716
+        },
+        {
+          "time": "2021-Dec-21 16:00",
+          "longitude": 270.0004786
+        }
+      ],
+      "interpolatedCrossing": "2021-12-21T15:59:19.383Z",
+      "maxDifferenceSeconds": 4
+    },
+    {
+      "year": 1917,
+      "term": "MAJOR_SNOW",
+      "longitude": 255,
+      "source": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2710%27&CENTER=%27500%40399%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%271917-12-07+15%3A59%27&STOP_TIME=%271917-12-07+16%3A03%27&STEP_SIZE=%271+m%27&QUANTITIES=%2731%27&CSV_FORMAT=%27YES%27&EXTRA_PREC=%27YES%27",
+      "retrievedAt": "2026-10-22T18:10:22.850Z",
+      "ephemeris": "DE441",
+      "timeScale": "UT1",
+      "bracket": [
+        {
+          "time": "1917-Dec-07 16:01",
+          "longitude": 254.9999533
+        },
+        {
+          "time": "1917-Dec-07 16:02",
+          "longitude": 255.0006588
+        }
+      ],
+      "interpolatedCrossing": "1917-12-07T16:01:03.972Z",
+      "maxDifferenceSeconds": 4
+    }
+  ]
+}

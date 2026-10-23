@@ -8,6 +8,7 @@ import {
 import { calculateTraditionalAlmanac } from "./almanac.js";
 import { calculateChineseCalendar, calculatePillars, calculateSeasonal, calculateXunKong } from "./calendar.js";
 import { evaluateActivities } from "./rules.js";
+import { calculationDisclosure } from "./disclosure.js";
 
 const WEEKDAYS = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
 const yesNo = (value) => value ? "是" : "否";
@@ -158,11 +159,12 @@ export function calculateAuditableAlmanac(now = new Date()) {
   const pillars = calculatePillars(now, date, solarLongitude);
   const xunKong = calculateFourPillarXunKong(pillars);
   const seasonal = calculateSeasonal(now, solarLongitude);
-  const almanac = calculateTraditionalAlmanac(date, pillars.month, pillars.day, solarLongitude);
+  const almanac = calculateTraditionalAlmanac(date, pillars.month, pillars.day, solarLongitude, pillars.year);
   const activities = evaluateActivities(date, pillars.month, pillars.day, almanac, solarLongitude);
   return {
     result: buildPublicResult(now, date, lunar, pillars, xunKong, seasonal, almanac, activities),
     audit: {
+      calculationDisclosure,
       fixedOffset: "UTC+08:00",
       solarLongitude,
       lunar,

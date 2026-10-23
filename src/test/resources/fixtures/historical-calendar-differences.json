@@ -1,0 +1,16 @@
+{
+  "source": "https://www.chengxua.com/lishi/computation_chinese.html",
+  "sourceType": "研究者自身DE431复算与历史历书比对，不是HKO对其采用底本的正式说明",
+  "retrievedAt": "2026-10-23",
+  "events": [
+    {"kind":"newMoon","k":-1053,"historicalDate":"1914-11-17","modernTime":"1914-11-18T00:02:00+08:00","explanation":"北京地方时与固定UT1+8的日期边界不同"},
+    {"kind":"newMoon","k":-1038,"historicalDate":"1916-02-03","modernTime":"1916-02-04T00:05:00+08:00","explanation":"北京地方时与固定UT1+8的日期边界不同"},
+    {"kind":"newMoon","k":-979,"historicalDate":"1920-11-10","modernTime":"1920-11-11T00:05:00+08:00","explanation":"北京地方时与固定UT1+8的日期边界不同"},
+    {"kind":"solarTerm","year":1912,"term":"MINOR_SNOW","name":"小雪","historicalDate":"1912-11-23","historicalClock":"00:39","modernTime":"1912-11-22T23:48:00+08:00","explanation":"1914年前旧历象考成后编算法的差异，不能归于单一时区"},
+    {"kind":"solarTerm","year":1913,"term":"AUTUMN_EQUINOX","name":"秋分","historicalDate":"1913-09-24","historicalClock":"00:48","modernTime":"1913-09-23T23:53:00+08:00","explanation":"1914年前旧历算方法的差异"},
+    {"kind":"solarTerm","year":1917,"term":"MAJOR_SNOW","name":"大雪","historicalDate":"1917-12-07","historicalClock":"23:47","modernTime":"1917-12-08T00:01:00+08:00","explanation":"北京地方时与固定UT1+8的日期边界不同"},
+    {"kind":"solarTerm","year":1927,"term":"WHITE_DEW","name":"白露","historicalDate":"1927-09-08","historicalClock":"23:52","modernTime":"1927-09-09T00:05:00+08:00","explanation":"北京地方时与固定UT1+8的日期边界不同"},
+    {"kind":"solarTerm","year":1928,"term":"SUMMER_SOLSTICE","name":"夏至","historicalDate":"1928-06-21","historicalClock":"23:53","modernTime":"1928-06-22T00:06:00+08:00","explanation":"北京地方时与固定UT1+8的日期边界不同"},
+    {"kind":"solarTerm","year":1979,"term":"MAJOR_COLD","name":"大寒","historicalDate":"1979-01-21","historicalClock":"00:00","modernTime":"1979-01-20T23:59:54+08:00","explanation":"独立历史历书研究记载的旧表精度边界；现代日期另经JPL DE441核验。项目原先主项截断恰好给出旧历书日期，已修正模型而不覆盖日期"}
+  ]
+}

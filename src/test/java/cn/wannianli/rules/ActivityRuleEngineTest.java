@@ -13,7 +13,7 @@ import cn.wannianli.rules.ActivityResult.Disposition;
 class ActivityRuleEngineTest {
 
     @Test
-    void lowerAuthorityPengZuTabooCannotOverrideImperialCanonRule() {
+    void imperialPlacementTabooDecidesTheConflictWhilePengZuRemainsExcluded() {
         var month = SexagenaryCycle.fromIndex(4); // 戊辰月
         var day = SexagenaryCycle.fromIndex(2);   // 丙寅日 -> 开日
         var almanac = new TraditionalAlmanacCalculator()
@@ -26,7 +26,8 @@ class ActivityRuleEngineTest {
                 .filteredOn(decision -> decision.activity().equals("祭祀"))
                 .singleElement()
                 .satisfies(decision -> {
-                    assertThat(decision.disposition()).isEqualTo(Disposition.RECOMMENDED);
+                    assertThat(decision.disposition()).isEqualTo(Disposition.AVOID);
+                    assertThat(decision.avoidedBy()).contains("DAY_YIN_RETAINED_TABOOS");
                     assertThat(decision.excludedLowerAuthorityRules()).contains("PENGZU_BRANCH_丙寅");
                 });
     }
@@ -46,7 +47,7 @@ class ActivityRuleEngineTest {
     }
 
     @Test
-    void receiveDayNeedsSeasonalVirtueBeforeRecommendingStorehouseRepair() {
+    void receiveDayCombinationRecommendationsRemainSubjectToMonthlyPunishment() {
         var month = SexagenaryCycle.fromIndex(3);  // 丁卯月
         var day = SexagenaryCycle.fromIndex(12);   // 丙子日 -> 收日，春季四相
         var almanac = new TraditionalAlmanacCalculator()
@@ -60,6 +61,7 @@ class ActivityRuleEngineTest {
         assertThat(result.ruleHits()).extracting(hit -> hit.ruleId())
                 .contains("OFFICER_RECEIVE_STOREHOUSE_COMBINATION", "OFFICER_SEASONAL_收",
                         "MATERNAL_STOREHOUSE_REPAIR_COMBINATION");
-        assertThat(result.recommended()).contains("修仓库", "取鱼");
+        assertThat(result.avoided()).contains("修仓库", "取鱼");
+        assertThat(result.dayGrade()).isEqualTo(ActivityResult.DayGrade.INFERIOR);
     }
 }

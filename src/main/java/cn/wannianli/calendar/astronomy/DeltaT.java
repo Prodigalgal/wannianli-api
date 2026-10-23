@@ -1,18 +1,36 @@
 package cn.wannianli.calendar.astronomy;
 
 /**
- * Piecewise Espenak-Meeus approximation of TT - UT in seconds.
- * The API only evaluates the current epoch; the wider range supports regression tests.
+ * TT - UT in seconds: USNO observations in 2005-2026 and Espenak-Meeus elsewhere.
+ * Public calculations support Gregorian 1801-2199; adjacent years bracket their solar terms and moons.
  */
 public final class DeltaT {
+
+    public static final int MIN_YEAR = 1800;
+    // Must cover the solar root upper year plus the following winter-solstice lunation.
+    public static final int MAX_YEAR = SolarEphemeris.MAX_YEAR + 2;
 
     private DeltaT() {
     }
 
     public static double seconds(double year) {
-        if (year < 1800 || year > 2201) {
-            throw new IllegalArgumentException("Delta-T implementation supports years 1800 through 2201");
+        // Bracketing the 2200 winter-solstice month also evaluates its following new moon in 2201.
+        if (!Double.isFinite(year) || year < MIN_YEAR || year > MAX_YEAR) {
+            throw new IllegalArgumentException("Delta-T implementation supports years 1800 through 2202");
         }
+        double observed = ObservedDeltaT.seconds(year);
+        if (!Double.isNaN(observed)) return observed;
+        double estimate = polynomial(year);
+        if (year > ObservedDeltaT.LAST_YEAR) {
+            // Continuous engineering extrapolation, NOT observed future data. The correction
+            // tapers over a century; no model can guarantee civil dates near future midnight.
+            double correction = ObservedDeltaT.LAST_SECONDS - polynomial(ObservedDeltaT.LAST_YEAR);
+            return estimate + correction * Math.max(0, 1 - (year - ObservedDeltaT.LAST_YEAR) / 100);
+        }
+        return estimate;
+    }
+
+    private static double polynomial(double year) {
         if (year < 1860) {
             double t = year - 1800;
             return 13.72 - 0.332447 * t + 0.0068612 * pow(t, 2) + 0.0041116 * pow(t, 3)

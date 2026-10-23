@@ -1,0 +1,386 @@
+{
+  "releaseId": "20261022T121023Z",
+  "recordedAt": "2026-10-22T12:21:26.129Z",
+  "source": {
+    "baseCommit": "6039fcf7150e95dc4f3f78d5d0125266dc285ae8",
+    "workingTreeIncludedUncommittedChanges": true,
+    "fingerprintSha256": "6d72408851c949c69bee21aaa36e3337c6828959556068c021960d7dcceb8f6c",
+    "files": [
+      {
+        "path": "build.gradle",
+        "sha256": "f2b024661b9a98dbd108af8bc6a1b9d9b120a15c26c55363922bc31b8fd978c0"
+      },
+      {
+        "path": "settings.gradle",
+        "sha256": "e242c7853506b64c39703c410d39d9adbda8edcbb736a5d2d03f68381494b181"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/WannianliApplication.java",
+        "sha256": "2482f17027ae78f37f14d19307a7dbe06315af84ae59a1a7c58292664e47ae8b"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/almanac/TraditionalAlmanac.java",
+        "sha256": "8a29332ff33b7df21a61808aeb06eceabba05efd3fb7ca9e66809dec4d67a464"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/almanac/TraditionalAlmanacCalculator.java",
+        "sha256": "ac67f08931a437246354cb14550e58291d05e34b4440d535d8a63e07fb54d480"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacApiException.java",
+        "sha256": "38b3cf4ca8ae6d25220faa12cf1ba292fe0eb3515da4e661b663af4d08e41b9d"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacCalculationRequest.java",
+        "sha256": "b0b876ba5ce63a32563d50b5344020cedcca52c0b0ae2371b68555c761228ba5"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacController.java",
+        "sha256": "f7b5c5cdd25e9c50fc25c84a0003cee38606154b83b0f55a928030ecf42b7653"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacExceptionHandler.java",
+        "sha256": "cb7cdeca8447e3a42bcada8a4232ebcd8e75d256a8cafa3b3d94d71dbcf41214"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacRequestParser.java",
+        "sha256": "351f6fea85354f738144f3b1c38c0a3f355a271174d1f746e7454d955ff60d82"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacResponse.java",
+        "sha256": "b5609a1176c5a9e8acd79cba8e817e4eb8ccbcb25ca398ed512433ed3c976847"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/CalculationScope.java",
+        "sha256": "65dbff7226091285e204b806d76dabd31ec5b9e12922a5abaec40995785769ac"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/CurrentAlmanacResponse.java",
+        "sha256": "40a48543f300bddebe1198a174f09708bee524adf2f3fe397f0cad906939b7a0"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/ReferenceCatalog.java",
+        "sha256": "72286d21e0b4b3669c3d9e3817d13ad4b82743abd9d68260954aa9e1638cf719"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/ChineseCalendarCalculator.java",
+        "sha256": "bbbefde1c5733ddea80a5c11bba1b7b82dd9d69b510ff5e531413f0ae2a8f208"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/ChineseCalendarDate.java",
+        "sha256": "a8d71c19ef44cb5aabdeecc026adc6900db0810aea380b45b4ee52f9a4d62b6b"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/SeasonalCalculator.java",
+        "sha256": "076c28e3fa333d9126e5015cc153cd4a7caba1b24b7a39500cd42d6c589b22c5"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/SeasonalContext.java",
+        "sha256": "1425d56cb9afff7abf876989512de329d50d55e28d7881b030bee29ec9926eac"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/SexagenaryCycle.java",
+        "sha256": "71feb3e6dcc7e88733a21761f7528c32d8684826afbcaeea4f6fdc309f01a82b"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/DeltaT.java",
+        "sha256": "5c173496fee607d6eb0ed5edd01df7ad7e6eeb9647e437155928b86e17e18948"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/EarthVsop87.java",
+        "sha256": "9a1dc1994865adf61a0b1319fc89908505088adb4eb8f2aae8a10a7c66dc18a9"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/JulianDate.java",
+        "sha256": "74f642582d7ca08e451a2f2a05e2565ec7530742b90a9b81bb44e97f77c4156b"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/NewMoonEphemeris.java",
+        "sha256": "b055e15f9545d03f95398f7528dbe67cda6f154c8bbac0000f31ffa981a4bf6d"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/ObservedDeltaT.java",
+        "sha256": "4276084b4376af3ec22c8ea8a92bfd56c36148a21c6b0225b648cde6edf909f9"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/SolarEphemeris.java",
+        "sha256": "86555b978da22f46c817e05256168c79d263dbb476d104ff22fb1ca5d7f8c65c"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/SolarTerm.java",
+        "sha256": "07b12c3cf2accfac0ac07e0480b9eb931e4ce4de8ae61f4f950a1aa9a835f6c7"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/config/ApiRequestGuard.java",
+        "sha256": "bcb85a924547bd58cc2d09e4339c19664e84054683ee1f5742ad048f9461b05e"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/config/ApiSecurityFilter.java",
+        "sha256": "52e464535f0190f662a15193e066c8f1beb77d33b333e478081eaacc16de2634"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/config/TimeConfiguration.java",
+        "sha256": "038a00ff8be452a4b342841933a92c9277deb84eeff698fa147af0fbd88a559e"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/rules/ActivityResult.java",
+        "sha256": "9c26a7f8966a9b0f4631d8862c1f3d1c5dfe6cedc28ae4fac7a5b1423d294778"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/rules/ActivityRuleEngine.java",
+        "sha256": "505d4d4a7dbaecb9cdebbd644ace02a64c6ced469ffc3a8bc40b089e5fd6efd9"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/service/AlmanacService.java",
+        "sha256": "8e17b2eb84b737741817791bdf0677acd87ce374b8f4efe859d3c38e8be7e7e9"
+      },
+      {
+        "path": "src/main/resources/application.yml",
+        "sha256": "3f2b13c17ca1474854e4b83220b76fbea2ed3e506d489e718515e5d67ee3666d"
+      },
+      {
+        "path": "worker/package-lock.json",
+        "sha256": "c2d615c011c9403749ee3a3abecf0e8c822c2a7387e0413a90b687a17d02c2f6"
+      },
+      {
+        "path": "worker/package.json",
+        "sha256": "de2d622c61af88ff3fb5c472578e1753fc52566d0351a41b90054895f825d0cc"
+      },
+      {
+        "path": "worker/wrangler.jsonc",
+        "sha256": "88b48bb6d34410a419a105d7f43d661fa6407d8696ddd8cbc4a528ee8a5c1b23"
+      },
+      {
+        "path": "worker/src/almanac.js",
+        "sha256": "d13d3761d23e81c5e62c9834bdefafdaf99c272561ca8f890541a7cdb39623ea"
+      },
+      {
+        "path": "worker/src/astronomy.js",
+        "sha256": "17862b146ad33c6eb462611eef90541f761cd46744a18fa998ea415b8a1d205d"
+      },
+      {
+        "path": "worker/src/calendar.js",
+        "sha256": "5242d79219983f1143e1479403f4f606bc7fe616034e93234fbd5b9bc866cc29"
+      },
+      {
+        "path": "worker/src/disclosure.js",
+        "sha256": "6cc33dc0fb44480c65497f439b63878f93f421f71261d40f38a0af65277f4c8f"
+      },
+      {
+        "path": "worker/src/engine.js",
+        "sha256": "67cc4e282b2d8ddce9bda9ade2570360319348d9b54a0932945b0a73263d7580"
+      },
+      {
+        "path": "worker/src/index.js",
+        "sha256": "f15ded1c866e3a8e0b394101cb9e7042033f2b0d5f28979fbbee5d5cf2d5ee4a"
+      },
+      {
+        "path": "worker/src/observed-delta-t.js",
+        "sha256": "9606c9b1c02a6346b308bc0cb50409c86e0259c0fda1e60b2cc2b7ee6fff057b"
+      },
+      {
+        "path": "worker/src/request.js",
+        "sha256": "9e2c848e8a4cba2145a19e57c3efb9402f3cd2c1be609c7d4b2fed40eb40693d"
+      },
+      {
+        "path": "worker/src/rules.js",
+        "sha256": "6c8dc45584a1c26ea572809159b9de3b1442262ce66ade541d19373cce32dfdb"
+      },
+      {
+        "path": "worker/src/security.js",
+        "sha256": "c26386dc000b4204a5ac2a25649b3f14cba17d821734bf51d680d4a5aa4e19c9"
+      },
+      {
+        "path": "worker/src/vsop87.js",
+        "sha256": "6abcc57cab1fce36bd4183131991ca733e6c48d45b7c2e0a32d83693c7eb26cb"
+      }
+    ]
+  },
+  "build": {
+    "javaTests": 41,
+    "workerTests": 36,
+    "cleanJavaBuild": true,
+    "workerDryRunPassed": true
+  },
+  "java": {
+    "baseUrl": "https://wannianli.mnnu.eu.org",
+    "host": "217.142.229.2",
+    "artifact": "build/libs/wannianli-api-1.0.0.jar",
+    "bytes": 20225749,
+    "sha256": "7ca117c5fe397d62daec3a55bb5074eb4bc11cc4ad7ee67528f1d57cb87d8e97",
+    "containerId": "b5eaddae600280a2762b67ddacf5a463b5b144764b74acf80e5fe3cd001a0106",
+    "backup": "/opt/wannianli-api/releases/20261022T121023Z/previous.jar",
+    "previousSha256": "2660e4e385fad2727d5c1859f31ba22030d24ab26f725998e376beba369f82d9",
+    "fixedCalculationCases": 16,
+    "verification": {
+      "verifiedAt": "2026-10-22T12:19:11.758Z",
+      "results": [
+        {
+          "base": "https://wannianli.mnnu.eu.org",
+          "checks": 16,
+          "monthBreakTaboosRetained": 60,
+          "result": "passed",
+          "details": [
+            {
+              "name": "current /",
+              "status": 200
+            },
+            {
+              "name": "current /api/v1/almanac/current",
+              "status": 200
+            },
+            {
+              "name": "Gregorian seconds",
+              "status": 200
+            },
+            {
+              "name": "lunar seconds",
+              "status": 200
+            },
+            {
+              "name": "lunar leap month",
+              "status": 200
+            },
+            {
+              "name": "month-break taboos",
+              "status": 200
+            },
+            {
+              "name": "impossible Gregorian date",
+              "status": 400
+            },
+            {
+              "name": "unknown lunar leap month",
+              "status": 400
+            },
+            {
+              "name": "escaped duplicate field",
+              "status": 400
+            },
+            {
+              "name": "injection-shaped number",
+              "status": 400
+            },
+            {
+              "name": "oversized body",
+              "status": 413
+            },
+            {
+              "name": "unsupported content type",
+              "status": 415
+            },
+            {
+              "name": "unsupported method",
+              "status": 405
+            },
+            {
+              "name": "unknown query",
+              "status": 400
+            },
+            {
+              "name": "unknown API path",
+              "status": 404
+            },
+            {
+              "name": "HEAD",
+              "status": 200
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "worker": {
+    "baseUrl": "https://wannianli-worker.mnnu.eu.org",
+    "artifact": "worker/.wrangler/release/index.js",
+    "bytes": 122594,
+    "sha256": "c5e125b9bbbd28e752a964125139154cd0a076c5120da8760e1bf308be1afceb",
+    "versionId": "a42e1641-df6e-44e1-9e61-18d0ceed3c12",
+    "deploymentId": "abfe38e1-cc2a-45f1-9a3a-b747bdeffb87",
+    "trafficPercentage": 100,
+    "previousVersionId": "d051b892-7557-4b2d-9399-f5700fb55aeb",
+    "rateLimitBinding": "ALMANAC_RATE_LIMITER",
+    "fixedCalculationCases": 16,
+    "verification": {
+      "verifiedAt": "2026-10-22T12:16:44.872Z",
+      "results": [
+        {
+          "base": "https://wannianli-worker.mnnu.eu.org",
+          "checks": 16,
+          "monthBreakTaboosRetained": 60,
+          "result": "passed",
+          "details": [
+            {
+              "name": "current /",
+              "status": 200
+            },
+            {
+              "name": "current /api/v1/almanac/current",
+              "status": 200
+            },
+            {
+              "name": "Gregorian seconds",
+              "status": 200
+            },
+            {
+              "name": "lunar seconds",
+              "status": 200
+            },
+            {
+              "name": "lunar leap month",
+              "status": 200
+            },
+            {
+              "name": "month-break taboos",
+              "status": 200
+            },
+            {
+              "name": "impossible Gregorian date",
+              "status": 400
+            },
+            {
+              "name": "unknown lunar leap month",
+              "status": 400
+            },
+            {
+              "name": "escaped duplicate field",
+              "status": 400
+            },
+            {
+              "name": "injection-shaped number",
+              "status": 400
+            },
+            {
+              "name": "oversized body",
+              "status": 413
+            },
+            {
+              "name": "unsupported content type",
+              "status": 415
+            },
+            {
+              "name": "unsupported method",
+              "status": 405
+            },
+            {
+              "name": "unknown query",
+              "status": 400
+            },
+            {
+              "name": "unknown API path",
+              "status": 404
+            },
+            {
+              "name": "HEAD",
+              "status": 200
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "currentEntrypointComparison": {
+    "entrypoints": 4,
+    "result": "business JSON identical after excluding current request time"
+  }
+}

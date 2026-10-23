@@ -1,6 +1,7 @@
 package cn.wannianli.calendar;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -105,6 +106,29 @@ class ChineseCalendarCalculatorTest {
     }
 
     @Test
+    void convertsLunarDatesIncludingRareLeapElevenAndBothGregorianBoundaries() {
+        var dates = List.of("1801-01-01", "1801-02-13", "2014-12-22", "2020-04-23", "2020-05-23",
+                "2026-08-03", "2033-11-22", "2033-12-22", "2034-01-20", "2034-02-19", "2199-12-31",
+                "1900-02-28", "1900-03-01", "2000-02-29", "2100-03-01");
+        for (String value : dates) {
+            LocalDate date = LocalDate.parse(value);
+            var lunar = calculator.calculate(date);
+            assertThat(calculator.toGregorian(lunar.year(), lunar.month(), lunar.day(), lunar.leapMonth()))
+                    .as(value).isEqualTo(date);
+        }
+        assertThat(calculator.toGregorian(2033, 11, 1, false)).isEqualTo(LocalDate.of(2033, 11, 22));
+        assertThat(calculator.toGregorian(2033, 11, 1, true)).isEqualTo(LocalDate.of(2033, 12, 22));
+        assertThat(calculator.toGregorian(2033, 12, 1, false)).isEqualTo(LocalDate.of(2034, 1, 20));
+        assertThat(calculator.toGregorian(2034, 1, 1, false)).isEqualTo(LocalDate.of(2034, 2, 19));
+        assertThatIllegalArgumentException().isThrownBy(() -> calculator.toGregorian(2026, 2, 30, false))
+                .withMessageContaining("只有29天");
+        assertThatIllegalArgumentException().isThrownBy(() -> calculator.toGregorian(2026, 4, 1, true))
+                .withMessageContaining("月份不存在");
+        assertThatIllegalArgumentException().isThrownBy(() -> calculator.toGregorian(2199, 12, 1, false))
+                .withMessageContaining("对应公历日期");
+    }
+
+    @Test
     void matchesAll365LunarEntriesInTheHongKongObservatory2026Table() {
         List<MonthFixture> months = List.of(
                 new MonthFixture(LocalDate.of(2025, 12, 20), 2025, 11),
@@ -152,6 +176,11 @@ class ChineseCalendarCalculatorTest {
                     require(actual.day() == 1, date, "month starts at day one");
                     require(previous.day() == previous.daysInMonth(), previousDate, "declared month end");
                 }
+            }
+            if (actual.day() == 1 || date.equals(LocalDate.of(1801, 1, 1))
+                    || date.equals(LocalDate.of(2199, 12, 31))) {
+                require(calculator.toGregorian(actual.year(), actual.month(), actual.day(), actual.leapMonth())
+                        .equals(date), date, "lunar conversion round trip");
             }
             previous = actual;
             previousDate = date;

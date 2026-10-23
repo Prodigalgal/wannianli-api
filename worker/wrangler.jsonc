@@ -5,6 +5,13 @@
   "compatibility_date": "2026-08-03",
   "account_id": "15d9992e9b3ec4916dfb2d1918156e5a",
   "workers_dev": true,
+  "ratelimits": [
+    {
+      "name": "ALMANAC_RATE_LIMITER",
+      "namespace_id": "2026102201",
+      "simple": { "limit": 120, "period": 60 }
+    }
+  ],
   "routes": [
     {
       "pattern": "wannianli-worker.mnnu.eu.org",

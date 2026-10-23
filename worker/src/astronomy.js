@@ -1,4 +1,6 @@
 import { EARTH_LONGITUDE, EARTH_RADIUS } from "./vsop87.js";
+import { nutationLongitudeDegrees } from "./nutation.js";
+import { observedDeltaT, LAST_OBSERVED_YEAR, LAST_OBSERVED_SECONDS } from "./observed-delta-t.js";
 
 export const MS_PER_DAY = 86_400_000;
 export const UTC_PLUS_8_MS = 8 * 60 * 60 * 1000;
@@ -6,8 +8,9 @@ export const UTC_PLUS_8_MS = 8 * 60 * 60 * 1000;
 const JULIAN_UNIX_EPOCH = 2_440_587.5;
 const J2000 = 2_451_545.0;
 const MEAN_DAILY_MOTION = 0.98564736;
-const BASE_NEW_MOON = 2_451_550.09765;
-const SYNODIC_MONTH = 29.530588853;
+// Meeus, second edition, p.349, equation 49.1.
+const BASE_NEW_MOON = 2_451_550.09766;
+const SYNODIC_MONTH = 29.530588861;
 
 export const SOLAR_TERMS = Object.freeze([
   { key: "MINOR_COLD", name: "小寒", longitude: 285, month: 1, day: 5 },
@@ -140,10 +143,26 @@ function decimalYear(instant) {
   return year + (instant.getTime() - start) / (end - start);
 }
 
+export const SOLAR_MIN_YEAR = 1800;
+export const SOLAR_MAX_YEAR = 2200;
+export const DELTA_T_MAX_YEAR = SOLAR_MAX_YEAR + 2;
+
 export function deltaTSeconds(year) {
-  if (year < 1800 || year > 2201) {
-    throw new RangeError("Delta-T supports years 1800 through 2201");
+  // The final winter-solstice month needs its following new moon in 2201 as a bracket.
+  if (!Number.isFinite(year) || year < SOLAR_MIN_YEAR || year > DELTA_T_MAX_YEAR) {
+    throw new RangeError("Delta-T supports years 1800 through 2202");
   }
+  const observed = observedDeltaT(year);
+  if (!Number.isNaN(observed)) return observed;
+  const estimate = deltaTPolynomial(year);
+  if (year > LAST_OBSERVED_YEAR) {
+    const correction = LAST_OBSERVED_SECONDS - deltaTPolynomial(LAST_OBSERVED_YEAR);
+    return estimate + correction * Math.max(0, 1 - (year - LAST_OBSERVED_YEAR) / 100);
+  }
+  return estimate;
+}
+
+function deltaTPolynomial(year) {
   if (year < 1860) {
     const t = year - 1800;
     return 13.72 - 0.332447 * t + 0.0068612 * t ** 2 + 0.0041116 * t ** 3
@@ -194,7 +213,9 @@ function toTerrestrialTime(universalJulianDate, instant) {
 }
 
 function terrestrialTimeToInstant(jde, approximateYear) {
-  return instantFromJulianDate(jde - deltaTSeconds(approximateYear) / 86_400);
+  let result = instantFromJulianDate(jde - deltaTSeconds(approximateYear) / 86_400);
+  for (let i = 0; i < 3; i++) result = instantFromJulianDate(jde - deltaTSeconds(decimalYear(result)) / 86_400);
+  return result;
 }
 
 function evaluateVsop(series, julianEphemerisDay) {
@@ -213,17 +234,9 @@ function evaluateVsop(series, julianEphemerisDay) {
 }
 
 export function apparentSolarLongitude(julianEphemerisDay) {
-  const t = (julianEphemerisDay - J2000) / 36_525;
   const geometricLongitude = normalizeDegrees(evaluateVsop(EARTH_LONGITUDE, julianEphemerisDay) * 180 / Math.PI + 180);
   const radius = evaluateVsop(EARTH_RADIUS, julianEphemerisDay);
-  const radians = (degrees) => normalizeDegrees(degrees) * Math.PI / 180;
-  const omega = radians(125.04452 - 1934.136261 * t + 0.0020708 * t ** 2 + t ** 3 / 450_000);
-  const meanSolarLongitude = radians(280.4665 + 36_000.7698 * t);
-  const meanLunarLongitude = radians(218.3165 + 481_267.8813 * t);
-  const nutationLongitude = (-17.20 * Math.sin(omega)
-    - 1.32 * Math.sin(2 * meanSolarLongitude)
-    - 0.23 * Math.sin(2 * meanLunarLongitude)
-    + 0.21 * Math.sin(2 * omega)) / 3_600;
+  const nutationLongitude = nutationLongitudeDegrees(julianEphemerisDay);
   const aberration = 20.4898 / (3_600 * radius);
   const fk5Correction = 0.09033 / 3_600;
   return normalizeDegrees(geometricLongitude + nutationLongitude - aberration - fk5Correction);
@@ -234,6 +247,9 @@ export function longitudeAt(instant) {
 }
 
 export function solarTermInstant(year, term) {
+  if (!Number.isInteger(year) || year < SOLAR_MIN_YEAR || year > SOLAR_MAX_YEAR || !SOLAR_TERMS.includes(term)) {
+    throw new RangeError("Solar-term calculation supports years 1800 through 2200 and known solar terms");
+  }
   const cacheKey = `${year}:${term.key}`;
   if (solarTermCache.has(cacheKey)) {
     return solarTermCache.get(cacheKey);
@@ -247,7 +263,20 @@ export function solarTermInstant(year, term) {
       break;
     }
   }
-  const result = terrestrialTimeToInstant(jde, year + (term.month - 0.5) / 12);
+  let milliseconds = terrestrialTimeToInstant(jde, year + (term.month - 0.5) / 12).getTime();
+  // Use the same UT longitude function as the pillars, then choose the first millisecond
+  // at/after the crossing. Date truncation must not leave the month in the old term.
+  for (let index = 0; index < 4; index++) {
+    const error = signedDegrees(term.longitude - longitudeAt(new Date(milliseconds)));
+    milliseconds += error / MEAN_DAILY_MOTION * MS_PER_DAY;
+  }
+  let result = new Date(Math.ceil(milliseconds));
+  for (let index = 0; index < 4 && signedDegrees(longitudeAt(result) - term.longitude) < 0; index++) {
+    result = new Date(result.getTime() + 1);
+  }
+  for (let index = 0; index < 4 && signedDegrees(longitudeAt(new Date(result.getTime() - 1)) - term.longitude) >= 0; index++) {
+    result = new Date(result.getTime() - 1);
+  }
   solarTermCache.set(cacheKey, result);
   return result;
 }
@@ -264,7 +293,7 @@ export function newMoonInstant(k) {
   const t2 = t * t;
   const t3 = t2 * t;
   const t4 = t3 * t;
-  let jde = BASE_NEW_MOON + SYNODIC_MONTH * k + 0.0001337 * t2
+  let jde = BASE_NEW_MOON + SYNODIC_MONTH * k + 0.00015437 * t2
     - 0.000000150 * t3 + 0.00000000073 * t4;
 
   const e = 1 - 0.002516 * t - 0.0000074 * t2;
@@ -274,7 +303,7 @@ export function newMoonInstant(k) {
     + 0.00001238 * t3 - 0.000000058 * t4);
   const argumentLatitude = radians(160.7108 + 390.67050284 * k - 0.0016118 * t2
     - 0.00000227 * t3 + 0.000000011 * t4);
-  const omega = radians(124.7746 - 1.56375580 * k + 0.0020672 * t2 + 0.00000215 * t3);
+  const omega = radians(124.7746 - 1.56375588 * k + 0.0020672 * t2 + 0.00000215 * t3);
 
   const correction = -0.40720 * Math.sin(moonAnomaly)
     + 0.17241 * e * Math.sin(m)

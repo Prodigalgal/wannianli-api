@@ -29,6 +29,16 @@ public final class SeasonalCalculator {
         this.zone = zone;
     }
 
+    /** Civil days: eighteen days immediately before each of the four season-start dates. */
+    public static boolean isEarthReign(LocalDate date, ZoneId zone) {
+        for (SolarTerm term : List.of(SolarTerm.START_OF_SPRING, SolarTerm.START_OF_SUMMER,
+                SolarTerm.START_OF_AUTUMN, SolarTerm.START_OF_WINTER)) {
+            LocalDate end = SolarEphemeris.solarTermInstant(date.getYear(), term, zone).atZone(zone).toLocalDate();
+            if (!date.isBefore(end.minusDays(18)) && date.isBefore(end)) return true;
+        }
+        return false;
+    }
+
     public SeasonalContext calculate(ZonedDateTime now) {
         double longitude = SolarEphemeris.longitudeAt(now.toInstant());
         return new SeasonalContext(

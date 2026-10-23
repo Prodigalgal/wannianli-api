@@ -1,6 +1,8 @@
 package cn.wannianli.service;
 
 import java.time.Clock;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import cn.wannianli.almanac.TraditionalAlmanacCalculator;
 import cn.wannianli.api.AlmanacResponse;
+import cn.wannianli.api.AlmanacCalculationRequest;
 import cn.wannianli.api.AlmanacResponse.CalculationDisclosure;
 import cn.wannianli.api.AlmanacResponse.FourPillarXunKong;
 import cn.wannianli.api.AlmanacResponse.FourPillars;
@@ -18,6 +21,7 @@ import cn.wannianli.api.AlmanacResponse.ResponseMeta;
 import cn.wannianli.api.AlmanacResponse.Validation;
 import cn.wannianli.api.AlmanacResponse.XunKong;
 import cn.wannianli.api.ReferenceCatalog;
+import cn.wannianli.api.CalculationScope;
 import cn.wannianli.calendar.ChineseCalendarCalculator;
 import cn.wannianli.calendar.ChineseCalendarDate;
 import cn.wannianli.calendar.SeasonalCalculator;
@@ -28,6 +32,7 @@ import cn.wannianli.calendar.astronomy.SolarEphemeris;
 import cn.wannianli.calendar.astronomy.SolarTerm;
 import cn.wannianli.config.TimeConfiguration;
 import cn.wannianli.rules.ActivityRuleEngine;
+import cn.wannianli.rules.CalendarDayRules;
 
 @Service
 public class AlmanacService {
@@ -45,7 +50,26 @@ public class AlmanacService {
     }
 
     public AlmanacResponse current() {
-        ZonedDateTime now = ZonedDateTime.now(clock).withZoneSameInstant(TimeConfiguration.UTC_PLUS_8);
+        return calculateAt(ZonedDateTime.now(clock));
+    }
+
+    public AlmanacResponse calculate(AlmanacCalculationRequest request) {
+        LocalDate date;
+        if ("农历".equals(request.calendar())) {
+            date = chineseCalendar.toGregorian(request.year(), request.month(), request.day(), request.leapMonth());
+        } else {
+            try {
+                date = LocalDate.of(request.year(), request.month(), request.day());
+            } catch (DateTimeException error) {
+                throw new IllegalArgumentException("公历日期不存在", error);
+            }
+        }
+        return calculateAt(date.atTime(request.hour(), request.minute(), request.second())
+                .atZone(TimeConfiguration.UTC_PLUS_8));
+    }
+
+    public AlmanacResponse calculateAt(ZonedDateTime time) {
+        ZonedDateTime now = time.withZoneSameInstant(TimeConfiguration.UTC_PLUS_8);
         var date = now.toLocalDate();
         ChineseCalendarDate lunar = chineseCalendar.calculate(date);
 
@@ -57,10 +81,12 @@ public class AlmanacService {
         Cycle dayPillar = SexagenaryCycle.day(date);
         Cycle hourPillar = SexagenaryCycle.hour(dayPillar, now.getHour());
 
-        var traditional = traditionalCalculator.calculate(date, monthPillar, dayPillar, longitude);
-        var activities = ruleEngine.evaluate(date, monthPillar, dayPillar, traditional, longitude);
+        var traditional = traditionalCalculator.calculate(date, yearPillar, monthPillar, dayPillar, longitude);
+        var calendarDays = CalendarDayRules.calculate(date, lunar);
+        traditional = CalendarDayRules.annotate(traditional, calendarDays);
+        var activities = ruleEngine.evaluate(date, monthPillar, dayPillar, traditional, longitude, calendarDays);
         return new AlmanacResponse(
-                new ResponseMeta("v1", "每次请求只计算当前UTC+08:00时间；接口不接受目标日期或时区。"),
+                new ResponseMeta("v1", "按UTC+08:00计算指定时刻；current接口使用当前时间，calculate接口接受公历或农历日期时间。"),
                 now,
                 new GregorianDate(date, date.getYear(), date.getMonthValue(), date.getDayOfMonth(),
                         chineseWeekday(date.getDayOfWeek().getValue()),
@@ -96,8 +122,8 @@ public class AlmanacService {
         return new CalculationDisclosure(
                 false,
                 "依据GB/T 33661-2017规则，自行计算朔日、节气、冬至月、无中气置闰与月序。",
-                "太阳采用IMCCE VSOP87D地球主项、章动/光行差/FK5修正并求根；真朔采用Meeus周期项；以Espenak-Meeus ΔT换算TT/UT。",
-                "1801-2199（当前接口仅计算今天）",
+                "太阳采用IMCCE VSOP87D地球主项、章动/光行差/FK5修正并求根；真朔采用Meeus第二版式49.1及周期项；ΔT采用USNO观测和明确披露的工程外推。",
+                "对应公历日期1801-01-01至2199-12-31",
                 "固定UTC+08:00偏移（不依赖上海或北京时区数据库）",
                 new Validation(
                         "关键历法样例必须匹配政府天文机构年历；内部关系通过公式不变量测试。",
@@ -106,11 +132,7 @@ public class AlmanacService {
                                 "香港天文台2014冬至同日朔、2015春节边界"),
                         List.of("朔望月长度只能为29或30日", "冬至所在月为十一月", "闰月为十三个月中首个无中气月",
                                 "干支索引、六旬旬空、建除与十二值神均按模周期闭合")),
-                List.of(
-                        "节气时刻为项目内数值结果；2026年8月四个分钟值已对齐香港天文台，其他年份仍不冒充官方发布值。",
-                        "二十八宿绝对起元在《协纪辨方书》中明载不可考，响应使用公开的现代通行锚点并降低证据等级。",
-                        "彭祖百忌据《玉匣记》转录；胎神六十日方位表另列为近现代通书传承，两者证据等级均低于《协纪辨方书》。",
-                        "神煞规则集以已逐条校勘的核心规则为范围；未校勘条目不会猜测或借用第三方历法库。"));
+                CalculationScope.LIMITATIONS);
     }
 
     private String chineseWeekday(int isoDayOfWeek) {

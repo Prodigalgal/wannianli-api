@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import cn.wannianli.rules.ActivityResult.DayGrade;
+import cn.wannianli.calendar.astronomy.SolarEphemeris;
+import cn.wannianli.calendar.astronomy.SolarTerm;
 
 class AlmanacServiceTest {
 
@@ -47,9 +49,9 @@ class AlmanacServiceTest {
         assertThat(result.traditionalAlmanac().dutyGod().name()).isEqualTo("勾陈");
         assertThat(result.traditionalAlmanac().dutyGod().path()).isEqualTo("黑道");
         assertThat(result.traditionalAlmanac().gods().auspicious())
-                .containsExactly("月德合", "天德合", "天恩", "四相", "民日", "天巫", "福德");
+                .containsExactly("月德合", "天德合", "天恩", "四相", "民日", "除神", "天巫", "福德", "鸣吠", "宝日", "兵吉", "天仓", "续世");
         assertThat(result.traditionalAlmanac().gods().inauspicious())
-                .containsExactly("灾煞", "天火");
+                .containsExactly("五离", "土王用事", "灾煞", "天火", "复日");
         assertThat(result.traditionalAlmanac().pengZu().heavenlyStemRule())
                 .isEqualTo("己不破券，二主并亡");
         assertThat(result.traditionalAlmanac().pengZu().earthlyBranchRule())
@@ -82,6 +84,28 @@ class AlmanacServiceTest {
 
         assertThat(beforeMidnight.fourPillars().day().value()).isEqualTo("己酉");
         assertThat(afterMidnight.fourPillars().day().value()).isEqualTo("庚戌");
+    }
+
+    @Test
+    void solarTermInstantsSwitchTheMonthAndYearTogetherAtTheExactMillisecond() {
+        var service = new AlmanacService(Clock.systemUTC());
+        for (var term : SolarTerm.values()) {
+            var instant = SolarEphemeris.solarTermInstant(2026, term, UTC_PLUS_8);
+            var before = service.calculateAt(instant.minusMillis(1).atZone(UTC_PLUS_8));
+            var at = service.calculateAt(instant.atZone(UTC_PLUS_8));
+            assertThat(at.seasonal().solarTerm().currentPeriod()).isEqualTo(term.chineseName());
+            if (Math.floorMod((int) term.longitude() - 315, 30) == 0) {
+                assertThat(at.fourPillars().month()).as(term.chineseName()).isNotEqualTo(before.fourPillars().month());
+            } else {
+                assertThat(at.fourPillars().month()).as(term.chineseName()).isEqualTo(before.fourPillars().month());
+            }
+            if (term == SolarTerm.START_OF_SPRING) {
+                assertThat(before.fourPillars().year().value()).isEqualTo("乙巳");
+                assertThat(at.fourPillars().year().value()).isEqualTo("丙午");
+                assertThat(at.fourPillars().month().value()).isEqualTo("庚寅");
+                assertThat(at.seasonal().season()).isEqualTo("春季");
+            }
+        }
     }
 
     @Test

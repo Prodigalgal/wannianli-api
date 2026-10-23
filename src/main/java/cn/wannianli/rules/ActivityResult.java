@@ -27,7 +27,8 @@ public record ActivityResult(
         MIDDLE("中"),
         MIDDLE_SECOND("中次"),
         INFERIOR("下"),
-        LOWEST("最下");
+        LOWEST("最下"),
+        UNDETERMINED("未定");
 
         private final String classicalName;
 
@@ -68,8 +69,6 @@ public record ActivityResult(
             String category,
             String sourceId,
             String evidenceLevel,
-            int favorableStrength,
-            int unfavorableStrength,
             List<String> recommends,
             List<String> avoids,
             String matchedBecause,

@@ -35,7 +35,7 @@ test("calculates the fixed 2026-08-03 result independently", () => {
     "本月天数": 30,
     "中文日期": "二〇二六年六月廿一",
     "月朔日期": "2026-07-14",
-    "天文朔时刻": "2026-07-14T09:43:27.864Z",
+    "天文朔时刻": "2026-07-14T09:43:35.305Z",
   });
   assert.deepEqual(
     Object.fromEntries(Object.entries(value["四柱"]).map(([key, pillar]) => [key, pillar["干支"]])),
@@ -58,8 +58,8 @@ test("calculates the fixed 2026-08-03 result independently", () => {
   });
   assert.deepEqual(value["建除十二神"], { "名称": "满", "通常吉凶": "通常为凶" });
   assert.deepEqual(value["黄黑道十二值神"], { "值神": "勾陈", "黄黑道": "黑道", "吉凶": "凶" });
-  assert.deepEqual(value["吉神"], ["月德合", "天德合", "天恩", "四相", "民日", "天巫", "福德"]);
-  assert.deepEqual(value["凶煞"], ["灾煞", "天火"]);
+  assert.deepEqual(value["吉神"], ["月德合", "天德合", "天恩", "四相", "民日", "除神", "天巫", "福德", "鸣吠", "宝日", "兵吉", "天仓", "续世"]);
+  assert.deepEqual(value["凶煞"], ["五离", "土王用事", "灾煞", "天火", "复日"]);
   assert.deepEqual(value["彭祖百忌"], {
     "天干禁忌": "己不破券，二主并亡",
     "地支禁忌": "酉不会客，宾主有伤",
@@ -223,7 +223,7 @@ test("applies the corrected heavenly-virtue and heavenly-dog occurrences", () =>
   assert.ok(!springOfficial.gods.auspicious.includes("王日"));
 });
 
-test("requires a seasonal virtue for the receive-day storehouse combination", () => {
+test("records receive-day repair and fishing recommendations before the monthly punishment veto", () => {
   const month = cycleFromIndex(3);
   const day = cycleFromIndex(12);
   const almanac = calculateTraditionalAlmanac("2026-03-10", month, day, 350);
@@ -233,8 +233,9 @@ test("requires a seasonal virtue for the receive-day storehouse combination", ()
   assert.ok(result.ruleHits.some((hit) => hit.ruleId === "OFFICER_RECEIVE_STOREHOUSE_COMBINATION"));
   assert.ok(result.ruleHits.some((hit) => hit.ruleId === "OFFICER_SEASONAL_收"));
   assert.ok(result.ruleHits.some((hit) => hit.ruleId === "MATERNAL_STOREHOUSE_REPAIR_COMBINATION"));
-  assert.ok(result.recommended.includes("修仓库"));
-  assert.ok(result.recommended.includes("取鱼"));
+  assert.ok(result.avoided.includes("修仓库"));
+  assert.ok(result.avoided.includes("取鱼"));
+  assert.equal(result.dayGrade, "下");
 });
 
 test("retains auditable source IDs and the canonical disaster-sha exception", () => {

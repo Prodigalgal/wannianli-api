@@ -6,10 +6,13 @@
   "scripts": {
     "test": "node --test",
     "test:deep": "node ../tools/deep-validate.mjs",
-    "check": "npm test && wrangler deploy --dry-run",
+    "check:sources": "node ../tools/index-classical-sources.mjs --check",
+    "check": "npm run check:sources && npm test && wrangler deploy --dry-run",
     "deploy": "wrangler deploy"
   },
   "devDependencies": {
-    "wrangler": "4.118.0"
+    "@modelcontextprotocol/client": "2.3.1",
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "wrangler": "4.152.0"
   }
 }

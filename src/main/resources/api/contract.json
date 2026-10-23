@@ -1,0 +1,4465 @@
+{
+  "fieldNames": {
+    "当前时间": "dateTime",
+    "公历": "gregorian",
+    "农历": "lunar",
+    "四柱": "fourPillars",
+    "旬空": "xunKong",
+    "生肖": "zodiac",
+    "季节": "season",
+    "节气": "solarTerm",
+    "三伏": "sanFu",
+    "数九": "shuJiu",
+    "建除十二神": "dayOfficer",
+    "黄黑道十二值神": "dutyGod",
+    "吉神": "auspiciousGods",
+    "凶煞": "inauspiciousGods",
+    "彭祖百忌": "pengZuTaboo",
+    "冲煞": "description",
+    "胎神": "fetalGod",
+    "二十八宿": "mansion",
+    "宜忌": "activities",
+    "日期": "date",
+    "年": "year",
+    "月": "month",
+    "日": "day",
+    "星期": "weekday",
+    "儒略日数": "julianDayNumber",
+    "是否闰月": "leapMonth",
+    "本月天数": "daysInMonth",
+    "中文日期": "display",
+    "月朔日期": "monthStartDate",
+    "天文朔时刻": "astronomicalNewMoon",
+    "年柱": "year",
+    "月柱": "month",
+    "日柱": "day",
+    "时柱": "hour",
+    "干支": "value",
+    "天干": "heavenlyStem",
+    "地支": "earthlyBranch",
+    "纳音": "naYin",
+    "所属旬": "xunName",
+    "空亡": "emptyBranches",
+    "当前节气": "currentPeriod",
+    "今日交节": "todayTerm",
+    "节气第几天": "dayInPeriod",
+    "距下个节气天数": "daysUntilNext",
+    "前一节气": "previous",
+    "下一节气": "next",
+    "名称": "name",
+    "交节时刻": "at",
+    "是否在期内": "active",
+    "第几天": "dayIndex",
+    "总天数": "totalDays",
+    "开始日期": "startDate",
+    "结束日期": "endDate",
+    "描述": "description",
+    "主口径": "primaryConvention",
+    "主结果": "primary",
+    "并列口径": "variants",
+    "通常吉凶": "generalNature",
+    "值神": "name",
+    "黄黑道": "path",
+    "吉凶": "luck",
+    "天干禁忌": "heavenlyStemRule",
+    "地支禁忌": "earthlyBranchRule",
+    "相冲干支": "opposingPillar",
+    "相冲生肖": "zodiac",
+    "煞方": "direction",
+    "宿名": "name",
+    "全名": "fullName",
+    "宫位": "palace",
+    "守护": "guardian",
+    "宜": "recommended",
+    "忌": "avoided",
+    "宜忌并存": "caution",
+    "日等": "dayGrade",
+    "有德神": "virtuePresent",
+    "诸事皆忌": "allActivitiesAvoided"
+  },
+  "booleanKeys": [
+    "leapMonth",
+    "active",
+    "virtuePresent",
+    "allActivitiesAvoided"
+  ],
+  "inputSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "date"
+    ],
+    "properties": {
+      "calendar": {
+        "type": "string",
+        "enum": [
+          "gregorian",
+          "lunar"
+        ],
+        "default": "gregorian",
+        "description": "历法；省略时为公历"
+      },
+      "date": {
+        "type": "string",
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+        "description": "所选历法的 YYYY-MM-DD；农历不使用 JSON Schema 的公历 date 校验"
+      },
+      "time": {
+        "type": "string",
+        "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$",
+        "default": "00:00:00",
+        "description": "UTC+08:00 民用时间，HH:mm 或 HH:mm:ss"
+      },
+      "leapMonth": {
+        "type": "boolean",
+        "default": false,
+        "description": "农历是否为闰月；公历只能为 false"
+      }
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "schemaVersion",
+      "utcOffset",
+      "scope",
+      "dateTime",
+      "gregorian",
+      "lunar",
+      "fourPillars",
+      "xunKong",
+      "zodiac",
+      "season",
+      "solarTerm",
+      "sanFu",
+      "shuJiu",
+      "dayOfficer",
+      "dutyGod",
+      "auspiciousGods",
+      "inauspiciousGods",
+      "pengZuTaboo",
+      "clash",
+      "fetalGod",
+      "mansion",
+      "activities"
+    ],
+    "properties": {
+      "schemaVersion": {
+        "type": "string",
+        "const": "2.0"
+      },
+      "utcOffset": {
+        "type": "string",
+        "const": "+08:00"
+      },
+      "dateTime": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "gregorian": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "date",
+          "year",
+          "month",
+          "day",
+          "weekday",
+          "julianDayNumber"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "year": {
+            "type": "integer"
+          },
+          "month": {
+            "type": "integer"
+          },
+          "day": {
+            "type": "integer"
+          },
+          "weekday": {
+            "type": "string"
+          },
+          "julianDayNumber": {
+            "type": "integer"
+          }
+        }
+      },
+      "lunar": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "year",
+          "month",
+          "day",
+          "leapMonth",
+          "daysInMonth",
+          "display",
+          "monthStartDate",
+          "astronomicalNewMoon"
+        ],
+        "properties": {
+          "year": {
+            "type": "integer"
+          },
+          "month": {
+            "type": "integer"
+          },
+          "day": {
+            "type": "integer"
+          },
+          "leapMonth": {
+            "type": "boolean"
+          },
+          "daysInMonth": {
+            "type": "integer"
+          },
+          "display": {
+            "type": "string"
+          },
+          "monthStartDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "astronomicalNewMoon": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "fourPillars": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "year",
+          "month",
+          "day",
+          "hour"
+        ],
+        "properties": {
+          "year": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "heavenlyStem",
+              "earthlyBranch",
+              "zodiac",
+              "naYin"
+            ],
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "heavenlyStem": {
+                "type": "string"
+              },
+              "earthlyBranch": {
+                "type": "string"
+              },
+              "zodiac": {
+                "type": "string"
+              },
+              "naYin": {
+                "type": "string"
+              }
+            }
+          },
+          "month": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "heavenlyStem",
+              "earthlyBranch",
+              "zodiac",
+              "naYin"
+            ],
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "heavenlyStem": {
+                "type": "string"
+              },
+              "earthlyBranch": {
+                "type": "string"
+              },
+              "zodiac": {
+                "type": "string"
+              },
+              "naYin": {
+                "type": "string"
+              }
+            }
+          },
+          "day": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "heavenlyStem",
+              "earthlyBranch",
+              "zodiac",
+              "naYin"
+            ],
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "heavenlyStem": {
+                "type": "string"
+              },
+              "earthlyBranch": {
+                "type": "string"
+              },
+              "zodiac": {
+                "type": "string"
+              },
+              "naYin": {
+                "type": "string"
+              }
+            }
+          },
+          "hour": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "heavenlyStem",
+              "earthlyBranch",
+              "zodiac",
+              "naYin"
+            ],
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "heavenlyStem": {
+                "type": "string"
+              },
+              "earthlyBranch": {
+                "type": "string"
+              },
+              "zodiac": {
+                "type": "string"
+              },
+              "naYin": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "xunKong": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "year",
+          "month",
+          "day",
+          "hour"
+        ],
+        "properties": {
+          "year": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "xunName",
+              "emptyBranches"
+            ],
+            "properties": {
+              "xunName": {
+                "type": "string"
+              },
+              "emptyBranches": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "month": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "xunName",
+              "emptyBranches"
+            ],
+            "properties": {
+              "xunName": {
+                "type": "string"
+              },
+              "emptyBranches": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "day": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "xunName",
+              "emptyBranches"
+            ],
+            "properties": {
+              "xunName": {
+                "type": "string"
+              },
+              "emptyBranches": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "hour": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "xunName",
+              "emptyBranches"
+            ],
+            "properties": {
+              "xunName": {
+                "type": "string"
+              },
+              "emptyBranches": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "zodiac": {
+        "type": "string"
+      },
+      "season": {
+        "type": "string"
+      },
+      "solarTerm": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "currentPeriod",
+          "todayTerm",
+          "dayInPeriod",
+          "daysUntilNext",
+          "previous",
+          "next"
+        ],
+        "properties": {
+          "currentPeriod": {
+            "type": "string"
+          },
+          "todayTerm": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "dayInPeriod": {
+            "type": "integer"
+          },
+          "daysUntilNext": {
+            "type": "integer"
+          },
+          "previous": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "at"
+            ],
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          },
+          "next": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "at"
+            ],
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      },
+      "sanFu": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "active",
+          "name",
+          "dayIndex",
+          "totalDays",
+          "startDate",
+          "endDate",
+          "description"
+        ],
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "dayIndex": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "totalDays": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "startDate": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          },
+          "endDate": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "shuJiu": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "primaryConvention",
+          "primary",
+          "variants"
+        ],
+        "properties": {
+          "primaryConvention": {
+            "type": "string"
+          },
+          "primary": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "active",
+              "name",
+              "dayIndex",
+              "totalDays",
+              "startDate",
+              "endDate",
+              "description"
+            ],
+            "properties": {
+              "active": {
+                "type": "boolean"
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "dayIndex": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "totalDays": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "startDate": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date"
+              },
+              "endDate": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "active",
+                "name",
+                "dayIndex",
+                "totalDays",
+                "startDate",
+                "endDate",
+                "description"
+              ],
+              "properties": {
+                "active": {
+                  "type": "boolean"
+                },
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "dayIndex": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "totalDays": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "startDate": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date"
+                },
+                "endDate": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "dayOfficer": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "generalNature"
+        ],
+        "properties": {
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "generalNature": {
+            "type": "string"
+          }
+        }
+      },
+      "dutyGod": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "path",
+          "luck"
+        ],
+        "properties": {
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "luck": {
+            "type": "string"
+          }
+        }
+      },
+      "auspiciousGods": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "inauspiciousGods": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "pengZuTaboo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "heavenlyStemRule",
+          "earthlyBranchRule"
+        ],
+        "properties": {
+          "heavenlyStemRule": {
+            "type": "string"
+          },
+          "earthlyBranchRule": {
+            "type": "string"
+          }
+        }
+      },
+      "clash": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "opposingPillar",
+          "zodiac",
+          "direction",
+          "description"
+        ],
+        "properties": {
+          "opposingPillar": {
+            "type": "string"
+          },
+          "zodiac": {
+            "type": "string"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "fetalGod": {
+        "type": "string"
+      },
+      "mansion": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "fullName",
+          "luck",
+          "palace",
+          "guardian"
+        ],
+        "properties": {
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "luck": {
+            "type": "string"
+          },
+          "palace": {
+            "type": "string"
+          },
+          "guardian": {
+            "type": "string"
+          }
+        }
+      },
+      "activities": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "recommended",
+          "avoided",
+          "caution",
+          "dayGrade",
+          "virtuePresent",
+          "allActivitiesAvoided",
+          "dayGradeCode"
+        ],
+        "properties": {
+          "recommended": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "avoided": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "caution": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dayGrade": {
+            "type": "string",
+            "enum": [
+              "上",
+              "上次",
+              "中",
+              "中次",
+              "下",
+              "最下",
+              "未定"
+            ]
+          },
+          "virtuePresent": {
+            "type": "boolean"
+          },
+          "allActivitiesAvoided": {
+            "type": "boolean"
+          },
+          "dayGradeCode": {
+            "type": "string",
+            "enum": [
+              "SUPERIOR",
+              "SUPERIOR_SECOND",
+              "MIDDLE",
+              "MIDDLE_SECOND",
+              "INFERIOR",
+              "LOWEST",
+              "UNDETERMINED"
+            ],
+            "description": "稳定程序枚举；dayGrade保留中文显示值"
+          }
+        }
+      },
+      "scope": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "godLists",
+          "activities",
+          "capabilitiesPath"
+        ],
+        "properties": {
+          "godLists": {
+            "type": "string",
+            "description": "随文献校勘更新的覆盖说明，不是封闭枚举"
+          },
+          "activities": {
+            "type": "string",
+            "description": "随文献校勘更新的覆盖说明，不是封闭枚举"
+          },
+          "capabilitiesPath": {
+            "type": "string",
+            "const": "/api/v2/almanac/capabilities"
+          }
+        }
+      }
+    }
+  },
+  "capabilities": {
+    "schemaVersion": "2.0",
+    "utcOffset": "+08:00",
+    "calendars": [
+      "gregorian",
+      "lunar"
+    ],
+    "gregorianRange": {
+      "start": "1801-01-01",
+      "end": "2199-12-31"
+    },
+    "lunarYearRange": {
+      "min": 1800,
+      "max": 2199
+    },
+    "defaults": {
+      "calendar": "gregorian",
+      "time": "00:00:00",
+      "leapMonth": false
+    },
+    "conventions": {
+      "yearBoundary": "立春交节瞬间",
+      "dayBoundary": "UTC+08:00 民用午夜",
+      "lunarDayBoundary": "UTC+08:00 民用午夜；初一为含朔的整日"
+    },
+    "limitations": [
+      "吉神、凶煞仅为已校勘核心子集，不能解释为该日完整神煞清单；完整采用范围见docs/ALGORITHM_AUDIT.md。",
+      "此前披露的卷五日神缺项已补入，采用作者最终校订表；无禄按卷十岁月、太阳填实及岁德会合动态判定，癸亥仍论无禄，按止注条文仅铺注十二类用事并保留内部原始证据。天道属于方位规则，未混入日神字段；不宣称全书所有体系已覆盖。",
+      "卷四官符、月枝德按原书按语不用；已补月刑、月厌、天吏、大时一般起例及阴阳专日、岁薄逐阵。卷六两批26项月神按卷十最终用途、指定会合和互注处理。另补气往亡、反支、分至和月忌日四类历日规则；上朔、四离四绝、晦日、伏社及朔弦望仍未实现，源文核读不等于算法已纳入。",
+      "两批共35组逐月条件中与原表对应的等第已核对；卷十影印本72b—73a原表11列、132个月份起例已独立转录。专忌与铺注例外另判，未获原表或逐项正文核定的组合仍保留未定，不能把空格猜为中等或以权重评分。",
+      "逐月等第与铺注分别处理；补宣政改布政、互斥宜目、土工联动、岁薄逐阵及八个德赦愿会合专例。气往亡、反支专忌不因一般德神解除；月忌仅铺注十二类活动，分至省略指定活动，均保留原始证据。不注不等于解忌或生成宜；凶煞字段含分至、月忌等铺注标签，不能据名称数量推算吉凶。尚未覆盖所有神煞的联动。",
+      "天德四仲月采用传承中的日支起例；原书卦位解释存在异说，不宣称为唯一版本。生肖随立春年柱换年，晚子时日柱至民用午夜换日。",
+      "ΔT在2005-01-01至2026-10-01采用USNO月度观测线性插值；之后采用末次观测残差作百年线性衰减校准的Espenak-Meeus工程外推，不是官方未来预报。",
+      "朔与节气临近午夜可能跨一民用日；香港天文台提示2057-09-28、2089-09-04、2097-08-07新月，以及2021冬至、2051春分、2083立春、2084春分等日期风险。2051-2100及2101-2199均不承诺日期零误差，也不把模型差异当作已知未来事实。",
+      "太阳采用完整VSOP87D黄经和日地距离系数及106项IAU1980章动；仍为近似视位置模型，毫秒是输出分辨率而非天文精度承诺。",
+      "固定UTC+08:00现代回算不等同历史颁历；1901-1928及1979大寒与HKO的差异已同研究者历史历书对照逐事件对应，涉及旧历算、北京地方时和旧表精度；HKO原始采用底本仍未逐页核定，不以历史日期覆盖天文瞬间。",
+      "二十八宿使用现代通行锚点，胎神使用版本化通书表，彭祖百忌采用指定电子转录并作简体和干支字形规范化；均不宣称为古籍唯一版本。"
+    ],
+    "dayGrades": {
+      "SUPERIOR": "上",
+      "SUPERIOR_SECOND": "上次",
+      "MIDDLE": "中",
+      "MIDDLE_SECOND": "中次",
+      "INFERIOR": "下",
+      "LOWEST": "最下",
+      "UNDETERMINED": "未定"
+    },
+    "rangeQuery": {
+      "path": "/api/v2/almanac/range",
+      "calendar": "gregorian",
+      "inclusive": true,
+      "maxDays": 14,
+      "maxResultBytes": 262144,
+      "maxMcpResponseBytes": 786432,
+      "quota": "One shared unit per day; HEAD validates input and consumes one request unit."
+    },
+    "annotationPolicies": {
+      "noSalary": {
+        "triggerGod": "无禄",
+        "allowedActivities": [
+          "祭祀",
+          "解除",
+          "沐浴",
+          "整容",
+          "剃头",
+          "整手足甲",
+          "扫舍宇",
+          "修饰垣墙",
+          "平治道涂",
+          "破屋",
+          "坏垣",
+          "伐木"
+        ],
+        "remainingActivities": "不铺注，原始宜忌证据仍在内部审计中保留；不注不等于宜"
+      },
+      "monthlyTaboo": {
+        "triggerGod": "月忌日",
+        "lunarDays": [5, 14, 23],
+        "lunarBasis": "每月实际朔日计数，闰月独立计日",
+        "allowedActivities": ["祭祀", "宴会", "沐浴", "整容", "剃头", "整手足甲", "求医", "疗病", "补垣", "扫舍宇", "修饰垣墙", "平治道涂"],
+        "remainingActivities": "宜、忌、宜忌并存均不铺注；原始证据保留，不注不等于解忌或生成宜"
+      },
+      "equinoxSolstice": {
+        "triggerGods": ["春分", "夏至", "秋分", "冬至"],
+        "dateBasis": "交节所在UTC+08:00民用日全天",
+        "omittedActivities": ["上册进表章", "庆赐赏贺", "宴会", "行幸", "遣使", "安抚边境", "选将", "训兵", "出师", "上官赴任", "临政亲民", "结婚姻", "纳采问名", "嫁娶", "进人口", "搬移", "开市", "立券", "交易", "捕捉", "畋猎", "取鱼"],
+        "winterAdditionalOmissions": ["伐木"],
+        "effect": "指定活动不铺注宜、忌或宜忌并存；原始证据保留"
+      }
+    }
+  },
+  "protocolVersions": [
+    "2026-07-28",
+    "2025-11-25",
+    "2025-06-18",
+    "2025-03-26"
+  ],
+  "serverInfo": {
+    "name": "wannianli",
+    "version": "2.5.0",
+    "title": "万年历"
+  },
+  "instructions": "只读万年历计算，固定UTC+08:00。公历或农历年月日均写为YYYY-MM-DD；农历闰月须leapMonth=true。省略时间按00:00:00计算；查询此刻请使用get_current_almanac。神煞仅为已校勘子集，使用前可调用get_calendar_capabilities了解支持范围、口径和未来日期误差。",
+  "tools": [
+    {
+      "name": "calculate_almanac",
+      "title": "按日期计算万年历",
+      "description": "按公历或农历日期时间计算农历、四柱、节气及已实现的神煞宜忌。固定UTC+08:00，公历1801-01-01至2199-12-31；农历转换后仍须在此范围。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "date"
+        ],
+        "properties": {
+          "calendar": {
+            "type": "string",
+            "enum": [
+              "gregorian",
+              "lunar"
+            ],
+            "default": "gregorian",
+            "description": "历法；省略时为公历"
+          },
+          "date": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "所选历法的 YYYY-MM-DD；农历不使用 JSON Schema 的公历 date 校验"
+          },
+          "time": {
+            "type": "string",
+            "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$",
+            "default": "00:00:00",
+            "description": "UTC+08:00 民用时间，HH:mm 或 HH:mm:ss"
+          },
+          "leapMonth": {
+            "type": "boolean",
+            "default": false,
+            "description": "农历是否为闰月；公历只能为 false"
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "utcOffset",
+          "scope",
+          "dateTime",
+          "gregorian",
+          "lunar",
+          "fourPillars",
+          "xunKong",
+          "zodiac",
+          "season",
+          "solarTerm",
+          "sanFu",
+          "shuJiu",
+          "dayOfficer",
+          "dutyGod",
+          "auspiciousGods",
+          "inauspiciousGods",
+          "pengZuTaboo",
+          "clash",
+          "fetalGod",
+          "mansion",
+          "activities"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "const": "2.0"
+          },
+          "utcOffset": {
+            "type": "string",
+            "const": "+08:00"
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gregorian": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "date",
+              "year",
+              "month",
+              "day",
+              "weekday",
+              "julianDayNumber"
+            ],
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date"
+              },
+              "year": {
+                "type": "integer"
+              },
+              "month": {
+                "type": "integer"
+              },
+              "day": {
+                "type": "integer"
+              },
+              "weekday": {
+                "type": "string"
+              },
+              "julianDayNumber": {
+                "type": "integer"
+              }
+            }
+          },
+          "lunar": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "year",
+              "month",
+              "day",
+              "leapMonth",
+              "daysInMonth",
+              "display",
+              "monthStartDate",
+              "astronomicalNewMoon"
+            ],
+            "properties": {
+              "year": {
+                "type": "integer"
+              },
+              "month": {
+                "type": "integer"
+              },
+              "day": {
+                "type": "integer"
+              },
+              "leapMonth": {
+                "type": "boolean"
+              },
+              "daysInMonth": {
+                "type": "integer"
+              },
+              "display": {
+                "type": "string"
+              },
+              "monthStartDate": {
+                "type": "string",
+                "format": "date"
+              },
+              "astronomicalNewMoon": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          },
+          "fourPillars": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "year",
+              "month",
+              "day",
+              "hour"
+            ],
+            "properties": {
+              "year": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "heavenlyStem",
+                  "earthlyBranch",
+                  "zodiac",
+                  "naYin"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "heavenlyStem": {
+                    "type": "string"
+                  },
+                  "earthlyBranch": {
+                    "type": "string"
+                  },
+                  "zodiac": {
+                    "type": "string"
+                  },
+                  "naYin": {
+                    "type": "string"
+                  }
+                }
+              },
+              "month": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "heavenlyStem",
+                  "earthlyBranch",
+                  "zodiac",
+                  "naYin"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "heavenlyStem": {
+                    "type": "string"
+                  },
+                  "earthlyBranch": {
+                    "type": "string"
+                  },
+                  "zodiac": {
+                    "type": "string"
+                  },
+                  "naYin": {
+                    "type": "string"
+                  }
+                }
+              },
+              "day": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "heavenlyStem",
+                  "earthlyBranch",
+                  "zodiac",
+                  "naYin"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "heavenlyStem": {
+                    "type": "string"
+                  },
+                  "earthlyBranch": {
+                    "type": "string"
+                  },
+                  "zodiac": {
+                    "type": "string"
+                  },
+                  "naYin": {
+                    "type": "string"
+                  }
+                }
+              },
+              "hour": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "heavenlyStem",
+                  "earthlyBranch",
+                  "zodiac",
+                  "naYin"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "heavenlyStem": {
+                    "type": "string"
+                  },
+                  "earthlyBranch": {
+                    "type": "string"
+                  },
+                  "zodiac": {
+                    "type": "string"
+                  },
+                  "naYin": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "xunKong": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "year",
+              "month",
+              "day",
+              "hour"
+            ],
+            "properties": {
+              "year": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "xunName",
+                  "emptyBranches"
+                ],
+                "properties": {
+                  "xunName": {
+                    "type": "string"
+                  },
+                  "emptyBranches": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "month": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "xunName",
+                  "emptyBranches"
+                ],
+                "properties": {
+                  "xunName": {
+                    "type": "string"
+                  },
+                  "emptyBranches": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "day": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "xunName",
+                  "emptyBranches"
+                ],
+                "properties": {
+                  "xunName": {
+                    "type": "string"
+                  },
+                  "emptyBranches": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "hour": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "xunName",
+                  "emptyBranches"
+                ],
+                "properties": {
+                  "xunName": {
+                    "type": "string"
+                  },
+                  "emptyBranches": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "zodiac": {
+            "type": "string"
+          },
+          "season": {
+            "type": "string"
+          },
+          "solarTerm": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "currentPeriod",
+              "todayTerm",
+              "dayInPeriod",
+              "daysUntilNext",
+              "previous",
+              "next"
+            ],
+            "properties": {
+              "currentPeriod": {
+                "type": "string"
+              },
+              "todayTerm": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "dayInPeriod": {
+                "type": "integer"
+              },
+              "daysUntilNext": {
+                "type": "integer"
+              },
+              "previous": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "at"
+                ],
+                "properties": {
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "at": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "next": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "at"
+                ],
+                "properties": {
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "at": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          },
+          "sanFu": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "active",
+              "name",
+              "dayIndex",
+              "totalDays",
+              "startDate",
+              "endDate",
+              "description"
+            ],
+            "properties": {
+              "active": {
+                "type": "boolean"
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "dayIndex": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "totalDays": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "startDate": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date"
+              },
+              "endDate": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          "shuJiu": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "primaryConvention",
+              "primary",
+              "variants"
+            ],
+            "properties": {
+              "primaryConvention": {
+                "type": "string"
+              },
+              "primary": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "active",
+                  "name",
+                  "dayIndex",
+                  "totalDays",
+                  "startDate",
+                  "endDate",
+                  "description"
+                ],
+                "properties": {
+                  "active": {
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "dayIndex": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "totalDays": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "startDate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date"
+                  },
+                  "endDate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "variants": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "active",
+                    "name",
+                    "dayIndex",
+                    "totalDays",
+                    "startDate",
+                    "endDate",
+                    "description"
+                  ],
+                  "properties": {
+                    "active": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "dayIndex": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "totalDays": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "startDate": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date"
+                    },
+                    "endDate": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "dayOfficer": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "generalNature"
+            ],
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "generalNature": {
+                "type": "string"
+              }
+            }
+          },
+          "dutyGod": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "path",
+              "luck"
+            ],
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "path": {
+                "type": "string"
+              },
+              "luck": {
+                "type": "string"
+              }
+            }
+          },
+          "auspiciousGods": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "inauspiciousGods": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pengZuTaboo": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "heavenlyStemRule",
+              "earthlyBranchRule"
+            ],
+            "properties": {
+              "heavenlyStemRule": {
+                "type": "string"
+              },
+              "earthlyBranchRule": {
+                "type": "string"
+              }
+            }
+          },
+          "clash": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "opposingPillar",
+              "zodiac",
+              "direction",
+              "description"
+            ],
+            "properties": {
+              "opposingPillar": {
+                "type": "string"
+              },
+              "zodiac": {
+                "type": "string"
+              },
+              "direction": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          "fetalGod": {
+            "type": "string"
+          },
+          "mansion": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "fullName",
+              "luck",
+              "palace",
+              "guardian"
+            ],
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "fullName": {
+                "type": "string"
+              },
+              "luck": {
+                "type": "string"
+              },
+              "palace": {
+                "type": "string"
+              },
+              "guardian": {
+                "type": "string"
+              }
+            }
+          },
+          "activities": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "recommended",
+              "avoided",
+              "caution",
+              "dayGrade",
+              "virtuePresent",
+              "allActivitiesAvoided",
+              "dayGradeCode"
+            ],
+            "properties": {
+              "recommended": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "avoided": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "caution": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dayGrade": {
+                "type": "string",
+                "enum": [
+                  "上",
+                  "上次",
+                  "中",
+                  "中次",
+                  "下",
+                  "最下",
+                  "未定"
+                ]
+              },
+              "virtuePresent": {
+                "type": "boolean"
+              },
+              "allActivitiesAvoided": {
+                "type": "boolean"
+              },
+              "dayGradeCode": {
+                "type": "string",
+                "enum": [
+                  "SUPERIOR",
+                  "SUPERIOR_SECOND",
+                  "MIDDLE",
+                  "MIDDLE_SECOND",
+                  "INFERIOR",
+                  "LOWEST",
+                  "UNDETERMINED"
+                ],
+                "description": "稳定程序枚举；dayGrade保留中文显示值"
+              }
+            }
+          },
+          "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "godLists",
+              "activities",
+              "capabilitiesPath"
+            ],
+            "properties": {
+              "godLists": {
+                "type": "string",
+                "description": "随文献校勘更新的覆盖说明，不是封闭枚举"
+              },
+              "activities": {
+                "type": "string",
+                "description": "随文献校勘更新的覆盖说明，不是封闭枚举"
+              },
+              "capabilitiesPath": {
+                "type": "string",
+                "const": "/api/v2/almanac/capabilities"
+              }
+            }
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_current_almanac",
+      "title": "查询当前万年历",
+      "description": "计算服务器此刻的万年历。时间随调用变化。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "utcOffset",
+          "scope",
+          "dateTime",
+          "gregorian",
+          "lunar",
+          "fourPillars",
+          "xunKong",
+          "zodiac",
+          "season",
+          "solarTerm",
+          "sanFu",
+          "shuJiu",
+          "dayOfficer",
+          "dutyGod",
+          "auspiciousGods",
+          "inauspiciousGods",
+          "pengZuTaboo",
+          "clash",
+          "fetalGod",
+          "mansion",
+          "activities"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "const": "2.0"
+          },
+          "utcOffset": {
+            "type": "string",
+            "const": "+08:00"
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gregorian": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "date",
+              "year",
+              "month",
+              "day",
+              "weekday",
+              "julianDayNumber"
+            ],
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date"
+              },
+              "year": {
+                "type": "integer"
+              },
+              "month": {
+                "type": "integer"
+              },
+              "day": {
+                "type": "integer"
+              },
+              "weekday": {
+                "type": "string"
+              },
+              "julianDayNumber": {
+                "type": "integer"
+              }
+            }
+          },
+          "lunar": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "year",
+              "month",
+              "day",
+              "leapMonth",
+              "daysInMonth",
+              "display",
+              "monthStartDate",
+              "astronomicalNewMoon"
+            ],
+            "properties": {
+              "year": {
+                "type": "integer"
+              },
+              "month": {
+                "type": "integer"
+              },
+              "day": {
+                "type": "integer"
+              },
+              "leapMonth": {
+                "type": "boolean"
+              },
+              "daysInMonth": {
+                "type": "integer"
+              },
+              "display": {
+                "type": "string"
+              },
+              "monthStartDate": {
+                "type": "string",
+                "format": "date"
+              },
+              "astronomicalNewMoon": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          },
+          "fourPillars": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "year",
+              "month",
+              "day",
+              "hour"
+            ],
+            "properties": {
+              "year": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "heavenlyStem",
+                  "earthlyBranch",
+                  "zodiac",
+                  "naYin"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "heavenlyStem": {
+                    "type": "string"
+                  },
+                  "earthlyBranch": {
+                    "type": "string"
+                  },
+                  "zodiac": {
+                    "type": "string"
+                  },
+                  "naYin": {
+                    "type": "string"
+                  }
+                }
+              },
+              "month": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "heavenlyStem",
+                  "earthlyBranch",
+                  "zodiac",
+                  "naYin"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "heavenlyStem": {
+                    "type": "string"
+                  },
+                  "earthlyBranch": {
+                    "type": "string"
+                  },
+                  "zodiac": {
+                    "type": "string"
+                  },
+                  "naYin": {
+                    "type": "string"
+                  }
+                }
+              },
+              "day": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "heavenlyStem",
+                  "earthlyBranch",
+                  "zodiac",
+                  "naYin"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "heavenlyStem": {
+                    "type": "string"
+                  },
+                  "earthlyBranch": {
+                    "type": "string"
+                  },
+                  "zodiac": {
+                    "type": "string"
+                  },
+                  "naYin": {
+                    "type": "string"
+                  }
+                }
+              },
+              "hour": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "heavenlyStem",
+                  "earthlyBranch",
+                  "zodiac",
+                  "naYin"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "heavenlyStem": {
+                    "type": "string"
+                  },
+                  "earthlyBranch": {
+                    "type": "string"
+                  },
+                  "zodiac": {
+                    "type": "string"
+                  },
+                  "naYin": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "xunKong": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "year",
+              "month",
+              "day",
+              "hour"
+            ],
+            "properties": {
+              "year": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "xunName",
+                  "emptyBranches"
+                ],
+                "properties": {
+                  "xunName": {
+                    "type": "string"
+                  },
+                  "emptyBranches": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "month": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "xunName",
+                  "emptyBranches"
+                ],
+                "properties": {
+                  "xunName": {
+                    "type": "string"
+                  },
+                  "emptyBranches": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "day": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "xunName",
+                  "emptyBranches"
+                ],
+                "properties": {
+                  "xunName": {
+                    "type": "string"
+                  },
+                  "emptyBranches": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "hour": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "xunName",
+                  "emptyBranches"
+                ],
+                "properties": {
+                  "xunName": {
+                    "type": "string"
+                  },
+                  "emptyBranches": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "zodiac": {
+            "type": "string"
+          },
+          "season": {
+            "type": "string"
+          },
+          "solarTerm": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "currentPeriod",
+              "todayTerm",
+              "dayInPeriod",
+              "daysUntilNext",
+              "previous",
+              "next"
+            ],
+            "properties": {
+              "currentPeriod": {
+                "type": "string"
+              },
+              "todayTerm": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "dayInPeriod": {
+                "type": "integer"
+              },
+              "daysUntilNext": {
+                "type": "integer"
+              },
+              "previous": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "at"
+                ],
+                "properties": {
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "at": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "next": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "at"
+                ],
+                "properties": {
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "at": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          },
+          "sanFu": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "active",
+              "name",
+              "dayIndex",
+              "totalDays",
+              "startDate",
+              "endDate",
+              "description"
+            ],
+            "properties": {
+              "active": {
+                "type": "boolean"
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "dayIndex": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "totalDays": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "startDate": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date"
+              },
+              "endDate": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          "shuJiu": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "primaryConvention",
+              "primary",
+              "variants"
+            ],
+            "properties": {
+              "primaryConvention": {
+                "type": "string"
+              },
+              "primary": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "active",
+                  "name",
+                  "dayIndex",
+                  "totalDays",
+                  "startDate",
+                  "endDate",
+                  "description"
+                ],
+                "properties": {
+                  "active": {
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "dayIndex": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "totalDays": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "startDate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date"
+                  },
+                  "endDate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "variants": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "active",
+                    "name",
+                    "dayIndex",
+                    "totalDays",
+                    "startDate",
+                    "endDate",
+                    "description"
+                  ],
+                  "properties": {
+                    "active": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "dayIndex": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "totalDays": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "startDate": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date"
+                    },
+                    "endDate": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "dayOfficer": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "generalNature"
+            ],
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "generalNature": {
+                "type": "string"
+              }
+            }
+          },
+          "dutyGod": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "path",
+              "luck"
+            ],
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "path": {
+                "type": "string"
+              },
+              "luck": {
+                "type": "string"
+              }
+            }
+          },
+          "auspiciousGods": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "inauspiciousGods": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pengZuTaboo": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "heavenlyStemRule",
+              "earthlyBranchRule"
+            ],
+            "properties": {
+              "heavenlyStemRule": {
+                "type": "string"
+              },
+              "earthlyBranchRule": {
+                "type": "string"
+              }
+            }
+          },
+          "clash": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "opposingPillar",
+              "zodiac",
+              "direction",
+              "description"
+            ],
+            "properties": {
+              "opposingPillar": {
+                "type": "string"
+              },
+              "zodiac": {
+                "type": "string"
+              },
+              "direction": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          "fetalGod": {
+            "type": "string"
+          },
+          "mansion": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "fullName",
+              "luck",
+              "palace",
+              "guardian"
+            ],
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "fullName": {
+                "type": "string"
+              },
+              "luck": {
+                "type": "string"
+              },
+              "palace": {
+                "type": "string"
+              },
+              "guardian": {
+                "type": "string"
+              }
+            }
+          },
+          "activities": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "recommended",
+              "avoided",
+              "caution",
+              "dayGrade",
+              "virtuePresent",
+              "allActivitiesAvoided",
+              "dayGradeCode"
+            ],
+            "properties": {
+              "recommended": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "avoided": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "caution": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dayGrade": {
+                "type": "string",
+                "enum": [
+                  "上",
+                  "上次",
+                  "中",
+                  "中次",
+                  "下",
+                  "最下",
+                  "未定"
+                ]
+              },
+              "virtuePresent": {
+                "type": "boolean"
+              },
+              "allActivitiesAvoided": {
+                "type": "boolean"
+              },
+              "dayGradeCode": {
+                "type": "string",
+                "enum": [
+                  "SUPERIOR",
+                  "SUPERIOR_SECOND",
+                  "MIDDLE",
+                  "MIDDLE_SECOND",
+                  "INFERIOR",
+                  "LOWEST",
+                  "UNDETERMINED"
+                ],
+                "description": "稳定程序枚举；dayGrade保留中文显示值"
+              }
+            }
+          },
+          "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "godLists",
+              "activities",
+              "capabilitiesPath"
+            ],
+            "properties": {
+              "godLists": {
+                "type": "string",
+                "description": "随文献校勘更新的覆盖说明，不是封闭枚举"
+              },
+              "activities": {
+                "type": "string",
+                "description": "随文献校勘更新的覆盖说明，不是封闭枚举"
+              },
+              "capabilitiesPath": {
+                "type": "string",
+                "const": "/api/v2/almanac/capabilities"
+              }
+            }
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_calendar_capabilities",
+      "title": "查看历法支持范围",
+      "description": "获取日期边界、默认值、历法换年换日口径、神煞覆盖限制及未来日期不确定性。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "outputSchema": {
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "calculate_almanac_range",
+      "title": "计算有界公历区间",
+      "description": "按UTC+08:00计算含首尾最多14天的完整结果；每一天消耗一个与单次接口共用的配额，结果最多262144字节。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "startDate",
+          "endDate"
+        ],
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "公历起日，含首日"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "公历止日，含末日，最多14天"
+          },
+          "time": {
+            "type": "string",
+            "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$",
+            "default": "00:00:00"
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "utcOffset",
+          "range",
+          "results"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "const": "2.0"
+          },
+          "utcOffset": {
+            "const": "+08:00"
+          },
+          "range": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "startDate",
+              "endDate",
+              "time",
+              "days",
+              "quotaUnits"
+            ],
+            "properties": {
+              "startDate": {
+                "type": "string"
+              },
+              "endDate": {
+                "type": "string"
+              },
+              "time": {
+                "type": "string"
+              },
+              "days": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 14
+              },
+              "quotaUnits": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 14
+              }
+            }
+          },
+          "results": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 14,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "schemaVersion",
+                "utcOffset",
+                "scope",
+                "dateTime",
+                "gregorian",
+                "lunar",
+                "fourPillars",
+                "xunKong",
+                "zodiac",
+                "season",
+                "solarTerm",
+                "sanFu",
+                "shuJiu",
+                "dayOfficer",
+                "dutyGod",
+                "auspiciousGods",
+                "inauspiciousGods",
+                "pengZuTaboo",
+                "clash",
+                "fetalGod",
+                "mansion",
+                "activities"
+              ],
+              "properties": {
+                "schemaVersion": {
+                  "type": "string",
+                  "const": "2.0"
+                },
+                "utcOffset": {
+                  "type": "string",
+                  "const": "+08:00"
+                },
+                "dateTime": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "gregorian": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "date",
+                    "year",
+                    "month",
+                    "day",
+                    "weekday",
+                    "julianDayNumber"
+                  ],
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "year": {
+                      "type": "integer"
+                    },
+                    "month": {
+                      "type": "integer"
+                    },
+                    "day": {
+                      "type": "integer"
+                    },
+                    "weekday": {
+                      "type": "string"
+                    },
+                    "julianDayNumber": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "lunar": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "year",
+                    "month",
+                    "day",
+                    "leapMonth",
+                    "daysInMonth",
+                    "display",
+                    "monthStartDate",
+                    "astronomicalNewMoon"
+                  ],
+                  "properties": {
+                    "year": {
+                      "type": "integer"
+                    },
+                    "month": {
+                      "type": "integer"
+                    },
+                    "day": {
+                      "type": "integer"
+                    },
+                    "leapMonth": {
+                      "type": "boolean"
+                    },
+                    "daysInMonth": {
+                      "type": "integer"
+                    },
+                    "display": {
+                      "type": "string"
+                    },
+                    "monthStartDate": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "astronomicalNewMoon": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "fourPillars": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "year",
+                    "month",
+                    "day",
+                    "hour"
+                  ],
+                  "properties": {
+                    "year": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "value",
+                        "heavenlyStem",
+                        "earthlyBranch",
+                        "zodiac",
+                        "naYin"
+                      ],
+                      "properties": {
+                        "value": {
+                          "type": "string"
+                        },
+                        "heavenlyStem": {
+                          "type": "string"
+                        },
+                        "earthlyBranch": {
+                          "type": "string"
+                        },
+                        "zodiac": {
+                          "type": "string"
+                        },
+                        "naYin": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "month": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "value",
+                        "heavenlyStem",
+                        "earthlyBranch",
+                        "zodiac",
+                        "naYin"
+                      ],
+                      "properties": {
+                        "value": {
+                          "type": "string"
+                        },
+                        "heavenlyStem": {
+                          "type": "string"
+                        },
+                        "earthlyBranch": {
+                          "type": "string"
+                        },
+                        "zodiac": {
+                          "type": "string"
+                        },
+                        "naYin": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "day": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "value",
+                        "heavenlyStem",
+                        "earthlyBranch",
+                        "zodiac",
+                        "naYin"
+                      ],
+                      "properties": {
+                        "value": {
+                          "type": "string"
+                        },
+                        "heavenlyStem": {
+                          "type": "string"
+                        },
+                        "earthlyBranch": {
+                          "type": "string"
+                        },
+                        "zodiac": {
+                          "type": "string"
+                        },
+                        "naYin": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "hour": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "value",
+                        "heavenlyStem",
+                        "earthlyBranch",
+                        "zodiac",
+                        "naYin"
+                      ],
+                      "properties": {
+                        "value": {
+                          "type": "string"
+                        },
+                        "heavenlyStem": {
+                          "type": "string"
+                        },
+                        "earthlyBranch": {
+                          "type": "string"
+                        },
+                        "zodiac": {
+                          "type": "string"
+                        },
+                        "naYin": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "xunKong": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "year",
+                    "month",
+                    "day",
+                    "hour"
+                  ],
+                  "properties": {
+                    "year": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "xunName",
+                        "emptyBranches"
+                      ],
+                      "properties": {
+                        "xunName": {
+                          "type": "string"
+                        },
+                        "emptyBranches": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "month": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "xunName",
+                        "emptyBranches"
+                      ],
+                      "properties": {
+                        "xunName": {
+                          "type": "string"
+                        },
+                        "emptyBranches": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "day": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "xunName",
+                        "emptyBranches"
+                      ],
+                      "properties": {
+                        "xunName": {
+                          "type": "string"
+                        },
+                        "emptyBranches": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "hour": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "xunName",
+                        "emptyBranches"
+                      ],
+                      "properties": {
+                        "xunName": {
+                          "type": "string"
+                        },
+                        "emptyBranches": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "zodiac": {
+                  "type": "string"
+                },
+                "season": {
+                  "type": "string"
+                },
+                "solarTerm": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "currentPeriod",
+                    "todayTerm",
+                    "dayInPeriod",
+                    "daysUntilNext",
+                    "previous",
+                    "next"
+                  ],
+                  "properties": {
+                    "currentPeriod": {
+                      "type": "string"
+                    },
+                    "todayTerm": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "dayInPeriod": {
+                      "type": "integer"
+                    },
+                    "daysUntilNext": {
+                      "type": "integer"
+                    },
+                    "previous": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "name",
+                        "at"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "at": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "next": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "name",
+                        "at"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "at": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  }
+                },
+                "sanFu": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "active",
+                    "name",
+                    "dayIndex",
+                    "totalDays",
+                    "startDate",
+                    "endDate",
+                    "description"
+                  ],
+                  "properties": {
+                    "active": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "dayIndex": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "totalDays": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "startDate": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date"
+                    },
+                    "endDate": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "shuJiu": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "primaryConvention",
+                    "primary",
+                    "variants"
+                  ],
+                  "properties": {
+                    "primaryConvention": {
+                      "type": "string"
+                    },
+                    "primary": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "active",
+                        "name",
+                        "dayIndex",
+                        "totalDays",
+                        "startDate",
+                        "endDate",
+                        "description"
+                      ],
+                      "properties": {
+                        "active": {
+                          "type": "boolean"
+                        },
+                        "name": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "dayIndex": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "totalDays": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "startDate": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date"
+                        },
+                        "endDate": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date"
+                        },
+                        "description": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "variants": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "active",
+                          "name",
+                          "dayIndex",
+                          "totalDays",
+                          "startDate",
+                          "endDate",
+                          "description"
+                        ],
+                        "properties": {
+                          "active": {
+                            "type": "boolean"
+                          },
+                          "name": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "dayIndex": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
+                          },
+                          "totalDays": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
+                          },
+                          "startDate": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "format": "date"
+                          },
+                          "endDate": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "format": "date"
+                          },
+                          "description": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "dayOfficer": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "name",
+                    "generalNature"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "generalNature": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "dutyGod": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "name",
+                    "path",
+                    "luck"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "luck": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "auspiciousGods": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "inauspiciousGods": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "pengZuTaboo": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "heavenlyStemRule",
+                    "earthlyBranchRule"
+                  ],
+                  "properties": {
+                    "heavenlyStemRule": {
+                      "type": "string"
+                    },
+                    "earthlyBranchRule": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "clash": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "opposingPillar",
+                    "zodiac",
+                    "direction",
+                    "description"
+                  ],
+                  "properties": {
+                    "opposingPillar": {
+                      "type": "string"
+                    },
+                    "zodiac": {
+                      "type": "string"
+                    },
+                    "direction": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "fetalGod": {
+                  "type": "string"
+                },
+                "mansion": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "name",
+                    "fullName",
+                    "luck",
+                    "palace",
+                    "guardian"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "fullName": {
+                      "type": "string"
+                    },
+                    "luck": {
+                      "type": "string"
+                    },
+                    "palace": {
+                      "type": "string"
+                    },
+                    "guardian": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "activities": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "recommended",
+                    "avoided",
+                    "caution",
+                    "dayGrade",
+                    "virtuePresent",
+                    "allActivitiesAvoided",
+                    "dayGradeCode"
+                  ],
+                  "properties": {
+                    "recommended": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "avoided": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "caution": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "dayGrade": {
+                      "type": "string",
+                      "enum": [
+                        "上",
+                        "上次",
+                        "中",
+                        "中次",
+                        "下",
+                        "最下",
+                        "未定"
+                      ]
+                    },
+                    "virtuePresent": {
+                      "type": "boolean"
+                    },
+                    "allActivitiesAvoided": {
+                      "type": "boolean"
+                    },
+                    "dayGradeCode": {
+                      "type": "string",
+                      "enum": [
+                        "SUPERIOR",
+                        "SUPERIOR_SECOND",
+                        "MIDDLE",
+                        "MIDDLE_SECOND",
+                        "INFERIOR",
+                        "LOWEST",
+                        "UNDETERMINED"
+                      ],
+                      "description": "稳定程序枚举；dayGrade保留中文显示值"
+                    }
+                  }
+                },
+                "scope": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "godLists",
+                    "activities",
+                    "capabilitiesPath"
+                  ],
+                  "properties": {
+                    "godLists": {
+                      "type": "string",
+                      "description": "随文献校勘更新的覆盖说明，不是封闭枚举"
+                    },
+                    "activities": {
+                      "type": "string",
+                      "description": "随文献校勘更新的覆盖说明，不是封闭枚举"
+                    },
+                    "capabilitiesPath": {
+                      "type": "string",
+                      "const": "/api/v2/almanac/capabilities"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "almanac://capabilities",
+      "name": "calendar-capabilities",
+      "title": "历法支持范围与限制",
+      "mimeType": "application/json",
+      "description": "与get_calendar_capabilities相同的固定只读资料。"
+    }
+  ],
+  "resultScope": {
+    "godLists": "已校勘核心子集",
+    "activities": "35组逐月条件、阴阳专日及卷六26项月神；另含气往亡、反支、分至和月忌日。无禄/月忌止注、分至不注仅省略公开活动，原始证据保留；未定不等于无吉凶，省略不等于宜",
+    "capabilitiesPath": "/api/v2/almanac/capabilities"
+  },
+  "rangeInputSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "startDate",
+      "endDate"
+    ],
+    "properties": {
+      "startDate": {
+        "type": "string",
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+        "description": "公历起日，含首日"
+      },
+      "endDate": {
+        "type": "string",
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+        "description": "公历止日，含末日，最多14天"
+      },
+      "time": {
+        "type": "string",
+        "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$",
+        "default": "00:00:00"
+      }
+    }
+  },
+  "rangeOutputSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "schemaVersion",
+      "utcOffset",
+      "range",
+      "results"
+    ],
+    "properties": {
+      "schemaVersion": {
+        "const": "2.0"
+      },
+      "utcOffset": {
+        "const": "+08:00"
+      },
+      "range": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "startDate",
+          "endDate",
+          "time",
+          "days",
+          "quotaUnits"
+        ],
+        "properties": {
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "time": {
+            "type": "string"
+          },
+          "days": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 14
+          },
+          "quotaUnits": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 14
+          }
+        }
+      },
+      "results": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 14,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schemaVersion",
+            "utcOffset",
+            "scope",
+            "dateTime",
+            "gregorian",
+            "lunar",
+            "fourPillars",
+            "xunKong",
+            "zodiac",
+            "season",
+            "solarTerm",
+            "sanFu",
+            "shuJiu",
+            "dayOfficer",
+            "dutyGod",
+            "auspiciousGods",
+            "inauspiciousGods",
+            "pengZuTaboo",
+            "clash",
+            "fetalGod",
+            "mansion",
+            "activities"
+          ],
+          "properties": {
+            "schemaVersion": {
+              "type": "string",
+              "const": "2.0"
+            },
+            "utcOffset": {
+              "type": "string",
+              "const": "+08:00"
+            },
+            "dateTime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "gregorian": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "date",
+                "year",
+                "month",
+                "day",
+                "weekday",
+                "julianDayNumber"
+              ],
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "year": {
+                  "type": "integer"
+                },
+                "month": {
+                  "type": "integer"
+                },
+                "day": {
+                  "type": "integer"
+                },
+                "weekday": {
+                  "type": "string"
+                },
+                "julianDayNumber": {
+                  "type": "integer"
+                }
+              }
+            },
+            "lunar": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "year",
+                "month",
+                "day",
+                "leapMonth",
+                "daysInMonth",
+                "display",
+                "monthStartDate",
+                "astronomicalNewMoon"
+              ],
+              "properties": {
+                "year": {
+                  "type": "integer"
+                },
+                "month": {
+                  "type": "integer"
+                },
+                "day": {
+                  "type": "integer"
+                },
+                "leapMonth": {
+                  "type": "boolean"
+                },
+                "daysInMonth": {
+                  "type": "integer"
+                },
+                "display": {
+                  "type": "string"
+                },
+                "monthStartDate": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "astronomicalNewMoon": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "fourPillars": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "year",
+                "month",
+                "day",
+                "hour"
+              ],
+              "properties": {
+                "year": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "value",
+                    "heavenlyStem",
+                    "earthlyBranch",
+                    "zodiac",
+                    "naYin"
+                  ],
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    },
+                    "heavenlyStem": {
+                      "type": "string"
+                    },
+                    "earthlyBranch": {
+                      "type": "string"
+                    },
+                    "zodiac": {
+                      "type": "string"
+                    },
+                    "naYin": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "month": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "value",
+                    "heavenlyStem",
+                    "earthlyBranch",
+                    "zodiac",
+                    "naYin"
+                  ],
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    },
+                    "heavenlyStem": {
+                      "type": "string"
+                    },
+                    "earthlyBranch": {
+                      "type": "string"
+                    },
+                    "zodiac": {
+                      "type": "string"
+                    },
+                    "naYin": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "day": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "value",
+                    "heavenlyStem",
+                    "earthlyBranch",
+                    "zodiac",
+                    "naYin"
+                  ],
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    },
+                    "heavenlyStem": {
+                      "type": "string"
+                    },
+                    "earthlyBranch": {
+                      "type": "string"
+                    },
+                    "zodiac": {
+                      "type": "string"
+                    },
+                    "naYin": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "hour": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "value",
+                    "heavenlyStem",
+                    "earthlyBranch",
+                    "zodiac",
+                    "naYin"
+                  ],
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    },
+                    "heavenlyStem": {
+                      "type": "string"
+                    },
+                    "earthlyBranch": {
+                      "type": "string"
+                    },
+                    "zodiac": {
+                      "type": "string"
+                    },
+                    "naYin": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "xunKong": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "year",
+                "month",
+                "day",
+                "hour"
+              ],
+              "properties": {
+                "year": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "xunName",
+                    "emptyBranches"
+                  ],
+                  "properties": {
+                    "xunName": {
+                      "type": "string"
+                    },
+                    "emptyBranches": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "month": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "xunName",
+                    "emptyBranches"
+                  ],
+                  "properties": {
+                    "xunName": {
+                      "type": "string"
+                    },
+                    "emptyBranches": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "day": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "xunName",
+                    "emptyBranches"
+                  ],
+                  "properties": {
+                    "xunName": {
+                      "type": "string"
+                    },
+                    "emptyBranches": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "hour": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "xunName",
+                    "emptyBranches"
+                  ],
+                  "properties": {
+                    "xunName": {
+                      "type": "string"
+                    },
+                    "emptyBranches": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "zodiac": {
+              "type": "string"
+            },
+            "season": {
+              "type": "string"
+            },
+            "solarTerm": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "currentPeriod",
+                "todayTerm",
+                "dayInPeriod",
+                "daysUntilNext",
+                "previous",
+                "next"
+              ],
+              "properties": {
+                "currentPeriod": {
+                  "type": "string"
+                },
+                "todayTerm": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "dayInPeriod": {
+                  "type": "integer"
+                },
+                "daysUntilNext": {
+                  "type": "integer"
+                },
+                "previous": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "name",
+                    "at"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "next": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "name",
+                    "at"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            },
+            "sanFu": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "active",
+                "name",
+                "dayIndex",
+                "totalDays",
+                "startDate",
+                "endDate",
+                "description"
+              ],
+              "properties": {
+                "active": {
+                  "type": "boolean"
+                },
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "dayIndex": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "totalDays": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "startDate": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date"
+                },
+                "endDate": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            },
+            "shuJiu": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "primaryConvention",
+                "primary",
+                "variants"
+              ],
+              "properties": {
+                "primaryConvention": {
+                  "type": "string"
+                },
+                "primary": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "active",
+                    "name",
+                    "dayIndex",
+                    "totalDays",
+                    "startDate",
+                    "endDate",
+                    "description"
+                  ],
+                  "properties": {
+                    "active": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "dayIndex": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "totalDays": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "startDate": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date"
+                    },
+                    "endDate": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "variants": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "active",
+                      "name",
+                      "dayIndex",
+                      "totalDays",
+                      "startDate",
+                      "endDate",
+                      "description"
+                    ],
+                    "properties": {
+                      "active": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "dayIndex": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
+                      "totalDays": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
+                      "startDate": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "format": "date"
+                      },
+                      "endDate": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "format": "date"
+                      },
+                      "description": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "dayOfficer": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "generalNature"
+              ],
+              "properties": {
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "generalNature": {
+                  "type": "string"
+                }
+              }
+            },
+            "dutyGod": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "path",
+                "luck"
+              ],
+              "properties": {
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "path": {
+                  "type": "string"
+                },
+                "luck": {
+                  "type": "string"
+                }
+              }
+            },
+            "auspiciousGods": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "inauspiciousGods": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "pengZuTaboo": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "heavenlyStemRule",
+                "earthlyBranchRule"
+              ],
+              "properties": {
+                "heavenlyStemRule": {
+                  "type": "string"
+                },
+                "earthlyBranchRule": {
+                  "type": "string"
+                }
+              }
+            },
+            "clash": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "opposingPillar",
+                "zodiac",
+                "direction",
+                "description"
+              ],
+              "properties": {
+                "opposingPillar": {
+                  "type": "string"
+                },
+                "zodiac": {
+                  "type": "string"
+                },
+                "direction": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            },
+            "fetalGod": {
+              "type": "string"
+            },
+            "mansion": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "fullName",
+                "luck",
+                "palace",
+                "guardian"
+              ],
+              "properties": {
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "fullName": {
+                  "type": "string"
+                },
+                "luck": {
+                  "type": "string"
+                },
+                "palace": {
+                  "type": "string"
+                },
+                "guardian": {
+                  "type": "string"
+                }
+              }
+            },
+            "activities": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "recommended",
+                "avoided",
+                "caution",
+                "dayGrade",
+                "virtuePresent",
+                "allActivitiesAvoided",
+                "dayGradeCode"
+              ],
+              "properties": {
+                "recommended": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "avoided": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "caution": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "dayGrade": {
+                  "type": "string",
+                  "enum": [
+                    "上",
+                    "上次",
+                    "中",
+                    "中次",
+                    "下",
+                    "最下",
+                    "未定"
+                  ]
+                },
+                "virtuePresent": {
+                  "type": "boolean"
+                },
+                "allActivitiesAvoided": {
+                  "type": "boolean"
+                },
+                "dayGradeCode": {
+                  "type": "string",
+                  "enum": [
+                    "SUPERIOR",
+                    "SUPERIOR_SECOND",
+                    "MIDDLE",
+                    "MIDDLE_SECOND",
+                    "INFERIOR",
+                    "LOWEST",
+                    "UNDETERMINED"
+                  ],
+                  "description": "稳定程序枚举；dayGrade保留中文显示值"
+                }
+              }
+            },
+            "scope": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "godLists",
+                "activities",
+                "capabilitiesPath"
+              ],
+              "properties": {
+                "godLists": {
+                  "type": "string",
+                  "description": "随文献校勘更新的覆盖说明，不是封闭枚举"
+                },
+                "activities": {
+                  "type": "string",
+                  "description": "随文献校勘更新的覆盖说明，不是封闭枚举"
+                },
+                "capabilitiesPath": {
+                  "type": "string",
+                  "const": "/api/v2/almanac/capabilities"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

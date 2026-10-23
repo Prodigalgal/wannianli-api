@@ -1,0 +1,170 @@
+{
+  "sources": [
+    "https://github.com/kanripo/KR3g0051/blob/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_006.txt",
+    "https://zh.wikisource.org/w/index.php?oldid=787343",
+    "https://zh.wikisource.org/w/index.php?oldid=787351"
+  ],
+  "scope": "卷六67b—69a、72b—73a及卷十63b—64a、69a—71a。月份朔日与交节均使用本服务UTC+08:00民用日；历日标签不取代六等。未实现上朔、四离四绝、晦日、伏社及朔弦望。",
+  "qiGoingLoss": {
+    "id": "CALENDAR_QI_GOING_LOSS_RETAINED_TABOOS",
+    "name": "气往亡",
+    "terms": [
+      {
+        "term": "START_OF_SPRING",
+        "inclusiveDay": 7
+      },
+      {
+        "term": "AWAKENING_OF_INSECTS",
+        "inclusiveDay": 14
+      },
+      {
+        "term": "PURE_BRIGHTNESS",
+        "inclusiveDay": 21
+      },
+      {
+        "term": "START_OF_SUMMER",
+        "inclusiveDay": 8
+      },
+      {
+        "term": "GRAIN_IN_EAR",
+        "inclusiveDay": 16
+      },
+      {
+        "term": "MINOR_HEAT",
+        "inclusiveDay": 24
+      },
+      {
+        "term": "START_OF_AUTUMN",
+        "inclusiveDay": 9
+      },
+      {
+        "term": "WHITE_DEW",
+        "inclusiveDay": 18
+      },
+      {
+        "term": "COLD_DEW",
+        "inclusiveDay": 27
+      },
+      {
+        "term": "START_OF_WINTER",
+        "inclusiveDay": 10
+      },
+      {
+        "term": "MAJOR_SNOW",
+        "inclusiveDay": 20
+      },
+      {
+        "term": "MINOR_COLD",
+        "inclusiveDay": 30
+      }
+    ],
+    "avoids": [
+      "上册进表章",
+      "颁诏",
+      "诏命公卿",
+      "招贤",
+      "宣政事",
+      "行幸",
+      "遣使",
+      "安抚边境",
+      "选将",
+      "训兵",
+      "出师",
+      "上官赴任",
+      "临政亲民",
+      "嫁娶",
+      "进人口",
+      "搬移",
+      "求医",
+      "疗病",
+      "捕捉",
+      "畋猎",
+      "取鱼"
+    ],
+    "note": "卷六明定皆自交节日数之，含交节日为第一日；卷十与往亡同列所忌，德合赦愿并犹忌，不恢复已删施恩封拜旧忌。"
+  },
+  "reversedBranch": {
+    "id": "CALENDAR_REVERSED_BRANCH_RETAINED_TABOOS",
+    "name": "反支",
+    "lunarDayByNewMoonBranch": [
+      6,
+      6,
+      5,
+      5,
+      4,
+      4,
+      3,
+      3,
+      2,
+      2,
+      1,
+      1
+    ],
+    "avoids": [
+      "上册进表章",
+      "陈词讼"
+    ],
+    "note": "卷六以本月朔日地支定初一至初六反支；卷十增列陈词讼，与德合赦愿并犹忌，不从象义泛增婚姻纳财禁忌。"
+  },
+  "equinoxSolstice": {
+    "id": "CALENDAR_EQUINOX_SOLSTICE_PLACEMENT",
+    "terms": [
+      "SPRING_EQUINOX",
+      "SUMMER_SOLSTICE",
+      "AUTUMN_EQUINOX",
+      "WINTER_SOLSTICE"
+    ],
+    "omittedActivities": [
+      "上册进表章",
+      "庆赐赏贺",
+      "宴会",
+      "行幸",
+      "遣使",
+      "安抚边境",
+      "选将",
+      "训兵",
+      "出师",
+      "上官赴任",
+      "临政亲民",
+      "结婚姻",
+      "纳采问名",
+      "嫁娶",
+      "进人口",
+      "搬移",
+      "开市",
+      "立券",
+      "交易",
+      "捕捉",
+      "畋猎",
+      "取鱼"
+    ],
+    "winterAdditionalOmissions": [
+      "伐木"
+    ],
+    "note": "卷十分至条明确不注指定活动，冬至另不注伐木；公开宜、忌、宜忌并存均省略，后台原始证据保留。按交节所在民用日全天处理。"
+  },
+  "monthlyTaboo": {
+    "id": "CALENDAR_MONTHLY_TABOO_PLACEMENT",
+    "name": "月忌日",
+    "lunarDays": [
+      5,
+      14,
+      23
+    ],
+    "allowedActivities": [
+      "祭祀",
+      "宴会",
+      "沐浴",
+      "整容",
+      "剃头",
+      "整手足甲",
+      "求医",
+      "疗病",
+      "补垣",
+      "扫舍宇",
+      "修饰垣墙",
+      "平治道涂"
+    ],
+    "note": "卷六定每月初五十四二十三；采用卷十71a最终止注十二类，余事不注，不泛判诸事皆忌，不采用卷六旧列破屋坏垣。闰月按该月实际月朔独立计日。"
+  }
+}

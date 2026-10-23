@@ -46,7 +46,7 @@ public final class JulianDate {
         var utc = instant.atZone(ZoneOffset.UTC);
         int length = utc.toLocalDate().lengthOfYear();
         double day = utc.getDayOfYear() - 1
-                + utc.toLocalTime().toSecondOfDay() / SECONDS_PER_DAY;
+                + (utc.toLocalTime().toSecondOfDay() + utc.getNano() / 1_000_000_000.0) / SECONDS_PER_DAY;
         return utc.getYear() + day / length;
     }
 }

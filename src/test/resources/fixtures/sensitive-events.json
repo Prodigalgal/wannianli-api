@@ -1,0 +1,111 @@
+{
+  "purpose": "本项目模型的变更警报快照，不是官方未来时刻或精度承诺；变更模型须逐项说明跨日影响。",
+  "events": [
+    {
+      "kind": "newMoon",
+      "k": -1053,
+      "label": "1914-11-17",
+      "instant": "1914-11-17T16:01:42.968Z",
+      "utcPlus8": "1914-11-18T00:01:42.968+08:00"
+    },
+    {
+      "kind": "newMoon",
+      "k": -979,
+      "label": "1920-11-11",
+      "instant": "1920-11-10T16:04:49.578Z",
+      "utcPlus8": "1920-11-11T00:04:49.578+08:00"
+    },
+    {
+      "kind": "newMoon",
+      "k": 714,
+      "label": "2057-09-29",
+      "instant": "2057-09-28T16:00:01.881Z",
+      "utcPlus8": "2057-09-29T00:00:01.881+08:00"
+    },
+    {
+      "kind": "newMoon",
+      "k": 1109,
+      "label": "2089-09-04",
+      "instant": "2089-09-04T15:57:38.294Z",
+      "utcPlus8": "2089-09-04T23:57:38.294+08:00"
+    },
+    {
+      "kind": "newMoon",
+      "k": 1207,
+      "label": "2097-08-07",
+      "instant": "2097-08-07T15:59:41.716Z",
+      "utcPlus8": "2097-08-07T23:59:41.716+08:00"
+    },
+    {
+      "kind": "newMoon",
+      "k": 2379,
+      "label": "2192-05-12",
+      "instant": "2192-05-11T16:02:54.171Z",
+      "utcPlus8": "2192-05-12T00:02:54.171+08:00"
+    },
+    {
+      "kind": "solarTerm",
+      "year": 1912,
+      "term": "MINOR_SNOW",
+      "instant": "1912-11-22T15:48:14.099Z",
+      "utcPlus8": "1912-11-22T23:48:14.099+08:00"
+    },
+    {
+      "kind": "solarTerm",
+      "year": 1916,
+      "term": "START_OF_SPRING",
+      "instant": "1916-02-05T03:14:04.041Z",
+      "utcPlus8": "1916-02-05T11:14:04.041+08:00"
+    },
+    {
+      "kind": "solarTerm",
+      "year": 1917,
+      "term": "MAJOR_SNOW",
+      "instant": "1917-12-07T16:01:05.248Z",
+      "utcPlus8": "1917-12-08T00:01:05.248+08:00"
+    },
+    {
+      "kind": "solarTerm",
+      "year": 2021,
+      "term": "WINTER_SOLSTICE",
+      "instant": "2021-12-21T15:59:17.257Z",
+      "utcPlus8": "2021-12-21T23:59:17.257+08:00"
+    },
+    {
+      "kind": "solarTerm",
+      "year": 2051,
+      "term": "SPRING_EQUINOX",
+      "instant": "2051-03-20T15:58:57.680Z",
+      "utcPlus8": "2051-03-20T23:58:57.680+08:00"
+    },
+    {
+      "kind": "solarTerm",
+      "year": 2083,
+      "term": "START_OF_SPRING",
+      "instant": "2083-02-03T15:58:01.632Z",
+      "utcPlus8": "2083-02-03T23:58:01.632+08:00"
+    },
+    {
+      "kind": "solarTerm",
+      "year": 2084,
+      "term": "SPRING_EQUINOX",
+      "instant": "2084-03-19T15:59:07.487Z",
+      "utcPlus8": "2084-03-19T23:59:07.487+08:00"
+    },
+    {
+      "kind": "solarTerm",
+      "year": 2199,
+      "term": "PURE_BRIGHTNESS",
+      "instant": "2199-04-04T15:58:22.362Z",
+      "utcPlus8": "2199-04-04T23:58:22.362+08:00"
+    },
+    {
+      "kind": "solarTerm",
+      "year": 1979,
+      "term": "MAJOR_COLD",
+      "instant": "1979-01-20T15:59:56.678Z",
+      "utcPlus8": "1979-01-20T23:59:56.678+08:00"
+    }
+  ],
+  "modelRevision": "2026-10-23: complete VSOP87D longitude/radius + 106-term IAU 1980 nutation; 1979 major cold corrected to January 20 UTC+8."
+}

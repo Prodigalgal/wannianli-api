@@ -5,6 +5,7 @@ import static cn.wannianli.calendar.SexagenaryCycle.STEMS;
 import static cn.wannianli.calendar.SexagenaryCycle.ZODIAC;
 
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,10 @@ import cn.wannianli.almanac.TraditionalAlmanac.Gods;
 import cn.wannianli.almanac.TraditionalAlmanac.Mansion;
 import cn.wannianli.almanac.TraditionalAlmanac.PengZuTaboo;
 import cn.wannianli.calendar.SexagenaryCycle.Cycle;
+import cn.wannianli.calendar.SeasonalCalculator;
 import cn.wannianli.calendar.astronomy.JulianDate;
+import cn.wannianli.rules.ClassicalGods;
+import cn.wannianli.rules.ClassicalRules;
 
 public final class TraditionalAlmanacCalculator {
 
@@ -29,7 +33,7 @@ public final class TraditionalAlmanacCalculator {
 
     private static final String[] OFFICERS = {"建", "除", "满", "平", "定", "执", "破", "危", "成", "收", "开", "闭"};
     private static final String[] DUTY_GODS = {
-            "青龙", "明堂", "天刑", "朱雀", "金匮", "天德", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陈"
+            "青龙", "明堂", "天刑", "朱雀", "金匮", "宝光", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陈"
     };
     private static final boolean[] YELLOW_PATH = {
             true, true, false, false, true, true, false, true, false, false, true, false
@@ -73,9 +77,15 @@ public final class TraditionalAlmanacCalculator {
     private static final int[] SIX_HARM = {7, 6, 5, 4, 3, 2, 1, 0, 11, 10, 9, 8};
 
     public TraditionalAlmanac calculate(LocalDate date, Cycle month, Cycle day, double solarLongitude) {
+        var year = cn.wannianli.calendar.SexagenaryCycle.fromIndex(date.getYear() - 4
+                - ((month.branchIndex() == 0 || month.branchIndex() == 1) && date.getMonthValue() < 3 ? 1 : 0));
+        return calculate(date, year, month, day, solarLongitude);
+    }
+
+    public TraditionalAlmanac calculate(LocalDate date, Cycle year, Cycle month, Cycle day, double solarLongitude) {
         DayOfficer officer = dayOfficer(month, day);
         DutyGod dutyGod = dutyGod(month, day);
-        Gods gods = gods(month, day, officer.name(), solarLongitude);
+        Gods gods = gods(date, year, month, day, officer.name(), solarLongitude);
         return new TraditionalAlmanac(
                 officer,
                 dutyGod,
@@ -113,7 +123,7 @@ public final class TraditionalAlmanacCalculator {
         return new DutyGod(DUTY_GODS[index], yellow ? "黄道" : "黑道", yellow ? "吉" : "凶", XIEJI_VOLUME_7);
     }
 
-    private Gods gods(Cycle month, Cycle day, String officer, double solarLongitude) {
+    private Gods gods(LocalDate date, Cycle year, Cycle month, Cycle day, String officer, double solarLongitude) {
         List<String> good = new ArrayList<>();
         List<String> bad = new ArrayList<>();
         int monthOrdinal = Math.floorMod(month.branchIndex() - 2, 12);
@@ -155,7 +165,9 @@ public final class TraditionalAlmanacCalculator {
         if (isHeavenlyPardon(day, solarLongitude)) {
             good.add("天赦");
         }
-        if (isMaternalStorehouse(day.branchIndex(), solarLongitude)) {
+        boolean earthReign = SeasonalCalculator.isEarthReign(date, ZoneOffset.ofHours(8));
+        if (isMaternalStorehouse(day.branchIndex(), solarLongitude)
+                || (earthReign && (day.branchIndex() == 5 || day.branchIndex() == 6))) {
             good.add("母仓");
         }
         if (isThreeHarmony(month.branchIndex(), day.branchIndex())) {
@@ -164,7 +176,18 @@ public final class TraditionalAlmanacCalculator {
         if (SIX_HARMONY[month.branchIndex()] == day.branchIndex()) {
             good.add("六合");
         }
-        addOfficerAliases(officer, day.branchIndex(), good, bad);
+        int ordinal = Math.floorMod(month.branchIndex() - 2, 12);
+        if (day.stemIndex() == new int[]{8, 6, 2, 0}[ordinal % 4]) good.add("月空");
+        String[] wishes = {"乙亥", "甲戌", "乙酉", "丙申", "丁未", "戊午", "己巳", "庚辰", "辛卯", "壬寅", "癸丑", "甲子"};
+        if (day.name().equals(wishes[ordinal])) good.add("天愿");
+        if (day.branchIndex() == new int[]{8, 8, 10, 10, 0, 0, 2, 2, 4, 4, 6, 6}[ordinal]) good.add("解神");
+        if (day.branchIndex() == 2 || day.branchIndex() == 3) good.add("五合");
+        if (day.branchIndex() == 8 || day.branchIndex() == 9) {
+            good.add("除神");
+            bad.add("五离");
+        }
+        addOfficerAliases(officer, month.branchIndex(), day.branchIndex(), good, bad);
+        if (earthReign) bad.add("土王用事");
 
         int[] threeSha = threeShaBranches(month.branchIndex());
         if (day.branchIndex() == threeSha[0]) {
@@ -184,12 +207,20 @@ public final class TraditionalAlmanacCalculator {
 
         boolean virtue = good.stream().anyMatch(name -> name.equals("天德") || name.equals("月德")
                 || name.equals("天德合") || name.equals("月德合"));
+        ClassicalGods.addGods(good, bad, year, month, day, solarLongitude);
+        for (String name : ClassicalRules.absoluteLabels(month, day)) if (!bad.contains(name)) bad.add(name);
+        String pressing = (String) ClassicalRules.pressing(month, day).get("name");
+        if (pressing != null && !bad.contains(pressing)) bad.add(pressing);
         return new Gods(good, bad, virtue);
     }
 
-    private void addOfficerAliases(String officer, int dayBranch, List<String> good, List<String> bad) {
+    private void addOfficerAliases(String officer, int monthBranch, int dayBranch,
+                                   List<String> good, List<String> bad) {
         switch (officer) {
-            case "建" -> good.add("兵福");
+            case "建" -> {
+                good.add("兵福");
+                bad.addAll(List.of("小时", "土府"));
+            }
             case "除" -> {
                 good.add("吉期");
                 good.add("兵宝");
@@ -201,12 +232,18 @@ public final class TraditionalAlmanacCalculator {
                     bad.add("天狗");
                 }
             }
-            case "平" -> bad.add("死神");
+            case "平" -> bad.addAll(List.of("死神", monthBranch % 2 == 0 ? "天罡" : "河魁"));
             case "破" -> {
                 bad.add("月破");
                 bad.add("大耗");
             }
-            case "定" -> good.add("时阴");
+            case "定" -> {
+                good.add("时阴");
+                bad.add("死气");
+                // 卷四按语 explicitly rejects 官符 as a daily god.
+            }
+            case "执" -> bad.add("小耗"); // 卷四按语 deletes 月枝德.
+            case "收" -> bad.add(monthBranch % 2 == 0 ? "河魁" : "天罡");
             case "成" -> {
                 good.add("天喜");
                 good.add("天医");

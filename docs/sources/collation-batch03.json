@@ -1,0 +1,677 @@
+{
+  "reviewedOn": "2026-10-23",
+  "baselinePages": 117,
+  "addedPages": 43,
+  "cumulativePages": 160,
+  "addedByVolume": {
+    "6": 43
+  },
+  "scope": "逐页核对卷六尚未覆盖的图表、起例、前引旧说及作者最终按语。全卷首轮规则核验完成，不代表逐字校勘或全卷计算机制均已实现。",
+  "inspectedPagesThisBatch": 61,
+  "excludedPagesThisBatch": 18,
+  "volumeCompletion": {
+    "fileId": "CADAL06056507",
+    "volume": 6,
+    "scanPages": 154,
+    "rulePages": 128,
+    "blankPages": 17,
+    "structuralPages": 9,
+    "completeness": "154页各有规则核验或明确排除分类，互斥且无缺页",
+    "excludedPages": [
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 1,
+        "image": "docs/sources/volume06/page1.png",
+        "sha256": "d7aeac28e1bc19d4707a3f0d6b204ce1cc27bd6c82c71a38ff8ecda85a1ee101",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "COVER",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 2,
+        "image": "docs/sources/volume06/page2.png",
+        "sha256": "9a081d776bb0bfa04942ba6cab5f9469f9ced9635a858c7ba436d0e50a59ef0f",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "COLOPHON",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 3,
+        "image": "docs/sources/volume06/page3.png",
+        "sha256": "210347ae40f2966a400615429256ed262533680831996950fdbbb1d50715b132",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "CONTENTS",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 4,
+        "image": "docs/sources/volume06/page4.png",
+        "sha256": "7dc6c876714f30034505937804a73d973eb58fbb53d33cecb1084dd3751a3466",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "CONTENTS",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 5,
+        "image": "docs/sources/volume06/page5.png",
+        "sha256": "2fc7088b6444da235cd0f5df79aa50d63f115244c325a13f0fc53e6734b17785",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "CONTENTS",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 6,
+        "image": "docs/sources/volume06/page6.png",
+        "sha256": "c919bc3c5616b25ee98257d5538247c5b4b85a6b24a53f7dd3c9faf5ad5d73bb",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "CONTENTS",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 7,
+        "image": "docs/sources/volume06/page7.png",
+        "sha256": "f5490e36cb6f14101473c5df0ce86458245f9ce97da2bfd3af09a2a30cbc8c7c",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "CONTENTS",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 8,
+        "image": "docs/sources/volume06/page8.png",
+        "sha256": "2514e1c64cd15566a978bca47a199d6b04e5e83dcbad4c79577f154002da6476",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "CONTENTS",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 12,
+        "image": "docs/sources/volume06/page12.png",
+        "sha256": "208dc18d9246bcf900b4ba1da03f03dd6eb167341ec85d1c6f22e351fd693717",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 16,
+        "image": "docs/sources/volume06/page16.png",
+        "sha256": "c0c39300d8001362c65ceaa59849bbc332d41fcd8e6665b6e2b2b3c2b9c735dc",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 32,
+        "image": "docs/sources/volume06/page32.png",
+        "sha256": "00536008e4b904f6cc7254b7999b02d7a97a661551252d08bc5fe4fb3cce4215",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 44,
+        "image": "docs/sources/volume06/page44.png",
+        "sha256": "2a8eeeea6a8716ef20a1b30815b3c596a03900cf159ba1505e759d33af278cec",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 48,
+        "image": "docs/sources/volume06/page48.png",
+        "sha256": "6a650b44e64724e2ee499188492e4f18e9629c6ac924206c9add471b86b486df",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 52,
+        "image": "docs/sources/volume06/page52.png",
+        "sha256": "d4a4d4ab023945fcb04a7b25a473cc8941911e2feb1116d0ca1fffc3bf507b7d",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 56,
+        "image": "docs/sources/volume06/page56.png",
+        "sha256": "380dff27d462e1c1702d7d2f14062e3bb1d917e1e7044b99fec5846fa346fe73",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 60,
+        "image": "docs/sources/volume06/page60.png",
+        "sha256": "fe0b744c6d0aca6c3adc5c636e7570cbd011703c763f57555914f51ce297fd42",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 68,
+        "image": "docs/sources/volume06/page68.png",
+        "sha256": "814712f8c0e7d2d72e5f8f0f62519a3b4523b7897f98830b908d0364cde55905",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 2
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 86,
+        "image": "docs/sources/volume06/page86.png",
+        "sha256": "b4f1ac76c9b3fed35b746d86dca10b8a8d4cf3888bb28af39ff1046da57a86bd",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 3
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 96,
+        "image": "docs/sources/volume06/page96.png",
+        "sha256": "1e086db8b17d56031311bb1c7b85d2aa7b52ff80932c4b14a356676ded9bbb99",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 2
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 102,
+        "image": "docs/sources/volume06/page102.png",
+        "sha256": "e89f0697ae431fa3e85df8b10ec2cf2c2fd8046733b607db2acf7ef41b78fd66",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 2
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 118,
+        "image": "docs/sources/volume06/page118.png",
+        "sha256": "905abf169d5b56a00acf2ecb9f517689ec0cd74ec28d324eb910a701fe0d7794",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 2
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 126,
+        "image": "docs/sources/volume06/page126.png",
+        "sha256": "f05208d9c886632208d8e3eb95613079e749e08d26c7b9103d1c60651413d655",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 2
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 140,
+        "image": "docs/sources/volume06/page140.png",
+        "sha256": "d2ea56b23619c483575e0f7c80b271a2dca76eec063a28c8c368fa374c51f4d3",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 2
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 144,
+        "image": "docs/sources/volume06/page144.png",
+        "sha256": "2c35c1fa8fb23d9d932045268aad9cbd2b23d9924461fa3d157f3a54a5c14d61",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 2
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 148,
+        "image": "docs/sources/volume06/page148.png",
+        "sha256": "1c81b2a312612b9951f18f017bf807378ad5f22ad48e611eb51073e0afbf400e",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "BLANK",
+        "firstRecordedBatch": 2
+      },
+      {
+        "fileId": "CADAL06056507",
+        "volume": 6,
+        "scanPage": 154,
+        "image": "docs/sources/volume06/page154.png",
+        "sha256": "f6947842eebe9692c425520109f85ef25ce5430e2e1c5e00d8364bc6829a69d8",
+        "originalSha1": "3fcdf8ea2850dda296bda9bbf48bb7193badf937",
+        "renderedWith": "DjVu.js 0.5.4",
+        "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+        "kind": "END_TITLE",
+        "firstRecordedBatch": 3
+      }
+    ]
+  },
+  "imageDerivation": {
+    "decoder": "DjVu.js 0.5.4",
+    "decoderSource": "https://djvu.js.org/assets/dist/djvu.js",
+    "decoderSha256": "10a831d62cc7ced39c30c7350a11410402d082a0f0a5b073a88d3d7ca662add3",
+    "method": "在已校验原始SHA-1的本地DjVu上逐页解码PNG；原字节与图像分别保留哈希。渲染后人工核读才登记。"
+  },
+  "findings": [
+    {
+      "scanPages": [
+        9,
+        10
+      ],
+      "type": "SUSPECTED_SOURCE_PRINT_ERROR",
+      "detail": "十二月三合正文刻丑巳，圆图为酉巳；按圆图与巳酉丑三合关系采用酉巳，保留底本疑讹，未改电子转录或原图。"
+    },
+    {
+      "scanPages": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "type": "AUTHOR_FINAL_CORRECTION",
+      "detail": "天火应逆四仲；天狱即灾煞，明确应删。现行输出一致。"
+    },
+    {
+      "scanPages": [
+        53,
+        54,
+        55
+      ],
+      "type": "AUTHOR_FINAL_DELETION",
+      "detail": "六合为吉日；无翘、飞翘忌嫁娶为作者驳回旧说，无翘应删。现行输出一致。"
+    }
+  ],
+  "runtimeChanged": false,
+  "pages": [
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 9,
+      "leaf": "4a",
+      "checks": "三合圆图：正月至十二月分别午戌、未亥、申子、酉丑、戌寅、亥卯、子辰、丑巳、寅午、卯未、辰申、巳酉；不含月建本支。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 10,
+      "leaf": "4b",
+      "checks": "三合正文与图互校；末行十二月刻作丑巳，与4a圆图巳酉及巳酉丑三合关系不合，登记底本文字疑讹，不改原图；现行算法排除月建同支正确。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 11,
+      "leaf": "5a",
+      "checks": "三合作者按语：方圆图及五行生旺墓终始；只作起例依据，不从象义推演新增活动。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 13,
+      "leaf": "6a",
+      "checks": "临日圆图：正月至十二月午亥申丑戌卯子巳寅未辰酉，与既有起例一致。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 17,
+      "leaf": "8a",
+      "checks": "驿马、天后同位圆图：正月申，逆四孟，申巳寅亥循环；图中异名不能脱离后文和卷十最终用事。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 23,
+      "leaf": "11a",
+      "checks": "劫煞圆图：正月亥，逆四孟，亥申巳寅循环。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 24,
+      "leaf": "11b",
+      "checks": "劫煞正文：义同岁劫煞，正月起亥逆四孟；所引旧用事须服从卷十最终增删。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 25,
+      "leaf": "12a",
+      "checks": "灾煞、天狱、天火同位圆图：正月子，逆四仲，子酉午卯循环；天狱后来被作者明令删除，不能依图名新增输出。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 26,
+      "leaf": "12b",
+      "checks": "月灾煞与岁灾煞同义，三煞应齐备；作者驳正月子顺四仲的天狱旧起例，应逆行。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 27,
+      "leaf": "13a",
+      "checks": "天狱、天火所引旧用事及天火旧顺行四仲起例；仅为被讨论旧说，未当作作者最后裁定。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 28,
+      "leaf": "13b",
+      "checks": "曹氏以纳甲、纳音等解释天火顺行子卯午酉，属于下文作者反驳对象，不能截取为采用起例。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 29,
+      "leaf": "14a",
+      "checks": "作者驳曹氏混用纳甲纳音河洛等说；木局天火应酉、金局应卯，支持逆行。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 30,
+      "leaf": "14b",
+      "checks": "天火作者按语续论，木之天火在金；不把象义扩展为活动禁忌。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 31,
+      "leaf": "15a",
+      "checks": "天火最终按语明确亦应逆行四仲；天狱即灾煞，今用灾煞，天狱应删。现行灾煞/天火逆行、不输出天狱得到复核。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 33,
+      "leaf": "16a",
+      "checks": "月煞、月虚圆图：正月丑逆四季，丑戌未辰循环，两个神名同位。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 34,
+      "leaf": "16b",
+      "checks": "月煞/月虚正文起例一致；作者解释三合旺气之对，非月破，且所引又名大耗为历史命名层，不能据此混同现行月破规则；旧用事另与卷十核对。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 35,
+      "leaf": "17a",
+      "checks": "月刑圆图：十二月逐项为巳子辰申午丑寅酉未亥卯戌，含辰午酉亥自刑。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 36,
+      "leaf": "17b",
+      "checks": "月刑一行按语：义与岁刑同，详见岁刑；该页有正文，不以低字数当空白页。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 37,
+      "leaf": "18a",
+      "checks": "月害圆图：正月巳逆十二支，巳辰卯寅丑子亥戌酉申未午。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 38,
+      "leaf": "18b",
+      "checks": "月害正文：正月巳逆行十二辰；引曹氏藏干生克解释仅为前说，须与后页作者裁定分开。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 39,
+      "leaf": "19a",
+      "checks": "考原以六合之冲说明六害；作者明确否定曹氏解释，年日六害同月害取义，不重复列出。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 40,
+      "leaf": "19b",
+      "checks": "六害按语收束：取义相同，故不重列。仅一行正文仍计规则核验页。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 41,
+      "leaf": "20a",
+      "checks": "大时、大败、咸池同位圆图：正月卯逆四仲，卯子酉午循环。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 42,
+      "leaf": "20b",
+      "checks": "大时各家解释及旧忌出军攻战筑室会亲；曹氏以败绝说定为大凶，下页作者另有辨正，不作当前统一等级依据。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 43,
+      "leaf": "21a",
+      "checks": "大时最终按语：神枢经有忌无宜，曹氏说大凶；从淮南本义看与岁神大将军相似。其象义不能代替卷十逐项裁决。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 49,
+      "leaf": "24a",
+      "checks": "天吏、致死同位圆图：正月酉逆四仲，酉午卯子循环。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 50,
+      "leaf": "24b",
+      "checks": "天吏起例及旧忌临官赴任远行词讼；作者批评以汉酷吏类比天吏、别称致死的立名，不把旧说直接采入算法。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 51,
+      "leaf": "25a",
+      "checks": "天吏按语结尾反对以致死辱天吏，但未见与天狱条相同的明确应删起例指令；保留这种证据强度差异。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 53,
+      "leaf": "26a",
+      "checks": "六合、无翘同位圆图：正月亥逆十二辰；图名无翘须服从27a作者明确删除结论。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 54,
+      "leaf": "26b",
+      "checks": "六合所引宜会宾客、结婚姻、立契券、合交易与无翘旧忌嫁娶互相矛盾；作者说明月建与月将相合，准备辨正旧禁忌。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 55,
+      "leaf": "27a",
+      "checks": "六合最终按语驳无翘、飞翘忌嫁娶，指出六合天愿皆宜嫁娶吉日，明确无翘应删；不把目录/圆图保留的旧名作为现行凶煞。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 57,
+      "leaf": "28a",
+      "checks": "兵吉圆图每月四支，正月寅卯子丑，其后每月逆移一支；四支起例与28b—29a既核正文互校。原图放大复核，未将每月四支误读成单支。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 61,
+      "leaf": "30a",
+      "checks": "五富圆图：正月亥顺行四孟，亥寅巳申循环，吻合30b采用历例；未改成附存的逆行解释。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 65,
+      "leaf": "32a",
+      "checks": "天仓圆图：正月寅逆十二辰，寅丑子亥戌酉申未午巳辰卯。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 71,
+      "leaf": "35a",
+      "checks": "要安圆图十二月：寅申卯酉辰戌巳亥午子未丑；与已核正文起例互校，不能复活作者后文撤回的旧宜目。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 73,
+      "leaf": "36a",
+      "checks": "玉宇圆图十二月：卯酉辰戌巳亥午子未丑申寅；图上起例与既有表一致。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 75,
+      "leaf": "37a",
+      "checks": "金堂圆图十二月：辰戌巳亥午子未丑申寅酉卯；与既有表一致。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 77,
+      "leaf": "38a",
+      "checks": "敬安圆图十二月：未丑申寅酉卯戌辰亥巳子午；与既有表一致。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 79,
+      "leaf": "39a",
+      "checks": "普护圆图十二月：申寅酉卯戌辰亥巳子午丑未；与既核正文一致，最终用途限卷十祭祀祈福。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 81,
+      "leaf": "40a",
+      "checks": "福生圆图十二月：酉卯戌辰亥巳子午丑未寅申；与既核正文一致。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 83,
+      "leaf": "41a",
+      "checks": "圣心圆图十二月：亥巳子午丑未寅申卯酉辰戌；与既核正文一致，不能据旧说单独增上表章。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 87,
+      "leaf": "43a",
+      "checks": "益后圆图十二月：子午丑未寅申卯酉辰戌巳亥；与既核正文一致。"
+    },
+    {
+      "fileId": "CADAL06056507",
+      "volume": 6,
+      "scanPage": 89,
+      "leaf": "44a",
+      "checks": "续世、血忌同位圆图十二月：丑未寅申卯酉辰戌巳亥午子；一吉一凶同位不表示活动用途相同。"
+    }
+  ]
+}

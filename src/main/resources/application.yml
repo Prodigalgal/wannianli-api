@@ -3,12 +3,33 @@ spring:
     name: wannianli-api
   jackson:
     time-zone: GMT+08:00
+  servlet:
+    multipart:
+      enabled: false
 
 server:
   port: 8080
   shutdown: graceful
+  forward-headers-strategy: none
+  max-http-request-header-size: 8KB
+  tomcat:
+    connection-timeout: 5s
+    max-connections: 256
+    accept-count: 64
+    max-swallow-size: 1KB
+    threads:
+      max: 32
+      min-spare: 4
   error:
     include-message: never
+    include-stacktrace: never
+    include-binding-errors: never
+
+almanac:
+  security:
+    requests-per-minute: 120
+    burst: 20
+    max-concurrent: 4
 
 logging:
   level:

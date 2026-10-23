@@ -1,8 +1,10 @@
 import { daysBetween, mod } from "./astronomy.js";
-import { BRANCHES, STEMS, ZODIAC } from "./calendar.js";
+import { addCoreGods } from "./god-rules.js";
+import { absoluteCase, pressingCase } from "./classical.js";
+import { BRANCHES, STEMS, ZODIAC, isEarthReign, cycleFromIndex } from "./calendar.js";
 
 const OFFICERS = ["建", "除", "满", "平", "定", "执", "破", "危", "成", "收", "开", "闭"];
-const DUTY_GODS = ["青龙", "明堂", "天刑", "朱雀", "金匮", "天德", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陈"];
+const DUTY_GODS = ["青龙", "明堂", "天刑", "朱雀", "金匮", "宝光", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陈"];
 const YELLOW_PATH = [true, true, false, false, true, true, false, true, false, false, true, false];
 const STEM_TABOOS = [
   "甲不开仓，财物耗亡", "乙不栽植，千株不长", "丙不修灶，必见火殃", "丁不剃头，头主生疮", "戊不受田，田主不祥",
@@ -90,10 +92,11 @@ function isMaternalStorehouse(dayBranch, longitude) {
   return [8, 9].includes(dayBranch);
 }
 
-function addOfficerAliases(officer, dayBranch, auspicious, inauspicious) {
+function addOfficerAliases(officer, monthBranch, dayBranch, auspicious, inauspicious) {
   const aliases = {
-    "建": [["兵福"], []], "除": [["吉期", "兵宝"], []], "满": [["天巫", "福德"], dayBranch === 10 ? ["天狗"] : []],
-    "平": [[], ["死神"]], "定": [["时阴"], []], "破": [[], ["月破", "大耗"]],
+    "建": [["兵福"], ["小时", "土府"]], "除": [["吉期", "兵宝"], []], "满": [["天巫", "福德"], dayBranch === 10 ? ["天狗"] : []],
+    "平": [[], ["死神", monthBranch % 2 === 0 ? "天罡" : "河魁"]], "定": [["时阴"], ["死气"]],
+    "执": [[], ["小耗"]], "收": [[], [monthBranch % 2 === 0 ? "河魁" : "天罡"]], "破": [[], ["月破", "大耗"]],
     "成": [["天喜", "天医"], []], "开": [["时阳", "生气"], []], "闭": [[], ["血支"]],
   };
   const pair = aliases[officer];
@@ -103,7 +106,7 @@ function addOfficerAliases(officer, dayBranch, auspicious, inauspicious) {
   }
 }
 
-function calculateGods(month, day, officer, solarLongitude) {
+function calculateGods(date, month, day, officer, solarLongitude, year) {
   const auspicious = [];
   const inauspicious = [];
   const monthOrdinal = mod(month.branchIndex - 2, 12);
@@ -128,16 +131,29 @@ function calculateGods(month, day, officer, solarLongitude) {
     if (day.branchIndex === branches[season]) auspicious.push(name);
   }
   if (isHeavenlyPardon(day, solarLongitude)) auspicious.push("天赦");
-  if (isMaternalStorehouse(day.branchIndex, solarLongitude)) auspicious.push("母仓");
+  const earthReign = isEarthReign(date);
+  if (isMaternalStorehouse(day.branchIndex, solarLongitude)
+      || (earthReign && [5, 6].includes(day.branchIndex))) auspicious.push("母仓");
   if (isThreeHarmony(month.branchIndex, day.branchIndex)) auspicious.push("三合");
   if (SIX_HARMONY[month.branchIndex] === day.branchIndex) auspicious.push("六合");
-  addOfficerAliases(officer, day.branchIndex, auspicious, inauspicious);
+  // Volume 5 final editorial table, rather than the older table it explicitly rejects.
+  if (day.stemIndex === [8, 6, 2, 0][monthOrdinal % 4]) auspicious.push("月空");
+  if (day.name === ["乙亥", "甲戌", "乙酉", "丙申", "丁未", "戊午", "己巳", "庚辰", "辛卯", "壬寅", "癸丑", "甲子"][monthOrdinal]) auspicious.push("天愿");
+  if (day.branchIndex === [8, 8, 10, 10, 0, 0, 2, 2, 4, 4, 6, 6][monthOrdinal]) auspicious.push("解神");
+  if ([2, 3].includes(day.branchIndex)) auspicious.push("五合");
+  if ([8, 9].includes(day.branchIndex)) { auspicious.push("除神"); inauspicious.push("五离"); }
+  addOfficerAliases(officer, month.branchIndex, day.branchIndex, auspicious, inauspicious);
+  if (earthReign) inauspicious.push("土王用事");
 
   const threeSha = threeShaBranches(month.branchIndex);
   if (day.branchIndex === threeSha[0]) inauspicious.push("劫煞");
   if (day.branchIndex === threeSha[1]) inauspicious.push("灾煞", "天火");
   if (day.branchIndex === threeSha[2]) inauspicious.push("月煞", "月虚");
   if (SIX_HARM[month.branchIndex] === day.branchIndex) inauspicious.push("月害");
+  addCoreGods(auspicious, inauspicious, month, day, year, solarLongitude);
+  for (const name of absoluteCase(month, day)?.labels?.[day.name] ?? []) if (!inauspicious.includes(name)) inauspicious.push(name);
+  const pressing = pressingCase(month, day);
+  if (pressing && !inauspicious.includes(pressing.name)) inauspicious.push(pressing.name);
   const virtuePresent = auspicious.some((name) => ["天德", "月德", "天德合", "月德合"].includes(name));
   return { auspicious, inauspicious, virtuePresent };
 }
@@ -167,13 +183,14 @@ function calculateMansion(date) {
   };
 }
 
-export function calculateTraditionalAlmanac(date, month, day, solarLongitude) {
+export function calculateTraditionalAlmanac(date, month, day, solarLongitude, year = cycleFromIndex(Number(date.slice(0, 4)) - 4
+    - ([0, 1].includes(month.branchIndex) && Number(date.slice(5, 7)) < 3 ? 1 : 0))) {
   const dayOfficer = calculateDayOfficer(month, day);
   const dutyGod = calculateDutyGod(month, day);
   return {
     dayOfficer,
     dutyGod,
-    gods: calculateGods(month, day, dayOfficer.name, solarLongitude),
+    gods: calculateGods(date, month, day, dayOfficer.name, solarLongitude, year),
     pengZu: {
       heavenlyStemRule: STEM_TABOOS[day.stemIndex], earthlyBranchRule: BRANCH_TABOOS[day.branchIndex],
       sourceId: "YUXIAJI_TRADITION", evidenceLevel: "C_TRADITIONAL_TRANSMISSION",

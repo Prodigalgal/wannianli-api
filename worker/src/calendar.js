@@ -4,6 +4,7 @@ import {
   addCivilDays,
   daysBetween,
   formatUtcPlus8,
+  instantFromUtcPlus8,
   julianDayNumber,
   longitudeAt,
   lunationAtOrBefore,
@@ -18,6 +19,15 @@ import {
 export const STEMS = Object.freeze(["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]);
 export const BRANCHES = Object.freeze(["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]);
 export const ZODIAC = Object.freeze(["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"]);
+
+export function isEarthReign(date) {
+  const year = parseCivil(date).year;
+  return [SOLAR_TERM.START_OF_SPRING, SOLAR_TERM.START_OF_SUMMER,
+    SOLAR_TERM.START_OF_AUTUMN, SOLAR_TERM.START_OF_WINTER].some((term) => {
+    const end = utcPlus8CivilDate(solarTermInstant(year, term));
+    return date >= addCivilDays(end, -18) && date < end;
+  });
+}
 
 const NAYIN = Object.freeze([
   "海中金", "炉中火", "大林木", "路旁土", "剑锋金", "山头火", "涧下水", "城头土", "白蜡金", "杨柳木",
@@ -40,7 +50,7 @@ function containsMajorSolarTerm(start, end) {
   const endDate = utcPlus8CivilDate(end);
   const startYear = parseCivil(startDate).year;
   const endYear = parseCivil(endDate).year;
-  for (let year = startYear - 1; year <= endYear + 1; year++) {
+  for (let year = startYear; year <= endYear; year++) {
     for (const term of SOLAR_TERMS) {
       if (mod(term.longitude, 30) !== 0) {
         continue;
@@ -91,23 +101,11 @@ function chineseYear(year) {
 
 export function calculateChineseCalendar(date) {
   const civil = parseCivil(date);
-  if (civil.year < 1801 || civil.year > 2199) {
-    throw new RangeError("Chinese calendar supports years 1801 through 2199");
-  }
+  requireSupportedDate(date);
 
   const winterThisYear = utcPlus8CivilDate(solarTermInstant(civil.year, SOLAR_TERM.WINTER_SOLSTICE));
   const firstSolsticeYear = date < winterThisYear ? civil.year - 1 : civil.year;
-  const firstSolstice = solarTermInstant(firstSolsticeYear, SOLAR_TERM.WINTER_SOLSTICE);
-  const secondSolstice = solarTermInstant(firstSolsticeYear + 1, SOLAR_TERM.WINTER_SOLSTICE);
-  const firstMonth11 = month11Lunation(firstSolstice);
-  const secondMonth11 = month11Lunation(secondSolstice);
-  const monthCount = secondMonth11 - firstMonth11;
-  if (monthCount !== 12 && monthCount !== 13) {
-    throw new Error(`Invalid astronomical month sequence: ${monthCount}`);
-  }
-
-  const leapIndex = monthCount === 13 ? findLeapMonthIndex(firstMonth11, monthCount) : -1;
-  const spans = buildMonthSpans(firstMonth11, monthCount + 1, leapIndex);
+  const spans = monthSpans(firstSolsticeYear);
   const newYearIndex = spans.findIndex((span) => span.month === 1 && !span.leap);
   if (newYearIndex < 0) {
     throw new Error("Lunar new year was not found");
@@ -133,6 +131,58 @@ export function calculateChineseCalendar(date) {
     }
   }
   throw new Error(`Date ${date} did not fall in the calculated lunisolar year`);
+}
+
+export function lunarToGregorian(year, month, day, leapMonth = false) {
+  if (!Number.isInteger(year) || year < 1800 || year > 2199
+      || !Number.isInteger(month) || month < 1 || month > 12
+      || !Number.isInteger(day) || day < 1 || day > 30 || typeof leapMonth !== "boolean") {
+    throw new RangeError("农历年月日超出支持范围");
+  }
+  for (let solsticeYear = Math.max(year - 1, 1800); solsticeYear <= year; solsticeYear++) {
+    const spans = monthSpans(solsticeYear);
+    const newYearIndex = spans.findIndex((span) => span.month === 1 && !span.leap);
+    if (newYearIndex < 0) throw new Error("Lunar new year was not found");
+    const newYear = parseCivil(spans[newYearIndex].startDate).year;
+    for (let index = 0; index < spans.length; index++) {
+      const span = spans[index];
+      const lunarYear = index < newYearIndex ? newYear - 1 : newYear;
+      if (lunarYear !== year || span.month !== month || span.leap !== leapMonth) continue;
+      const length = daysBetween(span.startDate, span.endDate);
+      if (day > length) throw new RangeError(`农历日期不存在：该月只有${length}天`);
+      const date = addCivilDays(span.startDate, day - 1);
+      requireSupportedDate(date);
+      return date;
+    }
+  }
+  throw new RangeError("农历月份不存在，请检查年份、月份及是否闰月");
+}
+
+function requireSupportedDate(date) {
+  if (typeof date !== "string" || !/^\d{4}-\d{2}-\d{2}$/u.test(date)) {
+    throw new RangeError("公历日期必须使用有效的YYYY-MM-DD格式");
+  }
+  if (date < "1801-01-01" || date > "2199-12-31") {
+    throw new RangeError("对应公历日期必须在1801-01-01至2199-12-31之间");
+  }
+  const civil = parseCivil(date);
+  if (utcPlus8CivilDate(instantFromUtcPlus8(civil.year, civil.month, civil.day)) !== date) {
+    throw new RangeError("公历日期不存在");
+  }
+}
+
+function monthSpans(firstSolsticeYear) {
+  const firstSolstice = solarTermInstant(firstSolsticeYear, SOLAR_TERM.WINTER_SOLSTICE);
+  const secondSolstice = solarTermInstant(firstSolsticeYear + 1, SOLAR_TERM.WINTER_SOLSTICE);
+  const firstMonth11 = month11Lunation(firstSolstice);
+  const secondMonth11 = month11Lunation(secondSolstice);
+  const monthCount = secondMonth11 - firstMonth11;
+  if (monthCount !== 12 && monthCount !== 13) {
+    throw new Error(`Invalid astronomical month sequence: ${monthCount}`);
+  }
+
+  const leapIndex = monthCount === 13 ? findLeapMonthIndex(firstMonth11, monthCount) : -1;
+  return buildMonthSpans(firstMonth11, monthCount + 1, leapIndex);
 }
 
 function month11Lunation(winterSolstice) {

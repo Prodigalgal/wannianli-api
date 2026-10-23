@@ -1,0 +1,18 @@
+{
+  "retrievedAt": "2026-10-23T02:47:57.368Z",
+  "note": "HTTP Last-Modified is not the prediction issue date; predictions are not observations.",
+  "files": {
+    "observations": {
+      "url": "https://maia.usno.navy.mil/ser7/deltat.data",
+      "sha256": "7396fcfdad33856b5242f288887678d75f3803494fa79394bc02f37eb99efc1e",
+      "bytes": 13545,
+      "httpLastModified": "Thu, 15 Oct 2026 18:32:31 GMT"
+    },
+    "predictions": {
+      "url": "https://maia.usno.navy.mil/ser7/deltat.preds",
+      "sha256": "5d864fddd30b2c64d2a86d3debbb25604eb5de44370c96bccf2abd5463f3db08",
+      "bytes": 1483,
+      "httpLastModified": "Thu, 15 Oct 2026 18:32:31 GMT"
+    }
+  }
+}

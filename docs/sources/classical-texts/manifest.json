@@ -1,0 +1,298 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/kanripo/KR3g0051",
+  "revision": "8b5522eb0299afbd575f1cb556e972c71c40c42a",
+  "role": "NAVIGATION_DRAFT",
+  "complete": true,
+  "note": "转录卷题决定卷号，文件编号不等于卷号；空白和漏表不能从电子文本判定原图内容。未对照影像不增加核验页数。",
+  "files": [
+    {
+      "file": "KR3g0051_000.txt",
+      "juan": "御製序",
+      "bytes": 41769,
+      "sha256": "13ef22d1c11005082767497552a2b6696559acb2bbd58aacdcd89622b397c36c",
+      "pageMarkers": 91,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_000.txt"
+    },
+    {
+      "file": "KR3g0051_001.txt",
+      "juan": "卷一",
+      "bytes": 51165,
+      "sha256": "fe400a1eecb1e4060984db0a8bb993578e575ca5e1cf4c2fa4caf293f5ea3cc2",
+      "pageMarkers": 133,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_001.txt"
+    },
+    {
+      "file": "KR3g0051_002.txt",
+      "juan": "卷二",
+      "bytes": 34286,
+      "sha256": "033682d16e14732d358ec6d0cd6b95475231ed0bb220ca1b6effa82e4de2ad8d",
+      "pageMarkers": 101,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_002.txt"
+    },
+    {
+      "file": "KR3g0051_003.txt",
+      "juan": "卷三",
+      "bytes": 41745,
+      "sha256": "44c9d7730af3841aded304d5b5eed7cbd3b67fb6184901d92911d8761b128616",
+      "pageMarkers": 129,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_003.txt"
+    },
+    {
+      "file": "KR3g0051_004.txt",
+      "juan": "卷四",
+      "bytes": 46212,
+      "sha256": "e6a130bd92c80a328af5872067d906e0734d47a6bce5ff62586d7796bca486ae",
+      "pageMarkers": 123,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_004.txt"
+    },
+    {
+      "file": "KR3g0051_005.txt",
+      "juan": "卷五",
+      "bytes": 45777,
+      "sha256": "93e4a01b085403bd50da4f1efdd107bab4e39a3b1e2247acb958e87dc51eb9c4",
+      "pageMarkers": 125,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_005.txt"
+    },
+    {
+      "file": "KR3g0051_006.txt",
+      "juan": "卷六",
+      "bytes": 43966,
+      "sha256": "f7920ffe391d73acc3fd259e7d3454f58f4a906678e68d3497b24466f53a734a",
+      "pageMarkers": 134,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_006.txt"
+    },
+    {
+      "file": "KR3g0051_007.txt",
+      "juan": "卷七",
+      "bytes": 29030,
+      "sha256": "2f0e4c0363754cbb50a52d188954d37b3904fa851580176753feafd90c649a35",
+      "pageMarkers": 83,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_007.txt"
+    },
+    {
+      "file": "KR3g0051_008.txt",
+      "juan": "卷八",
+      "bytes": 31918,
+      "sha256": "d62e8b9f210b9ee4a808743151762319ea1308ec894264dab050bad19c913e70",
+      "pageMarkers": 105,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_008.txt"
+    },
+    {
+      "file": "KR3g0051_009.txt",
+      "juan": "卷九",
+      "bytes": 8976,
+      "sha256": "22a7783d06d7b63a3927b60f62f76342f80115e8e919d0e624cfdd137e975a8a",
+      "pageMarkers": 62,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_009.txt"
+    },
+    {
+      "file": "KR3g0051_010.txt",
+      "juan": "卷十",
+      "bytes": 65019,
+      "sha256": "48327766b9f9b1acaaac986e7f86a653d06a15e532d835dce9316ef40d8acdd5",
+      "pageMarkers": 153,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_010.txt"
+    },
+    {
+      "file": "KR3g0051_011.txt",
+      "juan": "卷十一",
+      "bytes": 18177,
+      "sha256": "b81db33eba341b0de0e2cc36b704db8e6d89200fb8182b6cb85e69df619df1be",
+      "pageMarkers": 51,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_011.txt"
+    },
+    {
+      "file": "KR3g0051_012.txt",
+      "juan": "卷十二",
+      "bytes": 22658,
+      "sha256": "0583e8a3b3b07435d3aba8d56d0387bac5f5621dd183447ad22640b0ea0e61cb",
+      "pageMarkers": 56,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_012.txt"
+    },
+    {
+      "file": "KR3g0051_013.txt",
+      "juan": "卷十三",
+      "bytes": 46629,
+      "sha256": "6642f93abd1cb85fdb0968685499526bd5a6c7cce7f7a1c393de42413f2f4dea",
+      "pageMarkers": 104,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_013.txt"
+    },
+    {
+      "file": "KR3g0051_014.txt",
+      "juan": "卷十五",
+      "bytes": 20082,
+      "sha256": "e0aac45435964210ef9a6a2d38e98d65224847548317f51ad62f8245f0f67608",
+      "pageMarkers": 82,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_014.txt"
+    },
+    {
+      "file": "KR3g0051_015.txt",
+      "juan": "卷十六",
+      "bytes": 20258,
+      "sha256": "d0bb3b04f21a504279fee87a122e889766fe4ee3451be514b4e022533619c37f",
+      "pageMarkers": 82,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_015.txt"
+    },
+    {
+      "file": "KR3g0051_016.txt",
+      "juan": "卷十七",
+      "bytes": 20105,
+      "sha256": "86648101863d863f8a337a59d0d1618315fce8cd24ab4ba2e8aaebf66cac7a1f",
+      "pageMarkers": 82,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_016.txt"
+    },
+    {
+      "file": "KR3g0051_017.txt",
+      "juan": "卷十八",
+      "bytes": 19792,
+      "sha256": "8bd8c76673aa91038b34c84dde7324bb07a6b0ff433f02c9e54ebf90962bd1cc",
+      "pageMarkers": 82,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_017.txt"
+    },
+    {
+      "file": "KR3g0051_018.txt",
+      "juan": "卷十九",
+      "bytes": 20068,
+      "sha256": "5a3890c138a316591610c160ae3e6ed4c70cfd49c13ed85e8abce696aa46c20c",
+      "pageMarkers": 82,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_018.txt"
+    },
+    {
+      "file": "KR3g0051_019.txt",
+      "juan": "卷二十",
+      "bytes": 5789,
+      "sha256": "7956e6476e51bae012401f410f8a231be68a61a9ac73157ae0aa81b958d10f35",
+      "pageMarkers": 65,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_019.txt"
+    },
+    {
+      "file": "KR3g0051_020.txt",
+      "juan": "卷二十一",
+      "bytes": 5576,
+      "sha256": "cea650c6d5c9f0fd9c36768daee5350fbae1067aac6b84e43b235f5dab63344b",
+      "pageMarkers": 65,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_020.txt"
+    },
+    {
+      "file": "KR3g0051_021.txt",
+      "juan": "卷二十二",
+      "bytes": 5612,
+      "sha256": "c6811132942bd838528140f73d9f70722216141702e54b11ee248daab3851f31",
+      "pageMarkers": 65,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_021.txt"
+    },
+    {
+      "file": "KR3g0051_022.txt",
+      "juan": "卷二十三",
+      "bytes": 5576,
+      "sha256": "343ad7832817a00be1e0ca564899238ac91ce36e64b0981b3f783a6a3b922f96",
+      "pageMarkers": 65,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_022.txt"
+    },
+    {
+      "file": "KR3g0051_023.txt",
+      "juan": "卷二十四",
+      "bytes": 5579,
+      "sha256": "689200f954c68caeaacc93eea3e3511c3eabe4d79afc032862785ed62afd1468",
+      "pageMarkers": 65,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_023.txt"
+    },
+    {
+      "file": "KR3g0051_024.txt",
+      "juan": "卷二十五",
+      "bytes": 5519,
+      "sha256": "96b95ad5b6711753a1e54d1acff7605cba63409333bbf84980da3b84642a7bfe",
+      "pageMarkers": 64,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_024.txt"
+    },
+    {
+      "file": "KR3g0051_025.txt",
+      "juan": "卷二十六",
+      "bytes": 5576,
+      "sha256": "ec4527ea7672dc8d816b5154c740ad7a0f2631de7d3639bcc6a266a8f6ec6a48",
+      "pageMarkers": 65,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_025.txt"
+    },
+    {
+      "file": "KR3g0051_026.txt",
+      "juan": "卷二十七",
+      "bytes": 5603,
+      "sha256": "d9d313ca80daed661b1c9a8ce99056754a78c9cac58a3de2160c22019eaa134b",
+      "pageMarkers": 65,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_026.txt"
+    },
+    {
+      "file": "KR3g0051_027.txt",
+      "juan": "卷二十八",
+      "bytes": 5636,
+      "sha256": "fe897ecabf590ea4717ab419a07fe46df590b729110df4151f9feaa7337d0637",
+      "pageMarkers": 65,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_027.txt"
+    },
+    {
+      "file": "KR3g0051_028.txt",
+      "juan": "卷二十九",
+      "bytes": 5473,
+      "sha256": "4bb1c2ce1bbe5287106495a3cfe79a9a561e2048935f2d4463cebd7f3c4f4b0c",
+      "pageMarkers": 64,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_028.txt"
+    },
+    {
+      "file": "KR3g0051_029.txt",
+      "juan": "卷三十",
+      "bytes": 5585,
+      "sha256": "45523a5fb5f1e9f48142cad155679574f4c94f8013d62509b525ccf38aa77f1f",
+      "pageMarkers": 65,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_029.txt"
+    },
+    {
+      "file": "KR3g0051_030.txt",
+      "juan": "卷三十一",
+      "bytes": 5630,
+      "sha256": "f8cf5e238118df08e96adc1b247a016866b9db312d4e3e66bf73653eb4614394",
+      "pageMarkers": 65,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_030.txt"
+    },
+    {
+      "file": "KR3g0051_031.txt",
+      "juan": "卷三十二",
+      "bytes": 50573,
+      "sha256": "6924cd0e4087bdf2f3f85293b44f21448550472b5a0371895b1e0695ceeaf4ce",
+      "pageMarkers": 89,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_031.txt"
+    },
+    {
+      "file": "KR3g0051_032.txt",
+      "juan": "卷三十三",
+      "bytes": 45379,
+      "sha256": "adef32b89b2d117ec9800a0fef043ee40471db459561852de661f0d44acb5b87",
+      "pageMarkers": 94,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_032.txt"
+    },
+    {
+      "file": "KR3g0051_033.txt",
+      "juan": "卷三十四",
+      "bytes": 48148,
+      "sha256": "f604b900815e06feae28fd0e494ff9abbc3defbc4c68ba43219b1b8c159c2edd",
+      "pageMarkers": 102,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_033.txt"
+    },
+    {
+      "file": "KR3g0051_034.txt",
+      "juan": "卷三十五",
+      "bytes": 56249,
+      "sha256": "e070a1551d9aa8711c9089520a87713842c5a7345aa145e8b660e0cc5f95b2e7",
+      "pageMarkers": 133,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_034.txt"
+    },
+    {
+      "file": "KR3g0051_035.txt",
+      "juan": "卷三十六",
+      "bytes": 36779,
+      "sha256": "29d12ddcc928e0f7d696968ceea496eeb46750b963cf85cc67115c6ca37283bc",
+      "pageMarkers": 109,
+      "sourceUrl": "https://raw.githubusercontent.com/kanripo/KR3g0051/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_035.txt"
+    }
+  ]
+}

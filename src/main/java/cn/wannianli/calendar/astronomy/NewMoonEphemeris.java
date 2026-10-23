@@ -4,11 +4,14 @@ import static java.lang.Math.PI;
 import static java.lang.Math.sin;
 
 import java.time.Instant;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class NewMoonEphemeris {
 
-    private static final double BASE_NEW_MOON = 2_451_550.09765;
-    private static final double SYNODIC_MONTH = 29.530588853;
+    // Meeus, second edition, p.349, equation 49.1.
+    private static final double BASE_NEW_MOON = 2_451_550.09766;
+    private static final double SYNODIC_MONTH = 29.530588861;
+    private static final ConcurrentHashMap<Integer, Instant> CACHE = new ConcurrentHashMap<>();
 
     private NewMoonEphemeris() {
     }
@@ -26,11 +29,16 @@ public final class NewMoonEphemeris {
     }
 
     public static Instant newMoonInstant(int k) {
+        if (k >= -2500 && k <= 2500) return CACHE.computeIfAbsent(k, NewMoonEphemeris::calculateNewMoon);
+        return calculateNewMoon(k);
+    }
+
+    private static Instant calculateNewMoon(int k) {
         double t = k / 1236.85;
         double t2 = t * t;
         double t3 = t2 * t;
         double t4 = t3 * t;
-        double jde = BASE_NEW_MOON + SYNODIC_MONTH * k + 0.0001337 * t2
+        double jde = BASE_NEW_MOON + SYNODIC_MONTH * k + 0.00015437 * t2
                 - 0.000000150 * t3 + 0.00000000073 * t4;
 
         double e = 1 - 0.002516 * t - 0.0000074 * t2;
@@ -39,7 +47,7 @@ public final class NewMoonEphemeris {
                 + 0.00001238 * t3 - 0.000000058 * t4));
         double argumentLatitude = radians(normalize(160.7108 + 390.67050284 * k - 0.0016118 * t2
                 - 0.00000227 * t3 + 0.000000011 * t4));
-        double omega = radians(normalize(124.7746 - 1.56375580 * k + 0.0020672 * t2 + 0.00000215 * t3));
+        double omega = radians(normalize(124.7746 - 1.56375588 * k + 0.0020672 * t2 + 0.00000215 * t3));
 
         double correction = -0.40720 * sin(moonAnomaly)
                 + 0.17241 * e * sin(m)

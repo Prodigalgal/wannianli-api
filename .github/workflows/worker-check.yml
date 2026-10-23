@@ -2,12 +2,25 @@ name: Cloudflare Worker check
 
 on:
   push:
+    branches: [main]
     paths:
       - "worker/**"
+      - "src/**"
+      - "tools/**"
+      - "docs/sources/**"
+      - ".gitattributes"
+      - "build.gradle"
+      - "gradle/**"
       - ".github/workflows/worker-check.yml"
   pull_request:
     paths:
       - "worker/**"
+      - "src/**"
+      - "tools/**"
+      - "docs/sources/**"
+      - ".gitattributes"
+      - "build.gradle"
+      - "gradle/**"
       - ".github/workflows/worker-check.yml"
 
 permissions:
@@ -36,8 +49,33 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
+      - name: Audit build dependencies
+        run: npm audit --audit-level=high --registry=https://registry.npmjs.org
+
       - name: Test
-        run: npm test
+        run: |
+          npm run check:sources
+          npm test
 
       - name: Validate Worker bundle
         run: npx wrangler deploy --dry-run
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: "25"
+          distribution: temurin
+          cache: gradle
+
+      - name: Build and compare Java and Worker public contracts
+        working-directory: .
+        run: |
+          ./gradlew test bootJar --no-daemon
+          node tools/compare-implementations.mjs
+
+      - name: Preserve validated JVM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wannianli-api-jvm
+          path: build/libs/wannianli-api-1.0.0.jar
+          if-no-files-found: error

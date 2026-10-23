@@ -1,0 +1,60 @@
+services:
+  wannianli-api:
+    image: eclipse-temurin:25.0.1_8-jre-ubi10-minimal
+    container_name: wannianli-api
+    restart: unless-stopped
+    init: true
+    user: "10001:10001"
+    command:
+      - java
+      - -XX:+UseContainerSupport
+      - -XX:+UseSerialGC
+      - -Xms48m
+      - -Xmx160m
+      - -XX:MaxMetaspaceSize=96m
+      - -XX:ReservedCodeCacheSize=32m
+      - -jar
+      - /app/app.jar
+    environment:
+      TZ: Asia/Shanghai
+    mem_limit: 384m
+    mem_reservation: 192m
+    memswap_limit: 512m
+    stop_grace_period: 20s
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    ports:
+      - "127.0.0.1:18080:8080"
+    volumes:
+      - type: bind
+        source: ./wannianli-api.jar
+        target: /app/app.jar
+        read_only: true
+    expose:
+      - "8080"
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: "hysteria2-simple-container_default"
+      traefik.http.routers.wannianli-api.entrypoints: "websecure"
+      traefik.http.routers.wannianli-api.rule: "Host(`wannianli.mnnu.eu.org`) && (PathPrefix(`/api/v1/almanac`) || PathPrefix(`/api/v2/almanac`) || Path(`/mcp`))"
+      traefik.http.routers.wannianli-api.tls: "true"
+      traefik.http.routers.wannianli-api.tls.certresolver: "le"
+      traefik.http.routers.wannianli-root.entrypoints: "websecure"
+      traefik.http.routers.wannianli-root.rule: "Host(`wannianli.mnnu.eu.org`) && Path(`/`)"
+      traefik.http.routers.wannianli-root.priority: "100"
+      traefik.http.routers.wannianli-root.middlewares: "wannianli-root-api"
+      traefik.http.routers.wannianli-root.tls: "true"
+      traefik.http.middlewares.wannianli-root-api.replacepath.path: "/api/v1/almanac/current"
+      traefik.http.services.wannianli-api.loadbalancer.server.port: "8080"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
+    name: hysteria2-simple-container_default

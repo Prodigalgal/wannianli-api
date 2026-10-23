@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 
-import { BRANCHES, calculateChineseCalendar, calculateXunKong, cycleFromIndex } from "../worker/src/calendar.js";
+import { BRANCHES, calculateChineseCalendar, calculateXunKong, cycleFromIndex, lunarToGregorian } from "../worker/src/calendar.js";
+import { SOLAR_TERMS, longitudeAt, mod, solarTermInstant } from "../worker/src/astronomy.js";
 import { calculateCurrentAlmanac } from "../worker/src/engine.js";
 
 const DAY_MS = 86_400_000;
@@ -32,6 +33,18 @@ let days = 0;
 let monthStarts = 0;
 let leapMonthStarts = 0;
 let fullResults = 0;
+let roundTrips = 0;
+let solarTermBoundaries = 0;
+
+for (let year = 1801; year <= 2199; year++) {
+  for (const term of SOLAR_TERMS) {
+    const at = solarTermInstant(year, term);
+    const distance = (instant) => mod(longitudeAt(instant) - term.longitude + 180, 360) - 180;
+    assert.ok(distance(new Date(at.getTime() - 1)) < 0, `${year} ${term.name}: before crossing`);
+    assert.ok(distance(at) >= 0, `${year} ${term.name}: at crossing`);
+    solarTermBoundaries++;
+  }
+}
 
 for (let timestamp = first; timestamp <= last; timestamp += DAY_MS) {
   const date = civilDate(timestamp);
@@ -39,6 +52,8 @@ for (let timestamp = first; timestamp <= last; timestamp += DAY_MS) {
   assert.ok(lunar.month >= 1 && lunar.month <= 12, `${date}: lunar month`);
   assert.ok(lunar.day >= 1 && lunar.day <= lunar.daysInMonth, `${date}: lunar day`);
   assert.ok(lunar.daysInMonth === 29 || lunar.daysInMonth === 30, `${date}: month length`);
+  assert.equal(lunarToGregorian(lunar.year, lunar.month, lunar.day, lunar.leapMonth), date, `${date}: lunar round trip`);
+  roundTrips++;
 
   if (previous) {
     if (lunar.monthStartDate === previous.monthStartDate) {
@@ -95,5 +110,7 @@ console.log(JSON.stringify({
   "检测月首数": monthStarts,
   "检测闰月首数": leapMonthStarts,
   "完整结果抽样数": fullResults,
+  "公农历往返校验数": roundTrips,
+  "节气毫秒边界校验数": solarTermBoundaries,
   "结果": "通过",
 }, null, 2));

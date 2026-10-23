@@ -18,8 +18,8 @@ class TraditionalAlmanacCalculatorTest {
                 SexagenaryCycle.fromIndex(43), SexagenaryCycle.fromIndex(45), 130);
 
         assertThat(result.gods().auspicious())
-                .containsExactly("月德合", "天德合", "天恩", "四相", "民日", "天巫", "福德");
-        assertThat(result.gods().inauspicious()).containsExactly("灾煞", "天火");
+                .containsExactly("月德合", "天德合", "天恩", "四相", "民日", "除神", "天巫", "福德", "鸣吠", "宝日", "兵吉", "天仓", "续世");
+        assertThat(result.gods().inauspicious()).containsExactly("五离", "土王用事", "灾煞", "天火", "复日");
         assertThat(result.gods().virtuePresent()).isTrue();
     }
 

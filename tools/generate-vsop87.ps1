@@ -5,9 +5,11 @@ param(
 $ErrorActionPreference = 'Stop'
 $sourceUrl = 'https://ftp.imcce.fr/pub/ephem/planets/vsop87/VSOP87D.ear'
 $expectedSha256 = '8B160C859136D467F2BE7FC29EFA8A9652E95516DFBDE00E4C739D7DDC90CA91'
+# Retain all longitude and radius terms. Main-term truncation shifted the
+# 1979 major-cold crossing across UTC+8 midnight.
 $limits = @{
-    1 = @(64, 34, 20, 7, 3, 1)
-    3 = @(40, 10, 6, 2, 1, 0)
+    1 = @(559, 341, 142, 22, 11, 5)
+    3 = @(526, 292, 139, 27, 10, 3)
 }
 
 $temporaryDownload = $false
@@ -53,15 +55,20 @@ try {
         $target.AddRange([string[]]@($parts[-3], $parts[-2], $parts[-1]))
     }
 
-    function Format-Java-Series([Collections.Generic.List[string]]$values) {
-        return '            {' + ($values -join ', ') + '}'
+    foreach ($variable in @(1, 3)) {
+        for ($power = 0; $power -lt 6; $power++) {
+            if ($series[$variable][$power].Count -ne 3 * $limits[$variable][$power]) {
+                throw "Unexpected term count for variable $variable, order $power"
+            }
+        }
     }
 
-    function Format-Java-Variable([int]$variable) {
-        $powers = foreach ($values in $series[$variable]) {
-            Format-Java-Series $values
+    function Format-Java-Methods([int]$variable, [string]$prefix) {
+        $methods = for ($power = 0; $power -lt 6; $power++) {
+            $values = $series[$variable][$power]
+            "    private static double[] $prefix$power() { return new double[] {" + ($values -join ', ') + '}; }'
         }
-        return $powers -join ",`n"
+        return $methods -join "`n"
     }
 
     function Format-JavaScript-Variable([int]$variable) {
@@ -75,21 +82,25 @@ try {
 package cn.wannianli.calendar.astronomy;
 
 /**
- * Generated truncated VSOP87D Earth series from the official IMCCE distribution.
+ * Generated complete VSOP87D Earth longitude/radius series from the official IMCCE distribution.
  * Source SHA-256: $expectedSha256
  */
 final class EarthVsop87 {
 
     private static final double[][] LONGITUDE = {
-$(Format-Java-Variable 1)
+            longitude0(), longitude1(), longitude2(), longitude3(), longitude4(), longitude5()
     };
 
     private static final double[][] RADIUS = {
-$(Format-Java-Variable 3)
+            radius0(), radius1(), radius2(), radius3(), radius4(), radius5()
     };
 
     private EarthVsop87() {
     }
+
+    // Split initializers keep each method below the JVM bytecode size limit.
+$(Format-Java-Methods 1 'longitude')
+$(Format-Java-Methods 3 'radius')
 
     static double longitude(double julianEphemerisDay) {
         return evaluate(LONGITUDE, julianEphemerisDay);
@@ -117,7 +128,7 @@ $(Format-Java-Variable 3)
 "@
 
     $javascript = @"
-// Generated truncated VSOP87D Earth series from the official IMCCE distribution.
+// Generated complete VSOP87D Earth longitude/radius series from the official IMCCE distribution.
 // Source SHA-256: $expectedSha256
 export const EARTH_LONGITUDE = [
 $(Format-JavaScript-Variable 1)

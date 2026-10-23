@@ -40,9 +40,19 @@ export function coreGodHits(month, day, almanac) {
     const id = entry.soft ? entry.id : "CLASSICAL_RAW_" + entry.id;
     const base = { ruleId: id, name: entry.name, category: entry.nature === "good" ? "吉神" : "凶煞",
       sourceId: "XIEJI_BIANFANGSHU_VOLUME_10", evidenceLevel: "B_PRIMARY_TEXT_TRANSCRIPTION",
-      recommends: entry.recommends, avoids: entry.avoids, matchedBecause: "卷五最终校订起例或卷十逐月起例",
-      note: "共享表保留原始用事；明确解忌仅撤销本条，其他专忌保留。" };
+      recommends: entry.recommends, avoids: entry.avoids, matchedBecause: entry.originNote ?? "卷五最终校订起例或卷十逐月起例",
+      note: entry.note ?? "共享表保留原始用事；明确解忌仅撤销本条，其他专忌保留。" };
     hits.push(base);
+    for (const [index, condition] of (entry.conditionalRecommendations ?? []).entries()) {
+      if (condition.months && !condition.months.includes(month.branchIndex)) continue;
+      if (condition.anyGood?.length || condition.officers?.length) {
+        if (!condition.anyGood?.some(name => good.includes(name))
+            && !condition.officers?.includes(almanac.dayOfficer.name)) continue;
+      }
+      hits.push({ ...base, ruleId: entry.id + "_COMBINATION_" + (index + 1),
+        recommends: condition.activities, avoids: [], matchedBecause: condition.reason,
+        note: "卷十明列的并神用事；只增加本条件指定宜目，其他专忌仍参与裁决。" });
+    }
     const hard = entry.hardExceptions?.some(condition => condition.months.includes(month.branchIndex) && condition.days.includes(day.name));
     if (hard) hits.push({ ...base, ruleId: entry.id + "_HARD_RETAINED_TABOOS", recommends: [], note: "卷十六月己未阳错、己巳阴错，不从德合所宜。" });
     if (entry.soft || !entry.avoids.length) continue;

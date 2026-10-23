@@ -1,0 +1,39 @@
+{
+  "note": "只存哈希与事实摘录；当前官方网页证据不等于历史底本版次确认",
+  "records": [
+    {
+      "id": "conversion",
+      "url": "https://www.hko.gov.hk/tc/gts/time/conversion.htm",
+      "retrievedAt": "2026-10-23T02:56:15.187Z",
+      "sha256": "895e11d871163f8b89c6faa6a615ff58bc914ae53b584ee2c707766ca98f485f",
+      "bytes": 45531,
+      "httpLastModified": "Fri, 10 Jan 2025 09:15:10 GMT",
+      "facts": [
+        "主页仍列临近午夜的朔及节气风险"
+      ]
+    },
+    {
+      "id": "official1916Explanation",
+      "url": "https://www.hko.gov.hk/tc/blog/00000138.htm",
+      "retrievedAt": "2026-10-23T02:56:15.591Z",
+      "sha256": "4fc034a06f7b1b00bf9af79a05f7dfe5c6af44e01633cf10f532702cd991cc5e",
+      "bytes": 9802,
+      "httpLastModified": "Fri, 07 Feb 2020 16:36:53 GMT",
+      "facts": [
+        "官方1916时制例子仍在，日期时刻已人工核读，见HKO_SOURCE_CONFIRMATION.md"
+      ]
+    },
+    {
+      "id": "table1916",
+      "url": "https://www.hko.gov.hk/tc/gts/time/calendar/text/files/T1916c.txt",
+      "retrievedAt": "2026-10-23T02:56:15.999Z",
+      "sha256": "ef6bf09ecff8893b1d8b816b9ad3b65094142959e95fb6c9b20a4d9dd8276df5",
+      "bytes": 32537,
+      "httpLastModified": "Fri, 10 Jan 2025 09:15:10 GMT",
+      "facts": [
+        "1916年02月03日    正月                  星期四",
+        "1916年02月04日    初二                  星期五"
+      ]
+    }
+  ]
+}

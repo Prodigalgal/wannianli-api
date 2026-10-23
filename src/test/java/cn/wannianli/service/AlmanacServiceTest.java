@@ -49,7 +49,7 @@ class AlmanacServiceTest {
         assertThat(result.traditionalAlmanac().dutyGod().name()).isEqualTo("勾陈");
         assertThat(result.traditionalAlmanac().dutyGod().path()).isEqualTo("黑道");
         assertThat(result.traditionalAlmanac().gods().auspicious())
-                .containsExactly("月德合", "天德合", "天恩", "四相", "民日", "除神", "天巫", "福德", "鸣吠", "宝日");
+                .containsExactly("月德合", "天德合", "天恩", "四相", "民日", "除神", "天巫", "福德", "鸣吠", "宝日", "兵吉", "天仓", "续世");
         assertThat(result.traditionalAlmanac().gods().inauspicious())
                 .containsExactly("五离", "土王用事", "灾煞", "天火", "复日");
         assertThat(result.traditionalAlmanac().pengZu().heavenlyStemRule())

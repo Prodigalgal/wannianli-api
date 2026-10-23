@@ -6,3 +6,5 @@ Dockerfile text eol=lf
 *.sh text eol=lf
 *.bat text eol=crlf
 *.jar binary
+# Upstream byte snapshots are hashed before parsing; preserve their original line endings.
+/docs/sources/astronomy/**/*.txt -text

@@ -1,18 +1,18 @@
 import assert from "node:assert/strict";
 import { readFile, writeFile } from "node:fs/promises";
+import { parseObserved } from "./lib/usno-delta-t.mjs";
 
 const source = "https://maia.usno.navy.mil/ser7/deltat.data";
 const lastDate = "2026-10-01";
-const text = process.argv[2] ? await readFile(process.argv[2], "utf8")
-  : await (await fetch(source, { signal: AbortSignal.timeout(20000) })).text();
-const rows = text.trim().split(/\r?\n/u).map((line) => line.trim().split(/\s+/u).map(Number))
-  .filter(([year, month, day]) => year >= 2005 && day === 1
-    && `${year}-${String(month).padStart(2, "0")}-01` <= lastDate)
-  .map(([year, month, , seconds]) => {
-    const start = Date.UTC(year, 0, 1);
-    const decimalYear = year + (Date.UTC(year, month - 1, 1) - start) / (Date.UTC(year + 1, 0, 1) - start);
-    return [decimalYear, seconds];
-  });
+let text;
+if (process.argv[2]) text = await readFile(process.argv[2], "utf8");
+else {
+  const response = await fetch(source, { signal: AbortSignal.timeout(20000) });
+  assert.ok(response.ok, `USNO HTTP ${response.status}`); text = await response.text();
+}
+const parsed = parseObserved(text);
+assert.equal(parsed.at(-1).date, lastDate, "USNO observations changed: review the new anchor and sensitive dates before regenerating");
+const rows = parsed.filter(row => row.date >= "2005-01-01").map(row => [row.decimalYear, row.seconds]);
 assert.equal(rows.length, 262);
 assert.equal(rows[0][0], 2005);
 assert.equal(rows.at(-1)[1], 69.2065);

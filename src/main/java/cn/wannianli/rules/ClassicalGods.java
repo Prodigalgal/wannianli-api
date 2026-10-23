@@ -77,8 +77,20 @@ public final class ClassicalGods {
             boolean soft = Boolean.TRUE.equals(entry.get("soft"));
             String id = (String) entry.get("id"), name = (String) entry.get("name");
             var avoids = ClassicalRules.strings(entry, "avoids");
+            String origin = (String) entry.getOrDefault("originNote", "卷五最终校订起例或卷十逐月起例");
             hits.add(hit(soft ? id : "CLASSICAL_RAW_" + id, name, ClassicalRules.strings(entry, "recommends"), avoids,
-                    "共享表保留原始用事；明确解忌仅撤销本条，其他专忌保留。"));
+                    (String) entry.getOrDefault("note", "共享表保留原始用事；明确解忌仅撤销本条，其他专忌保留。"), origin));
+            int combination = 0;
+            for (var condition : ClassicalRules.rows(entry, "conditionalRecommendations")) {
+                combination++;
+                if (condition.containsKey("months") && !((List<?>) condition.get("months")).contains(month.branchIndex())) continue;
+                var anyGood = ClassicalRules.strings(condition, "anyGood");
+                var officers = ClassicalRules.strings(condition, "officers");
+                if ((!anyGood.isEmpty() || !officers.isEmpty()) && anyGood.stream().noneMatch(good::contains)
+                        && !officers.contains(almanac.dayOfficer().name())) continue;
+                hits.add(hit(id + "_COMBINATION_" + combination, name, ClassicalRules.strings(condition, "activities"), List.of(),
+                        "卷十明列的并神用事；只增加本条件指定宜目，其他专忌仍参与裁决。", (String) condition.get("reason")));
+            }
             boolean hard = ClassicalRules.rows(entry, "hardExceptions").stream().anyMatch(condition ->
                     ((List<?>) condition.get("months")).contains(month.branchIndex()) && ClassicalRules.strings(condition, "days").contains(day.name()));
             if (hard) hits.add(hit(id + "_HARD_RETAINED_TABOOS", name, List.of(), avoids, "卷十六月己未阳错、己巳阴错，不从德合所宜。"));
@@ -95,7 +107,11 @@ public final class ClassicalGods {
     }
 
     private static RuleHit hit(String id, String name, List<String> recommends, List<String> avoids, String note) {
+        return hit(id, name, recommends, avoids, note, "卷五最终校订起例或卷十逐月起例");
+    }
+
+    private static RuleHit hit(String id, String name, List<String> recommends, List<String> avoids, String note, String origin) {
         return new RuleHit(id, name, "共享神煞用事", "XIEJI_BIANFANGSHU_VOLUME_10", "B_PRIMARY_TEXT_TRANSCRIPTION",
-                recommends, avoids, "卷五最终校订起例或卷十逐月起例", note);
+                recommends, avoids, origin, note);
     }
 }

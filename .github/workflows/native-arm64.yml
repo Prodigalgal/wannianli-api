@@ -8,6 +8,8 @@ on:
       - "src/**"
       - "worker/**"
       - "tools/**"
+      - "docs/sources/**"
+      - ".gitattributes"
       - "licenses/**"
       - "build.gradle"
       - "settings.gradle"

@@ -58,7 +58,7 @@ test("calculates the fixed 2026-08-03 result independently", () => {
   });
   assert.deepEqual(value["建除十二神"], { "名称": "满", "通常吉凶": "通常为凶" });
   assert.deepEqual(value["黄黑道十二值神"], { "值神": "勾陈", "黄黑道": "黑道", "吉凶": "凶" });
-  assert.deepEqual(value["吉神"], ["月德合", "天德合", "天恩", "四相", "民日", "除神", "天巫", "福德", "鸣吠", "宝日"]);
+  assert.deepEqual(value["吉神"], ["月德合", "天德合", "天恩", "四相", "民日", "除神", "天巫", "福德", "鸣吠", "宝日", "兵吉", "天仓", "续世"]);
   assert.deepEqual(value["凶煞"], ["五离", "土王用事", "灾煞", "天火", "复日"]);
   assert.deepEqual(value["彭祖百忌"], {
     "天干禁忌": "己不破券，二主并亡",

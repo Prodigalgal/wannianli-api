@@ -35,7 +35,21 @@ JSON字段结构与schemaVersion=2.0保持原有约定。凶煞列表可新增�
 
 本地实际验证：Java81项、Worker93项全部通过，`bootJar`与Worker打包试运行通过。1827天v1、273个v2（261个周采样与12个边界）、3个区间和两代官方MCP SDK通过；39处天文时刻差不超过1毫秒且不跨UTC+08:00民用日，其他业务字段严格一致。
 
-JAR：`build/libs/wannianli-api-1.0.0.jar`；SHA-256：`d4f408b933b0f01dc16132dcf90ba6c3b803a58ff6caaddebfd6082de3483758`，已确认包含新规则资源。验证命令：`./gradlew test bootJar --no-daemon`、`cd worker && npm run check`、`node tools/compare-implementations.mjs`。本地完整日志存于`build/validation/calendar-days-*-final.log`及`calendar-days-parity.log`；远程原生结果另行登记。
+JAR：`build/libs/wannianli-api-1.0.0.jar`；SHA-256：`d4f408b933b0f01dc16132dcf90ba6c3b803a58ff6caaddebfd6082de3483758`，已确认包含新规则资源。验证命令：`./gradlew test bootJar --no-daemon`、`cd worker && npm run check`、`node tools/compare-implementations.mjs`。本地完整日志存于`build/validation/calendar-days-*-final.log`及`calendar-days-parity.log`。规则源提交8fb7e97的[Worker/JVM CI](https://github.com/Prodigalgal/wannianli-api/actions/runs/39957642608)与[ARM64原生CI](https://github.com/Prodigalgal/wannianli-api/actions/runs/39957642917)成功，原生容器31项v2/MCP及16项v1检查通过；制品与源码树见[原生记录](NATIVE_ARM64_VALIDATION.md)。
+
+本地Windows的Wrangler 4.118.0已输出完整包和“dry-run: exiting now”，但进程未自行结束，后来清理了这两个本批启动的空闲试运行进程；不能把其进程退出码报为成功。上述Linux CI的同一打包命令正常退出通过。升级至4.152.0后，本地`npm run check`正常退出0，93项回归、来源检查和打包全部通过；1827天差分、273个v2、3个区间及两代SDK也再次通过。
+
+## 顺带核定：三伏的含交节日边界
+
+[卷十二10b](https://github.com/kanripo/KR3g0051/blob/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_012.txt)明确：夏至逢庚即计初庚，立秋逢庚即末伏。逐读Java/Worker现有计庚循环均从交节民用日开始，符合条文，保留原算法。
+
+按当前天文模型扫描1801—2199年798个夏至/立秋交节日，其中夏至逢庚39例、立秋逢庚41例。对80例运行Worker实际公开计算：前者初伏为夏至后第20日、再10日入中伏，后者当天入末伏，边界与前日断言全部通过。报告存于`build/validation/sanfu-source-review.json`；这是对古籍计数边界的核定，不是对未来交节日期作外部观测认证，也不把这80例另计为Java测试数。
+
+## 构建依赖的实际告警
+
+首轮CI安装依赖提示4项high，官方npm审计确认来自Wrangler 4.118.0经miniflare引入的sharp/undici链；不是本批历法代码新增的HTTP入口。核对[undici维护者公告](https://github.com/nodejs/undici/security/advisories/GHSA-rfgv-xxqx-mfg5)与[sharp维护者公告](https://github.com/lovell/sharp/security/advisories/GHSA-wq5f-xc86-pv6w)，更新精确锁定的Wrangler至4.152.0，保留两代MCP SDK版本。官方registry安装及再次审计均为0项已知漏洞；本地打包和差分复验通过，工具链更新后的远程CI另行登记。
+
+两个workflow均加入明确的官方registry审计，高危及以上会失败，避免仅打印告警仍继续通过。此举覆盖构建/开发依赖，不等同线上完整渗透测试，也不宣称不存在未知漏洞。本地默认镜像不支持security audit端点，因此审计按单条命令指定官方registry，未改用户全局配置。
 
 ## 仍未纳入
 

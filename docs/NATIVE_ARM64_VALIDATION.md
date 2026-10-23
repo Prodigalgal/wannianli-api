@@ -1,5 +1,15 @@
 # ARM64原生验收记录
 
+## 2.5.0 四类历日规则
+
+日期：2026-10-23。规则源提交`8fb7e97f0cd998b8ae38ef24bcf87cf07ed18470`的[ARM64运行39957642917](https://github.com/Prodigalgal/wannianli-api/actions/runs/39957642917)与[Worker/JVM运行39957642608](https://github.com/Prodigalgal/wannianli-api/actions/runs/39957642608)成功。PR实际检出`dd9c21ceeb6605ea25304b81cc094aebe25a0db2`；GitHub git-commit接口与本地源树核对，tree均为`e6425b05fa1a9f594bd5b88feef8bf451cb0a235`。
+
+Java81项、Worker93项通过。真实ARM64原生HTTP完成1827天v1、273个v2、3个区间及两代MCP SDK差分；39处天文时刻差最多1毫秒，均未跨民用日，其他业务字段严格一致。原生容器默认安全配置下31项v2/MCP与16项v1检查通过。
+
+CI核验可执行文件为ELF64 ARM aarch64，`ldd`无缺失依赖；报告的二进制SHA-256为`8a017002120527ba9e6a603a7f5683264b2dd00449c71aab88bbc8f2f9ed7d80`。本次下载复核的是[验收报告制品](https://github.com/Prodigalgal/wannianli-api/actions/runs/39957642917/artifacts/12502558899)，没有将其ZIP摘要冒充二进制摘要；报告保存在`build/validation/native/39957642917/`，完整job日志在`build/validation/native-calendar-days-job.log`。
+
+此轮CI发现旧Wrangler工具链的4项高危依赖告警；随后升级至4.152.0、官方审计归零并加入CI失败门槛，更新后工具链的验收另行登记。没有将上述旧工具链运行说成新增审计门槛已经通过。具体源文、80例三伏边界复核及行为变更见[历日核定](CALENDAR_DAY_RULES.md)。生产Java/Worker仍为2.3.0，本批计算制品未部署。
+
 ## 2.3.0 卷六扩展
 
 日期：2026-10-23。[Native ARM64运行39892908868](https://github.com/Prodigalgal/wannianli-api/actions/runs/39892908868)与[Worker/JVM运行39892908907](https://github.com/Prodigalgal/wannianli-api/actions/runs/39892908907)均成功。构建源`23c2f75dabeef1860e34d2b3d4b88325defda21b`；PR实际检出`7e0320447318048ad1553ef50d16f6ecdbeb113a`，两者tree同为`d4e41d2c5002f939804a39e845c462536ac23920`，已通过GitHub API与本地Git核对。

@@ -1,6 +1,7 @@
 package cn.wannianli.rules;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static cn.wannianli.support.SourceCalendarAssertions.assertRetainedUnlessUnprinted;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +89,7 @@ class VolumeSixGodsTest {
             var gods = result.traditionalAlmanac().gods();
             if (gods.inauspicious().contains("月破") && gods.auspicious().contains("驿马") && !gods.inauspicious().contains("无禄")) {
                 assertThat(result.activities().recommended()).as(date.toString()).doesNotContain("搬移");
-                assertThat(result.activities().avoided()).as(date.toString()).contains("搬移"); cases++;
+                assertRetainedUnlessUnprinted(result,"搬移"); cases++;
             }
         }
         assertThat(cases).isPositive();

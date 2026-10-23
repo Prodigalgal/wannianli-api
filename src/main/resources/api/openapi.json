@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "万年历 API",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "description": "公历/农历计算；固定UTC+08:00。农历日期使用所选历法的年月日。神煞为已校勘子集，范围与限制见capabilities。v1继续兼容。"
   },
   "servers": [

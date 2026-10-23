@@ -2,6 +2,7 @@ package cn.wannianli.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static cn.wannianli.support.SourceCalendarAssertions.assertRetainedUnlessUnprinted;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -37,7 +38,7 @@ class ExternalAuditRegressionTest {
                 assertThat(decision.avoidedBy()).contains("OFFICER_破");
                 if (value.traditionalAlmanac().gods().inauspicious().contains("无禄") && !ClassicalGods.noSalaryAllowed().contains(activity)) {
                     assertThat(decision.disposition()).isEqualTo(Disposition.OMITTED);
-                } else assertThat(value.activities().avoided()).contains(activity);
+                } else assertRetainedUnlessUnprinted(value,activity);
             }
         }
         assertThat(brokenDays).isEqualTo(333);

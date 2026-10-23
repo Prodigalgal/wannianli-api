@@ -6,6 +6,7 @@ import { addCoreGods, isNoSalary, noSalaryAllowed } from "../src/god-rules.js";
 import { cycleFromIndex } from "../src/calendar.js";
 import { absoluteCase, pressingCase, universalRelief } from "../src/classical.js";
 import { solarTermInstant, SOLAR_TERM } from "../src/astronomy.js";
+import { assertRetainedUnlessUnprinted } from "../test-support/calendar-source.js";
 
 const fixture = JSON.parse(await readFile(new URL("../../src/test/resources/fixtures/classical-second-batch.json", import.meta.url), "utf8"));
 const at = date => calculateAuditableAlmanac(new Date(date + "T04:00:00Z"));
@@ -59,7 +60,7 @@ test("explicit retained taboos, the eight named relief days, and pressing-day pl
       for (const activity of hit.avoids) {
         if (noSalary && !noSalaryAllowed.includes(activity)) {
           assert.equal(audit.activityDecisions.find(d => d.activity === activity).disposition, "OMITTED");
-        } else assert.ok(result.宜忌.忌.includes(activity), `${day.name}: ${activity}`);
+        } else assertRetainedUnlessUnprinted(result, audit, activity);
       }
     }
     if (absoluteCase(month, day)) { assert.equal(result.宜忌.诸事皆忌, "是"); absolute++; }
@@ -96,7 +97,8 @@ test("month aversion changes proclamation to administration and the two June err
   assert.ok(changed.宜.includes("布政事")); assert.ok(!changed.宜.includes("宣政事"));
   for (const activity of ["颁诏", "施恩封拜", "诏命公卿", "招贤", "举正直"]) assert.ok(!changed.宜.includes(activity));
   for (const date of ["2020-07-15", "2020-07-25"]) {
-    const value = at(date).result.宜忌;
-    assert.equal(value.有德神, "是"); assert.ok(value.忌.includes("求医")); assert.ok(value.忌.includes("安葬"));
+    const {result,audit} = at(date);
+    assert.equal(result.宜忌.有德神, "是"); assert.ok(result.宜忌.忌.includes("求医"));
+    assertRetainedUnlessUnprinted(result,audit,"安葬");
   }
 });

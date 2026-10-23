@@ -36,7 +36,8 @@ test("monthly golden cases restore all six grades while retaining the specific m
 });
 
 test("no-taboo printing never invents a recommendation, and the from-avoid exception is enforced", () => {
-  const sample = at("2024-01-04");
+  // January 4 is lunar day 23; use a non-monthly-taboo date to isolate this from-avoid clause.
+  const sample = at("2024-01-17");
   assert.equal(sample.result.宜忌.日等, "下");
   assert.ok(sample.result.宜忌.忌.includes("安床"));
   assert.ok(sample.result.宜忌.忌.includes("开仓库"));

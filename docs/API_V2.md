@@ -82,6 +82,8 @@ POST同路径接受`{"startDate":"2020-05-22","endDate":"2020-05-23","time":"23:
 
 无禄日按卷十“止注”条文仅铺注指定十二类活动，其余从三个列表省略，后台原始证据保留；省略不表示宜。具体活动可读取capabilities.annotationPolicies.noSalary。scope中的中文说明会随校勘更新，不作为封闭枚举；日等程序判断使用dayGradeCode。
 
+2.5.0另补月忌日的十二类止注和分至日指定活动不注，分别见capabilities.annotationPolicies.monthlyTaboo与equinoxSolstice。前者按农历初五、十四、廿三，闰月独立计日；后者按交节所在UTC+08:00民用日全天。指定省略同时作用于recommended、avoided、caution，原始证据仍在审计模型。凶煞中的分至及月忌是铺注标签，不能用名称个数推算吉凶强度。
+
 ## 错误与资源限制
 
 ```json
@@ -94,6 +96,7 @@ POST同路径接受`{"startDate":"2020-05-22","endDate":"2020-05-23","time":"23:
 
 ## 兼容性记录
 
+- 2026-10-23版本2.5.0（待部署）核定气往亡、反支、分至和月忌；新增公开铺注政策及结果scope说明。活动数组成员会因专忌或不注而增删，详见[v1兼容性记录](API.md)与[历日核定](CALENDAR_DAY_RULES.md)。字段结构、类型和schemaVersion不变。
 - v2为新增版本，v1不切换字段语言或布尔类型。
 - 2026-10-22 API描述版本2.1.0新增 activities.dayGradeCode、capabilities.dayGrades 及OpenAPI的HEAD操作。结果schemaVersion仍为2.0，原dayGrade中文值和v1结构保持兼容；调用方应允许可选扩展字段。
 - 2026-10-23太阳模型精修，1979大寒改归01-20，交节时刻及衍生属性随之调整；神煞、宜忌与无禄铺注的行为变化见[v1兼容性记录](API.md)和[第四轮记录](FOURTH_AUDIT.md)。

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { assertRetainedUnlessUnprinted } from "../test-support/calendar-source.js";
 import { readFile } from "node:fs/promises";
 import { addCoreGods, coreGodHits } from "../src/god-rules.js";
 import { cycleFromIndex, BRANCHES } from "../src/calendar.js";
@@ -51,7 +52,7 @@ test("the source spelling of moving house cannot bypass the existing month-break
     }
     if (result.凶煞.includes("月破") && result.吉神.includes("驿马") && !result.凶煞.includes("无禄")) {
       assert.ok(!result.宜忌.宜.includes("搬移"));
-      assert.ok(result.宜忌.忌.includes("搬移")); cases++;
+      assertRetainedUnlessUnprinted(result,audit,"搬移"); cases++;
     }
   }
   assert.ok(cases > 0);

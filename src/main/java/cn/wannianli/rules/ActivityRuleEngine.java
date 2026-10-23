@@ -66,6 +66,11 @@ public final class ActivityRuleEngine {
 
     public ActivityResult evaluate(LocalDate date, Cycle month, Cycle day, TraditionalAlmanac almanac,
                                    double solarLongitude) {
+        return evaluate(date, month, day, almanac, solarLongitude, CalendarDayRules.Context.empty());
+    }
+
+    public ActivityResult evaluate(LocalDate date, Cycle month, Cycle day, TraditionalAlmanac almanac,
+                                   double solarLongitude, CalendarDayRules.Context calendarDays) {
         List<RuleHit> hits = new ArrayList<>();
         RuleSpec officer = OFFICER_RULES.get(almanac.dayOfficer().name());
         hits.add(hit(officer, "日支与节月月支推得" + almanac.dayOfficer().name() + "日"));
@@ -73,6 +78,7 @@ public final class ActivityRuleEngine {
         addInauspiciousGodRules(hits, month, almanac);
         addOfficerCombinationRules(hits, almanac, solarLongitude);
         hits.addAll(ClassicalGods.hits(month, day, almanac));
+        hits.addAll(calendarDays.hits());
         for (var entry : ClassicalRules.rows(ClassicalRules.placement(), "dayTaboos")) {
             if (entry.containsKey("branch") && !entry.get("branch").equals(day.branchIndex())
                     || entry.containsKey("stem") && !entry.get("stem").equals(day.stemIndex())) continue;
@@ -376,7 +382,7 @@ public final class ActivityRuleEngine {
             relievedRules.add(hit.ruleId());
         });
         boolean aversionChangesProclamation = monthAversion && (unreconciled.contains("行幸") || unreconciled.contains("上官赴任"));
-        boolean goingLoss = hits.stream().anyMatch(hit -> hit.ruleId().equals("CLASSICAL_RAW_GOING_LOSS"));
+        boolean goingLoss = hits.stream().anyMatch(hit -> Set.of("CLASSICAL_RAW_GOING_LOSS", "CALENDAR_QI_GOING_LOSS_RETAINED_TABOOS").contains(hit.ruleId()));
         if (aversionChangesProclamation) {
             suppressedActivities.addAll(activities("颁诏,施恩封拜,诏命公卿,招贤,举正直"));
         }
@@ -402,6 +408,7 @@ public final class ActivityRuleEngine {
         List<String> avoided = new ArrayList<>();
         List<String> caution = new ArrayList<>();
         List<ActivityDecision> decisions = new ArrayList<>();
+        Set<String> calendarOmissions = CalendarDayRules.annotationOmissions(hits, evidence.keySet());
         for (var entry : evidence.entrySet()) {
             String activity = entry.getKey();
             Evidence value = entry.getValue();
@@ -420,7 +427,8 @@ public final class ActivityRuleEngine {
                             entryRule.get("ruleId").equals(rule) && ClassicalRules.strings(entryRule, "activities").contains(activity))).toList();
             boolean omittedByNoSalary = hits.stream().anyMatch(hit -> hit.ruleId().equals("CLASSICAL_RAW_NO_SALARY"))
                     && !ClassicalGods.noSalaryAllowed().contains(activity);
-            Disposition disposition = omittedByNoSalary ? Disposition.OMITTED : disposition(recommendBy, effectiveAvoid, grade, relief, allAvoided,
+            boolean omittedByCalendar = calendarOmissions.contains(activity);
+            Disposition disposition = omittedByNoSalary || omittedByCalendar ? Disposition.OMITTED : disposition(recommendBy, effectiveAvoid, grade, relief, allAvoided,
                     retainedTaboo, suppressed);
             switch (disposition) {
                 case RECOMMENDED -> recommended.add(activity);
@@ -432,7 +440,7 @@ public final class ActivityRuleEngine {
             }
             decisions.add(new ActivityDecision(activity, disposition,
                     !recommendBy.isEmpty() && !avoidBy.isEmpty(), recommendBy, avoidBy, excluded,
-                    omittedByNoSalary ? "卷十无禄日仅铺注所列十二类用事，其余不注；不等同一律输出忌。" : effectiveAvoid.size() != avoidBy.size() && !allAvoided
+                    omittedByCalendar ? "卷十月忌日止注或分至日不注条文：此项不公开铺注，原始宜忌证据保留；不等同解忌或生成宜。" : omittedByNoSalary ? "卷十无禄日仅铺注所列十二类用事，其余不注；不等同一律输出忌。" : effectiveAvoid.size() != avoidBy.size() && !allAvoided
                             ? "卷十逐月解忌或铺注条例不注此忌；原始忌证据保留，不忌不自动生成宜。"
                             : rationale(recommendBy, avoidBy, disposition, grade, relief, allAvoided, hasCanonical,
                             retainedTaboo, suppressed)));

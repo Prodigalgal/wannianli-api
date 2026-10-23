@@ -6,6 +6,7 @@ import { calculateTraditionalAlmanac } from "../src/almanac.js";
 import { calculateAuditableAlmanac, calculateCurrentAlmanac } from "../src/engine.js";
 import { evaluateActivities } from "../src/rules.js";
 import { noSalaryAllowed } from "../src/god-rules.js";
+import { assertRetainedUnlessUnprinted } from "../test-support/calendar-source.js";
 
 test("no month-break taboo becomes recommended anywhere in 2020-2030, with or without virtues", () => {
   let brokenDays = 0, withVirtue = 0, checkedTaboos = 0;
@@ -20,7 +21,7 @@ test("no month-break taboo becomes recommended anywhere in 2020-2030, with or wi
       assert.ok(decision.avoidedBy.includes("OFFICER_破"), `${date}: lost original taboo ${activity}`);
       if (value.result.凶煞.includes("无禄") && !noSalaryAllowed.includes(activity)) {
         assert.equal(decision.disposition, "OMITTED", `${date}: restricted annotation ${activity}`);
-      } else assert.ok(value.result["宜忌"]["忌"].includes(activity), `${date}: lost taboo ${activity}`);
+      } else assertRetainedUnlessUnprinted(value.result, value.audit, activity);
       assert.ok(!value.result["宜忌"]["宜"].includes(activity), `${date}: reversed taboo ${activity}`);
       checkedTaboos++;
     }

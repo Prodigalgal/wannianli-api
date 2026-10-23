@@ -49,7 +49,8 @@ class SecondAuditRegressionTest {
 
     @Test
     void fromAvoidExceptionAndTravelPlacementAreNotLostToBeneficRelief() {
-        var level = at("2024-01-04").activities();
+        // January 4 is lunar day 23; isolate the from-avoid clause on a different date.
+        var level = at("2024-01-17").activities();
         assertThat(level.dayGrade().classicalName()).isEqualTo("下");
         assertThat(level.avoided()).contains("安床", "经络", "开仓库", "出货财");
         var travel = at("2024-04-23").activities();

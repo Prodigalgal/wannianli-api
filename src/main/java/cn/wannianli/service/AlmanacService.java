@@ -32,6 +32,7 @@ import cn.wannianli.calendar.astronomy.SolarEphemeris;
 import cn.wannianli.calendar.astronomy.SolarTerm;
 import cn.wannianli.config.TimeConfiguration;
 import cn.wannianli.rules.ActivityRuleEngine;
+import cn.wannianli.rules.CalendarDayRules;
 
 @Service
 public class AlmanacService {
@@ -81,7 +82,9 @@ public class AlmanacService {
         Cycle hourPillar = SexagenaryCycle.hour(dayPillar, now.getHour());
 
         var traditional = traditionalCalculator.calculate(date, yearPillar, monthPillar, dayPillar, longitude);
-        var activities = ruleEngine.evaluate(date, monthPillar, dayPillar, traditional, longitude);
+        var calendarDays = CalendarDayRules.calculate(date, lunar);
+        traditional = CalendarDayRules.annotate(traditional, calendarDays);
+        var activities = ruleEngine.evaluate(date, monthPillar, dayPillar, traditional, longitude, calendarDays);
         return new AlmanacResponse(
                 new ResponseMeta("v1", "按UTC+08:00计算指定时刻；current接口使用当前时间，calculate接口接受公历或农历日期时间。"),
                 now,

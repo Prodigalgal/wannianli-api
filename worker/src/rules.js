@@ -1,5 +1,6 @@
 import { monthlyCase, placement, placementSets, absoluteCase, recommendSuppressionLinks, pressingCase, universalRelief } from "./classical.js";
 import { coreGodHits, aversionAvoids, noSalaryAllowed } from "./god-rules.js";
+import { calendarAnnotationOmissions } from "./calendar-day-rules.js";
 
 const CANONICAL = "B_PRIMARY_TEXT_TRANSCRIPTION";
 const TRANSMITTED = "C_TRADITIONAL_TRANSMISSION";
@@ -308,7 +309,7 @@ function resolve(hits, grade, virtuePresent, allActivitiesAvoided, selected, day
     relievedRules.add("PRESSING_PLACEMENT");
   }
   const aversionChangesProclamation = monthAversion && ["行幸", "上官赴任"].some(a => unreconciled.has(a));
-  const goingLoss = hits.some(hit => hit.ruleId === "CLASSICAL_RAW_GOING_LOSS");
+  const goingLoss = hits.some(hit => ["CLASSICAL_RAW_GOING_LOSS", "CALENDAR_QI_GOING_LOSS_RETAINED_TABOOS"].includes(hit.ruleId));
   if (aversionChangesProclamation) {
     for (const a of ["颁诏", "施恩封拜", "诏命公卿", "招贤", "举正直"]) suppressedActivities.add(a);
   }
@@ -335,6 +336,7 @@ function resolve(hits, grade, virtuePresent, allActivitiesAvoided, selected, day
   const avoided = [];
   const caution = [];
   const decisions = [];
+  const calendarOmissions = calendarAnnotationOmissions(hits, evidence.keys());
   for (const [activity, value] of evidence) {
     const hasCanonical = value.canonicalRecommend.length > 0 || value.canonicalAvoid.length > 0;
     const recommendBy = hasCanonical ? value.canonicalRecommend : value.supplementalRecommend;
@@ -346,13 +348,14 @@ function resolve(hits, grade, virtuePresent, allActivitiesAvoided, selected, day
       && !relievedRules.has(id)
       && !placement.ignoreAvoidRules.some(entry => entry.ruleId === id && entry.activities.includes(activity)));
     const omittedByNoSalary = hits.some(hit => hit.ruleId === "CLASSICAL_RAW_NO_SALARY") && !noSalaryAllowed.includes(activity);
-    const result = omittedByNoSalary ? "OMITTED" : disposition(recommendBy, effectiveAvoid, grade, relief, allActivitiesAvoided, retainedTaboo, suppressed);
+    const omittedByCalendar = calendarOmissions.has(activity);
+    const result = omittedByNoSalary || omittedByCalendar ? "OMITTED" : disposition(recommendBy, effectiveAvoid, grade, relief, allActivitiesAvoided, retainedTaboo, suppressed);
     if (result === "RECOMMENDED") recommended.push(activity);
     else if (result === "AVOID") avoided.push(activity);
     else if (result === "CAUTION") caution.push(activity);
     decisions.push({ activity, disposition: result, conflict: recommendBy.length > 0 && avoidBy.length > 0,
       recommendedBy: recommendBy, avoidedBy: avoidBy, excludedLowerAuthorityRules: excluded,
-      rationale: omittedByNoSalary ? "卷十无禄日仅铺注所列十二类用事，其余不注；不等同一律输出忌。" : effectiveAvoid.length !== avoidBy.length && !allActivitiesAvoided
+      rationale: omittedByCalendar ? "卷十月忌日止注或分至日不注条文：此项不公开铺注，原始宜忌证据保留；不等同解忌或生成宜。" : omittedByNoSalary ? "卷十无禄日仅铺注所列十二类用事，其余不注；不等同一律输出忌。" : effectiveAvoid.length !== avoidBy.length && !allActivitiesAvoided
         ? "卷十逐月解忌或铺注条例不注此忌；原始忌证据保留，不忌不自动生成宜。"
         : rationale(recommendBy, avoidBy, result, grade, relief, allActivitiesAvoided, hasCanonical, retainedTaboo, suppressed) });
   }
@@ -367,13 +370,14 @@ function resolve(hits, grade, virtuePresent, allActivitiesAvoided, selected, day
   };
 }
 
-export function evaluateActivities(date, month, day, almanac, solarLongitude) {
+export function evaluateActivities(date, month, day, almanac, solarLongitude, calendarDays = { hits: [] }) {
   const officer = OFFICER_RULES.get(almanac.dayOfficer.name);
   const hits = [officerHit(officer, `日支与节月月支推得${almanac.dayOfficer.name}日`)];
   addAuspiciousGodRules(hits, almanac);
   addInauspiciousGodRules(hits, month, almanac);
   addOfficerCombinationRules(hits, almanac, solarLongitude);
   hits.push(...coreGodHits(month, day, almanac));
+  hits.push(...calendarDays.hits);
   for (const entry of placement.dayTaboos) {
     if (entry.branch !== undefined && entry.branch !== day.branchIndex || entry.stem !== undefined && entry.stem !== day.stemIndex) continue;
     hits.push(ruleHit(entry.id, "铺注百忌互注", "制化专例", XIEJI_VOLUME_10, CANONICAL, [], entry.avoids,

@@ -1,6 +1,7 @@
 package cn.wannianli.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static cn.wannianli.support.SourceCalendarAssertions.assertRetainedUnlessUnprinted;
 import java.time.*;
 import java.util.*;
 import org.junit.jupiter.api.Test;
@@ -84,7 +85,7 @@ class FourthAuditRegressionTest {
                     if (value.traditionalAlmanac().gods().inauspicious().contains("无禄") && !ClassicalGods.noSalaryAllowed().contains(activity))
                         assertThat(result.decisions()).filteredOn(d -> d.activity().equals(activity)).singleElement()
                                 .satisfies(d -> assertThat(d.disposition()).isEqualTo(cn.wannianli.rules.ActivityResult.Disposition.OMITTED));
-                    else assertThat(result.avoided()).contains(activity);
+                    else assertRetainedUnlessUnprinted(value,activity);
                 }
             }
             if (!ClassicalRules.absolute(month, day).isEmpty()) { assertThat(result.allActivitiesAvoided()).isTrue(); absolute++; }
@@ -129,8 +130,9 @@ class FourthAuditRegressionTest {
         var changed = at("2020-01-09").activities();
         assertThat(changed.recommended()).contains("布政事").doesNotContain("宣政事", "颁诏", "施恩封拜", "诏命公卿", "招贤", "举正直");
         for (String date : List.of("2020-07-15", "2020-07-25")) {
-            var value = at(date).activities();
-            assertThat(value.virtuePresent()).isTrue(); assertThat(value.avoided()).contains("求医", "安葬");
+            var value = at(date);
+            assertThat(value.activities().virtuePresent()).isTrue(); assertThat(value.activities().avoided()).contains("求医");
+            assertRetainedUnlessUnprinted(value,"安葬");
         }
     }
 }

@@ -45,3 +45,5 @@ node tools/compare-implementations.mjs
 ```
 
 最后一条命令启动仅绑定loopback的Java测试实例：v1比较1827天全部业务字段，v2在同一五年内每7天采样共261例，另保留11个边界案例，合计272例；再用两代官方MCP客户端检查真实HTTP发现、工具Schema、农历闰月计算、错误和固定资源读取。ARM64工作流还对实际原生可执行文件执行同样验证。工作流文件已接线；GitHub的远程执行状态取决于提交并触发工作流。
+
+2.2.1更新原表来源说明，接口和工具形状保持兼容。原表独立回归及ARM64原生SDK验收见[原表核验](SOURCE_GRADE_TABLE.md)与[ARM64记录](NATIVE_ARM64_VALIDATION.md)。

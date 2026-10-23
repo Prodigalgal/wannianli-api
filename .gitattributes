@@ -8,3 +8,5 @@ Dockerfile text eol=lf
 *.jar binary
 # Upstream byte snapshots are hashed before parsing; preserve their original line endings.
 /docs/sources/astronomy/**/*.txt -text
+# Keep upstream metadata spaces as part of the hashed byte snapshot.
+/docs/sources/classical-texts/*.txt -text whitespace=-blank-at-eol

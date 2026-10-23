@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "textRevision": "8b5522eb0299afbd575f1cb556e972c71c40c42a",
+  "sourceFingerprint": "9032e1275a9164bf594e58f9cb561ca0bbdc6d6d8847c4fdbc681c4464223d28",
+  "pageIndexSha256": "d330c8433b116b8956618dbb09ca66b86b2e989b158774f70f852597451cf3c5",
+  "facsimileFiles": 26,
+  "volumes": 36,
+  "scanPages": 3521,
+  "originalBytesVerified": 118813493,
+  "pageRecords": 3521,
+  "reviewedPages": 42,
+  "ruleCollationPages": 40,
+  "tableTranscribedPages": 2,
+  "unreviewedPages": 3479,
+  "transcriptFiles": 36,
+  "transcriptVolumes": 35,
+  "transcriptFragments": 3165,
+  "missingTranscriptVolumes": [
+    14
+  ],
+  "emptyTranscriptFragments": 415,
+  "duplicatedLeafMarkers": 76,
+  "ambiguousTranscriptFragments": 152,
+  "verifiedScanTextLinks": 41,
+  "reviewedScansWithoutTextFragments": [
+    "CADAL06056510/221"
+  ],
+  "candidateScanTextLinks": 246,
+  "embeddedTextLayerPages": 0,
+  "landscapeOrSpreadCandidates": 24,
+  "classificationNote": "卷类路由、尺寸和文本标签是候选分类；未逐页判定目录/正文/表格/留白。空转录不是空白原图。",
+  "reviewNote": "核验数量由既有人工台账读取；索引、缓存、转录、候选映射和工作队列均不能自动增加核验。",
+  "warnings": []
+}

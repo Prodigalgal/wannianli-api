@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node --test",
     "test:deep": "node ../tools/deep-validate.mjs",
-    "check": "npm test && wrangler deploy --dry-run",
+    "check:sources": "node ../tools/index-classical-sources.mjs --check",
+    "check": "npm run check:sources && npm test && wrangler deploy --dry-run",
     "deploy": "wrangler deploy"
   },
   "devDependencies": {

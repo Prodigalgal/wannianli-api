@@ -58,6 +58,7 @@ jobs:
         working-directory: worker
         run: |
           npm ci
+          npm run check:sources
           npm test
           npx wrangler deploy --dry-run
 

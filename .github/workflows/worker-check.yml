@@ -50,7 +50,9 @@ jobs:
         run: npm ci
 
       - name: Test
-        run: npm test
+        run: |
+          npm run check:sources
+          npm test
 
       - name: Validate Worker bundle
         run: npx wrangler deploy --dry-run

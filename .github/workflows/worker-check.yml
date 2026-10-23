@@ -72,3 +72,10 @@ jobs:
         run: |
           ./gradlew test bootJar --no-daemon
           node tools/compare-implementations.mjs
+
+      - name: Preserve validated JVM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wannianli-api-jvm
+          path: build/libs/wannianli-api-1.0.0.jar
+          if-no-files-found: error

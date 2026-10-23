@@ -1,6 +1,14 @@
 # ARM64原生验收记录
 
-## 2.5.0 四类历日规则
+## 2.5.0 最终工具链
+
+源提交`9ae074c51536fc1d105e57ee921c8e9c7a02a07e`的[Native39960361511](https://github.com/Prodigalgal/wannianli-api/actions/runs/39960361511)与[Worker/JVM39960361535](https://github.com/Prodigalgal/wannianli-api/actions/runs/39960361535)成功。PR检出`89dedf992f5e0d885904afcad6f82973972c9669`，与源tree同为`2d04d4a1863660553b4db03b300875262ba2fb17`，已核对。Wrangler4.152.0，npm安装及新增高危门槛均报告0漏洞，Java81/Worker93项通过。
+
+原生真实HTTP的1827天v1、273个v2、3个区间与两代SDK通过；39处天文时刻差≤1毫秒且同民用日。原生容器31项v2/MCP、16项v1通过，ELF64 ARM aarch64，报告二进制SHA-256 `c07336de8843476c1b1a1c0f6d09e1cfcc3365cd504e0543db0207c08cba5d32`。验收报告下载在`build/validation/native/39960361511/`，完整日志在`build/validation/native-calendar-days-upgraded-job.log`；本段未声称本地另行下载了二进制。镜像发布job明确为skipped。
+
+本次另保留CI已验证的JVM JAR制品，Oracle生产采用它，Worker独立发布；两端每端60项公网检查及两代SDK通过。运行JAR/Worker身份与已知Python边缘限制见[2.5.0发布](DEPLOYMENT_2026-10-23_V250.md)。以下保留首轮规则及旧版的验收历史。
+
+## 2.5.0 规则首轮（部署前）
 
 日期：2026-10-23。规则源提交`8fb7e97f0cd998b8ae38ef24bcf87cf07ed18470`的[ARM64运行39957642917](https://github.com/Prodigalgal/wannianli-api/actions/runs/39957642917)与[Worker/JVM运行39957642608](https://github.com/Prodigalgal/wannianli-api/actions/runs/39957642608)成功。PR实际检出`dd9c21ceeb6605ea25304b81cc094aebe25a0db2`；GitHub git-commit接口与本地源树核对，tree均为`e6425b05fa1a9f594bd5b88feef8bf451cb0a235`。
 
@@ -8,7 +16,7 @@ Java81项、Worker93项通过。真实ARM64原生HTTP完成1827天v1、273个v2�
 
 CI核验可执行文件为ELF64 ARM aarch64，`ldd`无缺失依赖；报告的二进制SHA-256为`8a017002120527ba9e6a603a7f5683264b2dd00449c71aab88bbc8f2f9ed7d80`。本次下载复核的是[验收报告制品](https://github.com/Prodigalgal/wannianli-api/actions/runs/39957642917/artifacts/12502558899)，没有将其ZIP摘要冒充二进制摘要；报告保存在`build/validation/native/39957642917/`，完整job日志在`build/validation/native-calendar-days-job.log`。
 
-此轮CI发现旧Wrangler工具链的4项高危依赖告警；随后升级至4.152.0、官方审计归零并加入CI失败门槛，更新后工具链的验收另行登记。没有将上述旧工具链运行说成新增审计门槛已经通过。具体源文、80例三伏边界复核及行为变更见[历日核定](CALENDAR_DAY_RULES.md)。生产Java/Worker仍为2.3.0，本批计算制品未部署。
+此轮CI发现旧Wrangler工具链的4项高危依赖告警；随后升级至4.152.0、官方审计归零并加入CI失败门槛，最终工具链验收见上文。没有将旧工具链运行说成新增审计门槛已经通过。具体源文、80例三伏边界复核及行为变更见[历日核定](CALENDAR_DAY_RULES.md)。该首轮验收当时生产为2.3.0；后续双端2.5.0发布见当前发布记录。
 
 ## 2.3.0 卷六扩展
 

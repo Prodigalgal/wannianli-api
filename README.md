@@ -25,7 +25,7 @@ Invoke-RestMethod http://127.0.0.1:8080/api/v1/almanac/current
 {"历法":"农历","年":2020,"月":4,"日":1,"时":12,"分":30,"秒":15,"是否闰月":"是"}
 ```
 
-时分秒可省略（默认零），是否闰月默认“否”。两接口均固定 `UTC+08:00`，不接受时区或查询参数。详细字段、示例、错误码及安全限制见 [接口文档](docs/API.md)。线上2.3.0验收见[发布记录](docs/DEPLOYMENT_2026-10-23_V230.md)；本分支2.5.0另核定并实现气往亡、反支、分至和月忌日四类历日规则，已构建验证、尚未部署，见[本批核定](docs/CALENDAR_DAY_RULES.md)。包含此前2.4.0补10项月神，见[第二批核验](docs/SOURCE_COLLATION_BATCH02.md)。原图规则核验累计160页，现采用电子文本批量核对、原图裁决疑点，见[第三批核验](docs/SOURCE_COLLATION_BATCH03.md)与[文字来源](docs/ELECTRONIC_TEXTS.md)。其他边界见[第四轮记录](docs/FOURTH_AUDIT.md)与[待办状态](docs/TODO.md)。
+时分秒可省略（默认零），是否闰月默认“否”。两接口均固定 `UTC+08:00`，不接受时区或查询参数。详细字段、示例、错误码及安全限制见 [接口文档](docs/API.md)。线上2.5.0已双端发布，每端60项公网检查及两代MCP客户端验证通过，见[发布记录](docs/DEPLOYMENT_2026-10-23_V250.md)。本轮核定气往亡、反支、分至、月忌日并实现，另复核三伏正确，见[本批核定](docs/CALENDAR_DAY_RULES.md)；包含此前2.4.0补10项月神。原图核验累计160页，现以电子文本批量核对、原图裁决疑点，见[文字来源](docs/ELECTRONIC_TEXTS.md)。Worker默认Python urllib仍有Cloudflare 1010限制，局部规则权限待补，见[兼容性](docs/CLOUDFLARE_API_COMPATIBILITY.md)与[待办](docs/TODO.md)。
 
 ## 返回内容
 

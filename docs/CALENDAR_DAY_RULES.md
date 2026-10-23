@@ -2,6 +2,8 @@
 
 日期：2026-10-23；计算描述版本2.5.0。本批按电子正文核定四类历日规则，已同步接入Java、Worker及其共用API/MCP契约。未增加原图核验页数，原有160页仍是影像核验累计值；电子文本核定和新增索引均不计为影像核验。
 
+2.5.0已双端发布，包含此前未发布2.4.0，每端60项公网检查及两代MCP客户端通过，见[发布记录](DEPLOYMENT_2026-10-23_V250.md)。本批另复核三伏，五类核定中四类新增实现、三伏保留正确算法。
+
 ## 采用来源与取舍
 
 起例使用[Kanripo固定修订卷六](https://github.com/kanripo/KR3g0051/blob/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_006.txt)67b—69a、72b—76a，最终活动范围以[卷十同修订](https://github.com/kanripo/KR3g0051/blob/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_010.txt)63b—64a、69a—71a及74b互注为准。交叉核对已有维基文库[卷六修订787343](https://zh.wikisource.org/w/index.php?oldid=787343)和[卷十修订787351](https://zh.wikisource.org/w/index.php?oldid=787351)快照；同一传本的电子转录一致不充作独立古本证据。
@@ -39,6 +41,8 @@ JAR：`build/libs/wannianli-api-1.0.0.jar`；SHA-256：`d4f408b933b0f01dc16132dc
 
 本地Windows的Wrangler 4.118.0已输出完整包和“dry-run: exiting now”，但进程未自行结束，后来清理了这两个本批启动的空闲试运行进程；不能把其进程退出码报为成功。上述Linux CI的同一打包命令正常退出通过。升级至4.152.0后，本地`npm run check`正常退出0，93项回归、来源检查和打包全部通过；1827天差分、273个v2、3个区间及两代SDK也再次通过。
 
+最终工具链源9ae074c的[Worker/JVM](https://github.com/Prodigalgal/wannianli-api/actions/runs/39960361535)与[ARM64](https://github.com/Prodigalgal/wannianli-api/actions/runs/39960361511)均成功，新增依赖审计门槛实际为0项。生产采用该CI上传的JAR，SHA-256为`cd3a1c640407a4f46ea7ae13b61aa297b697ff0c512e02e1a1ca5454c8c7a869`，不能与上面的Windows本地构建摘要混用。
+
 ## 顺带核定：三伏的含交节日边界
 
 [卷十二10b](https://github.com/kanripo/KR3g0051/blob/8b5522eb0299afbd575f1cb556e972c71c40c42a/KR3g0051_012.txt)明确：夏至逢庚即计初庚，立秋逢庚即末伏。逐读Java/Worker现有计庚循环均从交节民用日开始，符合条文，保留原算法。
@@ -47,7 +51,7 @@ JAR：`build/libs/wannianli-api-1.0.0.jar`；SHA-256：`d4f408b933b0f01dc16132dc
 
 ## 构建依赖的实际告警
 
-首轮CI安装依赖提示4项high，官方npm审计确认来自Wrangler 4.118.0经miniflare引入的sharp/undici链；不是本批历法代码新增的HTTP入口。核对[undici维护者公告](https://github.com/nodejs/undici/security/advisories/GHSA-rfgv-xxqx-mfg5)与[sharp维护者公告](https://github.com/lovell/sharp/security/advisories/GHSA-wq5f-xc86-pv6w)，更新精确锁定的Wrangler至4.152.0，保留两代MCP SDK版本。官方registry安装及再次审计均为0项已知漏洞；本地打包和差分复验通过，工具链更新后的远程CI另行登记。
+首轮CI安装依赖提示4项high，官方npm审计确认来自Wrangler 4.118.0经miniflare引入的sharp/undici链；不是本批历法代码新增的HTTP入口。核对[undici维护者公告](https://github.com/nodejs/undici/security/advisories/GHSA-rfgv-xxqx-mfg5)与[sharp维护者公告](https://github.com/lovell/sharp/security/advisories/GHSA-wq5f-xc86-pv6w)，更新精确锁定的Wrangler至4.152.0，保留两代MCP SDK版本。官方registry本地及远程审计均为0项已知漏洞，更新后的打包、差分和原生CI均通过。
 
 两个workflow均加入明确的官方registry审计，高危及以上会失败，避免仅打印告警仍继续通过。此举覆盖构建/开发依赖，不等同线上完整渗透测试，也不宣称不存在未知漏洞。本地默认镜像不支持security audit端点，因此审计按单条命令指定官方registry，未改用户全局配置。
 

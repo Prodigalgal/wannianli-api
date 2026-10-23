@@ -1,0 +1,461 @@
+{
+  "releaseId": "20261023T132116Z",
+  "softwareVersion": "2.5.0",
+  "schemaVersion": "2.0",
+  "source": {
+    "commit": "9ae074c51536fc1d105e57ee921c8e9c7a02a07e",
+    "tree": "2d04d4a1863660553b4db03b300875262ba2fb17",
+    "jvmValidationRun": 39960361535,
+    "nativeValidationRun": 39960361511,
+    "ciCheckoutCommit": "89dedf992f5e0d885904afcad6f82973972c9669",
+    "files": [
+      {
+        "path": ".gitattributes",
+        "gitBlob": "aaf5d134d21e473118c1abf9e12e454d36bbbf1b"
+      },
+      {
+        "path": "build.gradle",
+        "gitBlob": "0f4b6896a8c2186d5b5d175b13fac1c496fee6de"
+      },
+      {
+        "path": "gradle/wrapper/gradle-wrapper.jar",
+        "gitBlob": "8bdaf60c75ab801e22807dde59e12a8735a34077"
+      },
+      {
+        "path": "gradle/wrapper/gradle-wrapper.properties",
+        "gitBlob": "2e1113280ef142e60ad69ba98918fc408d759137"
+      },
+      {
+        "path": "gradlew",
+        "gitBlob": "adff685a0348c64b2b64f0b302f1f82b28eeaaea"
+      },
+      {
+        "path": "gradlew.bat",
+        "gitBlob": "c4bdd3ab8e3ccd2ac3a2bc0db0f856f16b79ef39"
+      },
+      {
+        "path": "settings.gradle",
+        "gitBlob": "9f9f5e4b1985eb7e482bcfd1e9f93cf783d033e4"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/WannianliApplication.java",
+        "gitBlob": "8bf129945d5f87419d82e11051c4d6757a717286"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/almanac/TraditionalAlmanac.java",
+        "gitBlob": "47e90065a00c338cbe6398a0ed69767a54addcf3"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/almanac/TraditionalAlmanacCalculator.java",
+        "gitBlob": "9d66eeb24b0b5da8943ec1a7be9b7e690f5560d8"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacApiException.java",
+        "gitBlob": "55b2e61cbcc0452375829a3bcfceb7fe4c42f977"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacCalculationRequest.java",
+        "gitBlob": "7a2d313d940847967584e4a0c9c6b30eeca0d76f"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacController.java",
+        "gitBlob": "e9f76143484fec8ea236033bd4c6bff97c9739dc"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacExceptionHandler.java",
+        "gitBlob": "e6cd767c245782d867f9b36f794f89a1040a8333"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacRequestParser.java",
+        "gitBlob": "d5b1634336161f8d5ec013b1e346b2164fb6ee4e"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/AlmanacResponse.java",
+        "gitBlob": "ffc70f49c2894c70a163f0156bdfc387ca329928"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/ApiContract.java",
+        "gitBlob": "ac4871bdbecaa4fae04c4dc747ace7536f4c0b23"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/ApiErrors.java",
+        "gitBlob": "beefe1b5cd6dded543539d4d88ec3932dab1e6b5"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/BoundedJson.java",
+        "gitBlob": "d24b512adf7ead12aa5a7f5ac75672b0322de0bb"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/CalculationScope.java",
+        "gitBlob": "d1b7d2f37488e521cd91e5be8a891db9be1aa9fd"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/CurrentAlmanacResponse.java",
+        "gitBlob": "69d9628746a04d818b96ba9dddbc4c835880a8b1"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/McpController.java",
+        "gitBlob": "b194ef2030132939ccbcb0ca1b57d652fff0abcd"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/RangeCalculator.java",
+        "gitBlob": "77ad0d0a75e1b21840b12bb7d43da74809467d58"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/ReferenceCatalog.java",
+        "gitBlob": "9ae7b7467d285377a9d336cacb665e3c7ba5c11d"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/SemanticAlmanacController.java",
+        "gitBlob": "03e6bcacee24a95778fb61fda54fb91b7fa380ee"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/SemanticExceptionHandler.java",
+        "gitBlob": "6cea4a85d2b75477a48ea24e895954cd1da2e0d5"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/api/SemanticRequest.java",
+        "gitBlob": "6ab9052f86d9eea8006e91a630a354b3e575649a"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/ChineseCalendarCalculator.java",
+        "gitBlob": "86863188ba264e84d0383fa717c25b2df295ec88"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/ChineseCalendarDate.java",
+        "gitBlob": "1c52f1749c9b733b13d78f148c0f88befc839813"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/SeasonalCalculator.java",
+        "gitBlob": "dedda759aed886fb09da70dd9091a46d57ab2813"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/SeasonalContext.java",
+        "gitBlob": "5f0dcc34e7976d90058145998a98f7fb447c2008"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/SexagenaryCycle.java",
+        "gitBlob": "0dbd59d4d43f28de4f8ad2ede416c09078868b1e"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/DeltaT.java",
+        "gitBlob": "d7a8b66abce971670369745e82cd932bc150a6c9"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/EarthVsop87.java",
+        "gitBlob": "20b8fff3304b44f5c8dcc6d81242b52f9246c268"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/JulianDate.java",
+        "gitBlob": "9766b55e600525163abc13588130b1d43279b673"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/NewMoonEphemeris.java",
+        "gitBlob": "d1ae3db46c3def1698c2c0baf2dc6eb4c3535ee0"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/Nutation1980.java",
+        "gitBlob": "da0100267e9fc6a074470f37b36433ce1c709d73"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/ObservedDeltaT.java",
+        "gitBlob": "5e23180e2ece58d96e5cda12108ba3c1de1367fe"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/SolarEphemeris.java",
+        "gitBlob": "1033d941eba20a6b585f3f2bae951edeecb38782"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/calendar/astronomy/SolarTerm.java",
+        "gitBlob": "23af12f7a941902f5c8f6bce96f3361911fab514"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/config/ApiRequestGuard.java",
+        "gitBlob": "31dc287936f20b8ad98582bd8ff1242e21bcf5ba"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/config/ApiSecurityFilter.java",
+        "gitBlob": "5af69f7a81fdbebe3167643047e97ca4ca21a846"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/config/TimeConfiguration.java",
+        "gitBlob": "8eef14aaf853359a342f31767c0fac5698b6fb19"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/rules/ActivityResult.java",
+        "gitBlob": "134372318618b45e161b23619cee70905aa84b95"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/rules/ActivityRuleEngine.java",
+        "gitBlob": "4c30cdfe6bf51996b64ac1867114c774713c499d"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/rules/CalendarDayRules.java",
+        "gitBlob": "9964d80fe10abf484b78f801ee25b59a2d96217e"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/rules/ClassicalGods.java",
+        "gitBlob": "eb0beac5056463d10be52a5af15d829a39f6eca8"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/rules/ClassicalRules.java",
+        "gitBlob": "7620284be2fc5643544304313c0dad2194fd3fb0"
+      },
+      {
+        "path": "src/main/java/cn/wannianli/service/AlmanacService.java",
+        "gitBlob": "d05a4295a019c8512fbeaadb0a1ad2c87a058cc5"
+      },
+      {
+        "path": "src/main/resources/META-INF/licenses/ERFA.txt",
+        "gitBlob": "faa8188297432e23e33cc6347b4a7f66a9d2edff"
+      },
+      {
+        "path": "src/main/resources/api/contract.json",
+        "gitBlob": "abd5e8e2e874e26b8d0e472a18ae963bd8b175e6"
+      },
+      {
+        "path": "src/main/resources/api/openapi.json",
+        "gitBlob": "0585b4b31c56be2f65655a8b00e21232a7ffad61"
+      },
+      {
+        "path": "src/main/resources/application.yml",
+        "gitBlob": "72f2467ee20cec1313a1106f24e0901a01aaa819"
+      },
+      {
+        "path": "src/main/resources/rules/calendar-days.json",
+        "gitBlob": "bea34fb35a82fef14f0bcf27d995be1885f73284"
+      },
+      {
+        "path": "src/main/resources/rules/core-gods.json",
+        "gitBlob": "3ebb7db7f94fa6b59d98a32f0ea6c51629b9710f"
+      },
+      {
+        "path": "src/main/resources/rules/volume10.json",
+        "gitBlob": "24bd4a3e4f8b29c6852a02341a264e85a9d4dba1"
+      },
+      {
+        "path": "worker/package-lock.json",
+        "gitBlob": "9e2c491da2696c6eaa9a8942939042090c2dfb5e"
+      },
+      {
+        "path": "worker/package.json",
+        "gitBlob": "d3a7d56eee2246b3a150b398527760e19e47c564"
+      },
+      {
+        "path": "worker/src/almanac.js",
+        "gitBlob": "07babb121d4728ab2934e4f9834e1af537cfad42"
+      },
+      {
+        "path": "worker/src/astronomy.js",
+        "gitBlob": "c2dd851d4b73e659c67e33298ffd82a5252157e4"
+      },
+      {
+        "path": "worker/src/calendar-day-rules.js",
+        "gitBlob": "b2a835a084028a7793775a2bcdb700dffab3f4b3"
+      },
+      {
+        "path": "worker/src/calendar.js",
+        "gitBlob": "c9094e493c767a3e9650cb02e74986734fbb4950"
+      },
+      {
+        "path": "worker/src/classical.js",
+        "gitBlob": "1916c1dd999c2eb11fd3143703528dc95985269d"
+      },
+      {
+        "path": "worker/src/disclosure.js",
+        "gitBlob": "dfe62a8e809ffa1fd29c46e2d79d60328f72fbf2"
+      },
+      {
+        "path": "worker/src/engine.js",
+        "gitBlob": "3725dc2510a4401dd0a6bce396e9eabc51606489"
+      },
+      {
+        "path": "worker/src/god-rules.js",
+        "gitBlob": "03608e95893304d747980025693eeb6dc8b21a7a"
+      },
+      {
+        "path": "worker/src/index.js",
+        "gitBlob": "ccd5c9494030d522978d4a4be1afa50ad183a3a4"
+      },
+      {
+        "path": "worker/src/json.js",
+        "gitBlob": "80fc50c01762a36e6dda4663cbb61ca9d2dfec43"
+      },
+      {
+        "path": "worker/src/mcp.js",
+        "gitBlob": "73a139e25f312cf99fc2350d179a08c798026d2d"
+      },
+      {
+        "path": "worker/src/nutation.js",
+        "gitBlob": "c2b7461e5cebd26ac771db87fa0e92066226ba47"
+      },
+      {
+        "path": "worker/src/observed-delta-t.js",
+        "gitBlob": "f4637a8228ff032183d8a6c6da88d77a6c465d59"
+      },
+      {
+        "path": "worker/src/range.js",
+        "gitBlob": "5180a77039b5cedb10433478a8ac4e6656949aac"
+      },
+      {
+        "path": "worker/src/request.js",
+        "gitBlob": "e4cab7be460a520c2b2d5e18ddc20fb89c68bcfa"
+      },
+      {
+        "path": "worker/src/rules.js",
+        "gitBlob": "eeb7ea68883615a941645fa64ccabda85159c8d4"
+      },
+      {
+        "path": "worker/src/security.js",
+        "gitBlob": "aef5382b8a491f9e69bbe5edab7b769dae5abaf7"
+      },
+      {
+        "path": "worker/src/semantic.js",
+        "gitBlob": "7f5d9503273c2fc811eb91725ff0e24ad694c758"
+      },
+      {
+        "path": "worker/src/vsop87.js",
+        "gitBlob": "9a56de2f1f427c4a51a38e452caccba8e276a03a"
+      },
+      {
+        "path": "worker/wrangler.jsonc",
+        "gitBlob": "4e7968dc58f042b3533f5e0e61af62dffd579813"
+      }
+    ],
+    "fingerprintKind": "SHA256 of sorted Git blob IDs and paths, not raw Windows checkout bytes",
+    "fingerprintSha256": "61cdf1a46201ff50fd9189128d6a968f58f20f1622cd6504d87fa5863aa55792"
+  },
+  "previous": {
+    "softwareVersion": "2.3.0",
+    "releaseId": "20261023T030352Z",
+    "javaSha256": "495a990b2b4e656190f589430ff6758dc4e464b838989a434516989db3a9a417",
+    "composeSha256": "42f1b0811894edf14d0b25a7b3721a43903f9990a5a3265aec85cf65f0fe0fd5",
+    "workerVersionId": "8892ad30-c4fa-4db4-af33-8541b232e426"
+  },
+  "java": {
+    "artifact": "wannianli-api.jar",
+    "bytes": 20381824,
+    "sha256": "cd3a1c640407a4f46ea7ae13b61aa297b697ff0c512e02e1a1ca5454c8c7a869",
+    "fromCiArtifact": 12504671781,
+    "containerId": "ca2d3d881e1a3f05b332b5672bd23944efd7eaa8bebd2854784263d0d390d679",
+    "status": "running",
+    "startedAt": "2026-10-23T13:30:08.751991076Z",
+    "restartCount": 0,
+    "oomKilled": false,
+    "verifiedMountedJarSha256": "cd3a1c640407a4f46ea7ae13b61aa297b697ff0c512e02e1a1ca5454c8c7a869",
+    "composeSha256": "42f1b0811894edf14d0b25a7b3721a43903f9990a5a3265aec85cf65f0fe0fd5"
+  },
+  "worker": {
+    "versionId": "115cc413-cc28-4dfd-a4fb-058fbaf9b708",
+    "bundleSha256": "c378d0258751149593a0252dedcd6898e8ffe5532fbfcbe8baccea3df492b9c2",
+    "bytes": 507318,
+    "uploadedAt": "2026-10-23T13:33:04.311Z",
+    "deploymentId": "9517db05-ce2e-4e5e-8f76-8d8dc2997aba",
+    "percentage": 100
+  },
+  "state": "VERIFIED",
+  "validation": {
+    "javaTests": 81,
+    "workerTests": 93,
+    "v1ParityDays": 1827,
+    "v2ParityCases": 273,
+    "v2RangeCases": 3,
+    "mcpSdkGenerations": 2,
+    "astronomicalTimestampDifferences": 39,
+    "maxAstronomicalDifferenceMs": 1,
+    "civilDatesDiffer": false,
+    "businessFields": "strictly equal",
+    "wranglerVersion": "4.152.0",
+    "npmAuditKnownVulnerabilities": 0,
+    "nativeBinarySha256": "c07336de8843476c1b1a1c0f6d09e1cfcc3365cd504e0543db0207c08cba5d32",
+    "nativeImagePublished": false
+  },
+  "verification": {
+    "archivedAt": "2026-10-23T14:12:02.162Z",
+    "endpoints": [
+      {
+        "side": "java",
+        "base": "https://wannianli.mnnu.eu.org",
+        "passed": 60,
+        "officialSdkGenerations": 2
+      },
+      {
+        "side": "worker",
+        "base": "https://wannianli-worker.mnnu.eu.org",
+        "passed": 60,
+        "officialSdkGenerations": 2
+      }
+    ],
+    "reports": [
+      {
+        "file": "java-v2.json",
+        "sha256": "d89daebfd2fdff3adb8f6477a6b8b41ed091a5db6598a7f1f9dde847b9a73a0f",
+        "passed": 31
+      },
+      {
+        "file": "java-v1.json",
+        "sha256": "ada1d174380f3994ccb85d16aaefed9d3dfc7298e29fe7f9b2a0ca60f70867c8",
+        "passed": 16
+      },
+      {
+        "file": "java-calendar.json",
+        "sha256": "f6854a42a94a8b0f28eb83bbf2b26f42933baf84005ca94c64281b0e6ac84719",
+        "passed": 10
+      },
+      {
+        "file": "java-volume06.json",
+        "sha256": "ccb194f8e7d35fab4ee68ecb362c79597ebf57c739a1fe5a7ea16f472c07f7de",
+        "passed": 3
+      },
+      {
+        "file": "java-sdk.log",
+        "sha256": "c33be4413895b52621f8a29490a4064a759495c77e96baa3104803c222402a84",
+        "officialSdkGenerations": 2
+      },
+      {
+        "file": "worker-v2.json",
+        "sha256": "40fa84178fb87ab7622bd48b1bd445b55a8c097cee69e51ce9c145e2f8cb21de",
+        "passed": 31
+      },
+      {
+        "file": "worker-v1.json",
+        "sha256": "04f9be75e35900bbbd553875ab22700206a498313c6bb349688b03f0263e548d",
+        "passed": 16
+      },
+      {
+        "file": "worker-calendar.json",
+        "sha256": "040792aa29eea534cf21d5e314c60d9149f942e723146e37f8ee718e558e14b9",
+        "passed": 10
+      },
+      {
+        "file": "worker-volume06.json",
+        "sha256": "4f45587e6ad57df8095c20f19a17676d274d848173a033411c510c6a5d49bc0c",
+        "passed": 3
+      },
+      {
+        "file": "worker-sdk.log",
+        "sha256": "eab87e675e5c9ae04276a6e5df9329913bedb78457af208caaae0f23c4af0d6e",
+        "officialSdkGenerations": 2
+      }
+    ],
+    "totalPublicChecks": 120
+  },
+  "changeScope": {
+    "newCalendarFamilies": [
+      "气往亡",
+      "反支",
+      "分至",
+      "月忌日"
+    ],
+    "includedUnreleasedMonthlyGods": 10,
+    "sanfuSourceBoundaryCases": 80,
+    "sanfuAlgorithmChanged": false,
+    "astronomyChanged": false,
+    "reviewedImagePages": 160
+  },
+  "knownLimitations": [
+    "Worker Browser Integrity Check rejects default Python urllib with HTTP403/1010; narrowly scoped configuration rule prepared but ruleset access denied (403/10000). Node acceptance passed. See docs/CLOUDFLARE_API_COMPATIBILITY.md.",
+    "Whole-book review, HKO original historical edition confirmation and long-range future DeltaT accuracy are incomplete."
+  ],
+  "status": "DEPLOYED_AND_VERIFIED"
+}

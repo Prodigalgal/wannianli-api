@@ -92,11 +92,13 @@ POST同路径接受`{"startDate":"2020-05-22","endDate":"2020-05-23","time":"23:
 
 错误状态包括400、404、405、408、413、415、429、431、500、503。稳定机器码包括 INVALID_REQUEST、NOT_FOUND、METHOD_NOT_ALLOWED、REQUEST_TIMEOUT、PAYLOAD_TOO_LARGE、UNSUPPORTED_MEDIA_TYPE、RATE_LIMITED、HEADERS_TOO_LARGE、INTERNAL_ERROR、SERVICE_UNAVAILABLE。协议层拒绝格式由Tomcat/Cloudflare决定。
 
+Worker默认Python urllib已复现Cloudflare 403/1010，属于到达应用前的BIC拒绝，可能是纯文本，不能归类为FORBIDDEN_ORIGIN或假定总有error.code。局部配置仍受规则集权限限制，见[当前边界与方案](CLOUDFLARE_API_COMPATIBILITY.md)。
+
 单次计算请求体上限1024字节，重复JSON键在解析时即拒绝。GET查询字符串上限1024字符。与v1/MCP共用突发20、每分钟补充120、计算并发4的应用保护；Worker另有原生边缘限流。429/503带Retry-After；其他安全限制与v1一致。OpenAPI可公开读取，服务不执行模型指令、命令或外部URL请求。
 
 ## 兼容性记录
 
-- 2026-10-23版本2.5.0（待部署）核定气往亡、反支、分至和月忌；新增公开铺注政策及结果scope说明。活动数组成员会因专忌或不注而增删，详见[v1兼容性记录](API.md)与[历日核定](CALENDAR_DAY_RULES.md)。字段结构、类型和schemaVersion不变。
+- 2026-10-23版本2.5.0已双端发布：核定气往亡、反支、分至和月忌；新增公开铺注政策及结果scope说明。活动数组成员会因专忌或不注而增删，详见[v1兼容性记录](API.md)与[历日核定](CALENDAR_DAY_RULES.md)。字段结构、类型和schemaVersion不变。
 - v2为新增版本，v1不切换字段语言或布尔类型。
 - 2026-10-22 API描述版本2.1.0新增 activities.dayGradeCode、capabilities.dayGrades 及OpenAPI的HEAD操作。结果schemaVersion仍为2.0，原dayGrade中文值和v1结构保持兼容；调用方应允许可选扩展字段。
 - 2026-10-23太阳模型精修，1979大寒改归01-20，交节时刻及衍生属性随之调整；神煞、宜忌与无禄铺注的行为变化见[v1兼容性记录](API.md)和[第四轮记录](FOURTH_AUDIT.md)。

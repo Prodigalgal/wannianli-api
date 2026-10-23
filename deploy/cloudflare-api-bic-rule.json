@@ -1,0 +1,8 @@
+{
+  "ref": "wannianli_programmatic_api_bic",
+  "description": "Allow programmatic calendar API and MCP clients; change BIC only",
+  "expression": "(http.host eq \"wannianli-worker.mnnu.eu.org\" and http.request.uri.path in {\"/\" \"/mcp\" \"/api/v1/almanac/current\" \"/api/v1/almanac/calculate\" \"/api/v2/almanac\" \"/api/v2/almanac/now\" \"/api/v2/almanac/capabilities\" \"/api/v2/almanac/openapi.json\" \"/api/v2/almanac/range\"})",
+  "action": "set_config",
+  "action_parameters": { "bic": false },
+  "enabled": true
+}
